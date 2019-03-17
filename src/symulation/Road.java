@@ -11,7 +11,7 @@ public class Road {
     private Point start,end;
     private String type; //one-way, two-way
     private boolean isClosed;
-    private Point exitSpawnPoint; // participats are spawning and deleting in this point
+    private Point exitSpawnPoint; // participants are spawning and deleting in this point
 
     public Road(int maxSpeed, List<PedestrianCrossing> pedestrianCrossings, List<Line> lines,
                 Point start, Point end, String type, boolean isClosed, Point exitSpawnPoint) {

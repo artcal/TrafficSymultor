@@ -2,6 +2,7 @@ package symulation;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Map;
 
 public class Crossroad {
 
@@ -9,13 +10,62 @@ public class Crossroad {
     private List<StreetLights> streetLights;
     private String type; // crossroad, roundabout
     private Point position;
-
+    private Crossroad N,E,S,W; // next crossroad in 4 directions, null is end of map
+    private Map<Line,Line[]> howToGo; // all possible routes to go through crossroad TODO
+    private List<Road> entrances, exits;
 
     public Crossroad(List<Road> roads, List<StreetLights> streetLights, String type, Point position) {
         this.roads = roads;
         this.streetLights = streetLights;
         this.type = type;
         this.position = position;
+    }
+
+    public void addHowToGo(Line from, Line[] to){
+        howToGo.put(from, to);
+    }
+
+    public Line[] getHowToGo(Line line) {
+        return howToGo.get(line);
+    }
+
+    public List<Road> getEntrances() {
+        return entrances;
+    }
+
+    public void setEntrances(List<Road> entrances) {
+        this.entrances = entrances;
+    }
+
+    public List<Road> getExits() {
+        return exits;
+    }
+
+    public void setExits(List<Road> exits) {
+        this.exits = exits;
+    }
+
+    public void addNextCrossroads(Crossroad[] crossroads){
+        this.N = crossroads[0];
+        this.E = crossroads[1];
+        this.S = crossroads[2];
+        this.W = crossroads[3];
+    }
+
+    public Crossroad getN() {
+        return N;
+    }
+
+    public Crossroad getE() {
+        return E;
+    }
+
+    public Crossroad getS() {
+        return S;
+    }
+
+    public Crossroad getW() {
+        return W;
     }
 
     public List<Road> getRoads() {

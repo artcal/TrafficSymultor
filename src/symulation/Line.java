@@ -9,6 +9,7 @@ public class Line {
     private Point start,end;
     private String trafficMovementDirection; // N,E,S,W
     private boolean isClosed;
+    private Crossroad nextCrossroad;
 
     public Line(List<Roadsign> roadsigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
         this.roadsigns = roadsigns;
@@ -16,6 +17,14 @@ public class Line {
         this.end = end;
         this.trafficMovementDirection = trafficMovementDirection;
         this.isClosed = isClosed;
+    }
+
+    public Crossroad getNextCrossroad() {
+        return nextCrossroad;
+    }
+
+    public void setNextCrossroad(Crossroad nextCrossroad) {
+        this.nextCrossroad = nextCrossroad;
     }
 
     public List<Roadsign> getRoadsigns() {

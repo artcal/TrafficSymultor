@@ -6,192 +6,194 @@ import java.util.List;
 
 public class Initialize {
 
-    public static Roadsign roadsign1;
-    public static Roadsign roadsign2;
-    public static Roadsign roadsign3;
-    public static Roadsign roadsign4;
-    public static Roadsign roadsign5;
-    public static Roadsign roadsign6;
-    public static Roadsign roadsign7;
-    public static Roadsign roadsign8;
-    public static Roadsign roadsign9;
+//    private static Roadsign roadsign1;
+//    private static Roadsign roadsign2;
+//    private static Roadsign roadsign3;
+//    private static Roadsign roadsign4;
+//    private static Roadsign roadsign5;
+//    private static Roadsign roadsign6;
+//    private static Roadsign roadsign7;
+//    private static Roadsign roadsign8;
+//    private static Roadsign roadsign9;
+//
+//    private static StreetLights streetLights1;
+//    private static StreetLights streetLights2;
+//    private static StreetLights streetLights3;
+//    private static StreetLights streetLights4;
+//    private static StreetLights streetLights5;
+//    private static StreetLights streetLights6;
+//    private static StreetLights streetLights7;
+//    private static StreetLights streetLights8;
+//    private static StreetLights streetLights9;
 
-    public static StreetLights streetLights1;
-    public static StreetLights streetLights2;
-    public static StreetLights streetLights3;
-    public static StreetLights streetLights4;
-    public static StreetLights streetLights5;
-    public static StreetLights streetLights6;
-    public static StreetLights streetLights7;
-    public static StreetLights streetLights8;
-    public static StreetLights streetLights9;
+    private static Line lineV1;
+    private static Line lineV2;
+    private static Line lineV3;
+    private static Line lineV4;
+    private static Line lineV5;
+    private static Line lineV6;
+    private static Line lineV7;
+    private static Line lineV8;
+    private static Line lineV9;
+    private static Line lineV10;
+    private static Line lineV11;
+    private static Line lineV12;
+    private static Line lineV13;
+    private static Line lineV14;
+    private static Line lineV15;
+    private static Line lineV16;
+    private static Line lineV17;
+    private static Line lineV18;
+    private static Line lineV19;
+    private static Line lineV20;
+    private static Line lineV21;
+    private static Line lineV22;
+    private static Line lineV23;
+    private static Line lineV24;
+    private static Line lineV25;
+    private static Line lineV26;
+    private static Line lineV27;
+    private static Line lineV28;
+    private static Line lineV29;
+    private static Line lineV30;
+    private static Line lineH1;
+    private static Line lineH2;
+    private static Line lineH3;
+    private static Line lineH4;
+    private static Line lineH5;
+    private static Line lineH6;
+    private static Line lineH7;
+    private static Line lineH8;
+    private static Line lineH9;
+    private static Line lineH10;
+    private static Line lineH11;
+    private static Line lineH12;
+    private static Line lineH13;
+    private static Line lineH14;
+    private static Line lineH15;
+    private static Line lineH16;
+    private static Line lineH17;
+    private static Line lineH18;
+    private static Line lineH19;
+    private static Line lineH20;
+    private static Line lineH21;
+    private static Line lineH22;
+    private static Line lineH23;
+    private static Line lineH24;
+    private static Line lineH25;
+    private static Line lineH26;
+    private static Line lineH27;
+    private static Line lineH28;
+    private static Line lineH29;
+    private static Line lineH30;
+    private static Line lineH31;
+    private static Line lineH32;
+    private static Line lineH33;
+    private static Line lineH34;
+    private static Line lineH35;
+    private static Line lineH36;
+    private static Line lineH37;
+    private static Line lineH38;
+    private static Line lineES1;
+    private static Line lineES2;
 
-    static Line lineV1;
-    static Line lineV2;
-    static Line lineV3;
-    static Line lineV4;
-    public static Line lineV5;
-    public static Line lineV6;
-    public static Line lineV7;
-    public static Line lineV8;
-    public static Line lineV9;
-    public static Line lineV10;
-    public static Line lineV11;
-    public static Line lineV12;
-    public static Line lineV13;
-    public static Line lineV14;
-    public static Line lineV15;
-    public static Line lineV16;
-    public static Line lineV17;
-    public static Line lineV18;
-    public static Line lineV19;
-    public static Line lineV20;
-    public static Line lineV21;
-    public static Line lineV22;
-    public static Line lineV23;
-    public static Line lineV24;
-    public static Line lineV25;
-    public static Line lineV26;
-    public static Line lineV27;
-    public static Line lineV28;
-    public static Line lineV29;
-    public static Line lineV30;
-    public static Line lineH1;
-    public static Line lineH2;
-    public static Line lineH3;
-    public static Line lineH4;
-    public static Line lineH5;
-    public static Line lineH6;
-    public static Line lineH7;
-    public static Line lineH8;
-    public static Line lineH9;
-    public static Line lineH10;
-    public static Line lineH11;
-    public static Line lineH12;
-    public static Line lineH13;
-    public static Line lineH14;
-    public static Line lineH15;
-    public static Line lineH16;
-    public static Line lineH17;
-    public static Line lineH18;
-    public static Line lineH19;
-    public static Line lineH20;
-    public static Line lineH21;
-    public static Line lineH22;
-    public static Line lineH23;
-    public static Line lineH24;
-    public static Line lineH25;
-    public static Line lineH26;
-    public static Line lineH27;
-    public static Line lineH28;
-    public static Line lineH29;
-    public static Line lineH30;
-    public static Line lineH31;
-    public static Line lineH32;
-    public static Line lineH33;
-    public static Line lineH34;
-    public static Line lineH35;
-    public static Line lineH36;
-    public static Line lineH37;
-    public static Line lineH38;
+    private static Road roadV1;
+    private static Road roadV2;
+    private static Road roadV3;
+    private static Road roadV4;
+    private static Road roadV5;
+    private static Road roadV6;
+    private static Road roadV7;
+    private static Road roadV8;
+    private static Road roadV9;
+    private static Road roadV10;
+    private static Road roadV11;
+    private static Road roadV12;
+    private static Road roadV13;
+    private static Road roadV14;
+    private static Road roadV15;
+    private static Road roadH1;
+    private static Road roadH2;
+    private static Road roadH3;
+    private static Road roadH4;
+    private static Road roadH5;
+    private static Road roadH6;
+    private static Road roadH7;
+    private static Road roadH8;
+    private static Road roadH9;
+    private static Road roadH10;
+    private static Road roadH11;
+    private static Road roadH12;
+    private static Road roadH13;
+    private static Road roadH14;
+    private static Road roadH15;
+    private static Road roadH16;
+    private static Road roadH17;
+    private static Road roadH18;
+    private static Road roadH19;
+    private static Road roadES;
 
-    public static Road roadV1;
-    public static Road roadV2;
-    public static Road roadV3;
-    public static Road roadV4;
-    public static Road roadV5;
-    public static Road roadV6;
-    public static Road roadV7;
-    public static Road roadV8;
-    public static Road roadV9;
-    public static Road roadV10;
-    public static Road roadV11;
-    public static Road roadV12;
-    public static Road roadV13;
-    public static Road roadV14;
-    public static Road roadV15;
-    public static Road roadH1;
-    public static Road roadH2;
-    public static Road roadH3;
-    public static Road roadH4;
-    public static Road roadH5;
-    public static Road roadH6;
-    public static Road roadH7;
-    public static Road roadH8;
-    public static Road roadH9;
-    public static Road roadH10;
-    public static Road roadH11;
-    public static Road roadH12;
-    public static Road roadH13;
-    public static Road roadH14;
-    public static Road roadH15;
-    public static Road roadH16;
-    public static Road roadH17;
-    public static Road roadH18;
-    public static Road roadH19;
-    public static Road roadES;
+    private static PedestrianCrossing pedestrianCrossingH1;
+    private static PedestrianCrossing pedestrianCrossingH2;
+    private static PedestrianCrossing pedestrianCrossingH3;
+    private static PedestrianCrossing pedestrianCrossingH4;
+    private static PedestrianCrossing pedestrianCrossingH5;
+    private static PedestrianCrossing pedestrianCrossingH6;
+    private static PedestrianCrossing pedestrianCrossingH7;
+    private static PedestrianCrossing pedestrianCrossingH8;
+    private static PedestrianCrossing pedestrianCrossingH9;
+    private static PedestrianCrossing pedestrianCrossingH10;
+    private static PedestrianCrossing pedestrianCrossingH11;
+    private static PedestrianCrossing pedestrianCrossingH12;
+    private static PedestrianCrossing pedestrianCrossingH13;
+    private static PedestrianCrossing pedestrianCrossingH14;
+    private static PedestrianCrossing pedestrianCrossingH15;
+    private static PedestrianCrossing pedestrianCrossingH16;
+    private static PedestrianCrossing pedestrianCrossingH17;
+    private static PedestrianCrossing pedestrianCrossingH18;
+    private static PedestrianCrossing pedestrianCrossingH19;
+    private static PedestrianCrossing pedestrianCrossingH20;
+    private static PedestrianCrossing pedestrianCrossingV1;
+    private static PedestrianCrossing pedestrianCrossingV2;
+    private static PedestrianCrossing pedestrianCrossingV3;
+    private static PedestrianCrossing pedestrianCrossingV4;
+    private static PedestrianCrossing pedestrianCrossingV5;
+    private static PedestrianCrossing pedestrianCrossingV6;
+    private static PedestrianCrossing pedestrianCrossingV7;
+    private static PedestrianCrossing pedestrianCrossingV8;
+    private static PedestrianCrossing pedestrianCrossingV9;
+    private static PedestrianCrossing pedestrianCrossingV10;
+    private static PedestrianCrossing pedestrianCrossingV11;
+    private static PedestrianCrossing pedestrianCrossingV12;
+    private static PedestrianCrossing pedestrianCrossingV13;
+    private static PedestrianCrossing pedestrianCrossingV14;
+    private static PedestrianCrossing pedestrianCrossingV15;
+    private static PedestrianCrossing pedestrianCrossingV16;
+    private static PedestrianCrossing pedestrianCrossingV17;
+    private static PedestrianCrossing pedestrianCrossingV18;
+    private static PedestrianCrossing pedestrianCrossingV19;
+    private static PedestrianCrossing pedestrianCrossingV20;
+    private static PedestrianCrossing pedestrianCrossingV21;
+    private static PedestrianCrossing pedestrianCrossingV22;
+    private static PedestrianCrossing pedestrianCrossingV23;
+    private static PedestrianCrossing pedestrianCrossingV24;
+    private static PedestrianCrossing pedestrianCrossingV25;
+    private static PedestrianCrossing pedestrianCrossingV26;
 
-    public static PedestrianCrossing pedestrianCrossingH1;
-    public static PedestrianCrossing pedestrianCrossingH2;
-    public static PedestrianCrossing pedestrianCrossingH3;
-    public static PedestrianCrossing pedestrianCrossingH4;
-    public static PedestrianCrossing pedestrianCrossingH5;
-    public static PedestrianCrossing pedestrianCrossingH6;
-    public static PedestrianCrossing pedestrianCrossingH7;
-    public static PedestrianCrossing pedestrianCrossingH8;
-    public static PedestrianCrossing pedestrianCrossingH9;
-    public static PedestrianCrossing pedestrianCrossingH10;
-    public static PedestrianCrossing pedestrianCrossingH11;
-    public static PedestrianCrossing pedestrianCrossingH12;
-    public static PedestrianCrossing pedestrianCrossingH13;
-    public static PedestrianCrossing pedestrianCrossingH14;
-    public static PedestrianCrossing pedestrianCrossingH15;
-    public static PedestrianCrossing pedestrianCrossingH16;
-    public static PedestrianCrossing pedestrianCrossingH17;
-    public static PedestrianCrossing pedestrianCrossingH18;
-    public static PedestrianCrossing pedestrianCrossingH19;
-    public static PedestrianCrossing pedestrianCrossingH20;
-    public static PedestrianCrossing pedestrianCrossingV1;
-    public static PedestrianCrossing pedestrianCrossingV2;
-    public static PedestrianCrossing pedestrianCrossingV3;
-    public static PedestrianCrossing pedestrianCrossingV4;
-    public static PedestrianCrossing pedestrianCrossingV5;
-    public static PedestrianCrossing pedestrianCrossingV6;
-    public static PedestrianCrossing pedestrianCrossingV7;
-    public static PedestrianCrossing pedestrianCrossingV8;
-    public static PedestrianCrossing pedestrianCrossingV9;
-    public static PedestrianCrossing pedestrianCrossingV10;
-    public static PedestrianCrossing pedestrianCrossingV11;
-    public static PedestrianCrossing pedestrianCrossingV12;
-    public static PedestrianCrossing pedestrianCrossingV13;
-    public static PedestrianCrossing pedestrianCrossingV14;
-    public static PedestrianCrossing pedestrianCrossingV15;
-    public static PedestrianCrossing pedestrianCrossingV16;
-    public static PedestrianCrossing pedestrianCrossingV17;
-    public static PedestrianCrossing pedestrianCrossingV18;
-    public static PedestrianCrossing pedestrianCrossingV19;
-    public static PedestrianCrossing pedestrianCrossingV20;
-    public static PedestrianCrossing pedestrianCrossingV21;
-    public static PedestrianCrossing pedestrianCrossingV22;
-    public static PedestrianCrossing pedestrianCrossingV23;
-    public static PedestrianCrossing pedestrianCrossingV24;
-    public static PedestrianCrossing pedestrianCrossingV25;
-    public static PedestrianCrossing pedestrianCrossingV26;
-
-    public static Crossroad crossroad11;
-    public static Crossroad crossroad12;
-    public static Crossroad crossroad13;
-    public static Crossroad crossroad14;
-    public static Crossroad crossroad15;
-    public static Crossroad crossroad21;
-    public static Crossroad crossroad22;
-    public static Crossroad crossroad23;
-    public static Crossroad crossroad24;
-    public static Crossroad crossroad31;
-    public static Crossroad crossroad32;
-    public static Crossroad crossroad33;
-    public static Crossroad crossroad34;
-    public static Crossroad crossroad35;
+    private static Crossroad crossroad11;
+    private static Crossroad crossroad12;
+    private static Crossroad crossroad13;
+    private static Crossroad crossroad14;
+    private static Crossroad crossroad15;
+    private static Crossroad crossroad21;
+    private static Crossroad crossroad22;
+    private static Crossroad crossroad23;
+    private static Crossroad crossroad24;
+    private static Crossroad crossroad31;
+    private static Crossroad crossroad32;
+    private static Crossroad crossroad33;
+    private static Crossroad crossroad34;
+    private static Crossroad crossroad35;
 
     public Initialize(){
         initializeRoadsigns();
@@ -201,22 +203,234 @@ public class Initialize {
         initializeRoads();
         initializeCrossroads();
         connectCrossroads();
-        connectLinesToCrossroads();
+        connectLinesOnCrossroads();
     }
 
-    private void connectLinesToCrossroads() {
+    private void connectLinesOnCrossroads(){ // connect a line to another lines after crossroad
+        crossroad11.setEntrances(new Line[] {lineH2, lineH3, lineV1, lineV8});
+        crossroad11.setExits(new Line[] {lineH1, lineH4, lineV2, lineV7});
+        crossroad11.addHowToGo(lineH2, new Line[] {lineH4, lineV2, lineV7});
+        crossroad11.addHowToGo(lineH3, new Line[] {lineH1, lineV2, lineV7});
+        crossroad11.addHowToGo(lineV1, new Line[] {lineH1, lineH4, lineV7});
+        crossroad11.addHowToGo(lineV8, new Line[] {lineH1, lineH4, lineV2});
+
+        crossroad12.setEntrances(new Line[] {lineH4, lineH5, lineV10});
+        crossroad12.setExits(new Line[] {lineH3, lineH6, lineV9});
+        crossroad12.addHowToGo(lineH4, new Line[] {lineH6, lineV9});
+        crossroad12.addHowToGo(lineH5, new Line[] {lineH3, lineV9});
+        crossroad12.addHowToGo(lineV10, new Line[] {lineH3, lineH6});
+
+
+        crossroad13.setEntrances(new Line[] {lineH6, lineH7, lineV3});
+        crossroad13.setExits(new Line[] {lineH5, lineH8, lineV4});
+        crossroad13.addHowToGo(lineH6, new Line[] {lineH8, lineV4});
+        crossroad13.addHowToGo(lineH7, new Line[] {lineH5, lineV4});
+        crossroad13.addHowToGo(lineV3, new Line[] {lineH5, lineH8});
+
+        crossroad14.setEntrances(new Line[] {lineH8, lineH9, lineV5});
+        crossroad14.setExits(new Line[] {lineH7, lineH10, lineV6});
+        crossroad14.addHowToGo(lineH8, new Line[] {lineH10, lineV6});
+        crossroad14.addHowToGo(lineH9, new Line[] {lineH7, lineV6});
+        crossroad14.addHowToGo(lineV5, new Line[] {lineH7, lineH10});
+
+        crossroad15.setEntrances(new Line[] {lineH10, lineH11, lineV12});
+        crossroad15.setExits(new Line[] {lineH9, lineH12, lineV11});
+        crossroad15.addHowToGo(lineH10,new Line[] {lineH12, lineV11});
+        crossroad15.addHowToGo(lineH11,new Line[] {lineH9, lineV11});
+        crossroad15.addHowToGo(lineV12,new Line[] {lineH9, lineH12});
+
+        crossroad21.setEntrances(new Line[] {lineH13, lineV7, lineV14});
+        crossroad21.setExits(new Line[] {lineH14, lineV8, lineV13});
+        crossroad21.addHowToGo(lineH13, new Line[] {lineV8, lineV13});
+        crossroad21.addHowToGo(lineV7, new Line[] {lineH14, lineV13});
+        crossroad21.addHowToGo(lineV14, new Line[] {lineH14, lineV8});
+
+        crossroad22.setEntrances(new Line[] {lineH14, lineH15, lineV9});
+        crossroad22.setExits(new Line[] {lineH13, lineH16, lineV10});
+        crossroad22.addHowToGo(lineH14, new Line[] {lineH16, lineV10});
+        crossroad22.addHowToGo(lineH15, new Line[] {lineH13, lineV10});
+        crossroad22.addHowToGo(lineV9, new Line[] {lineH13, lineH16});
+
+
+        crossroad23.setEntrances(new Line[] {lineH16, lineH17, lineV17, lineV18});
+        crossroad23.setExits(new Line[] {lineH15, lineH18, lineV15, lineV16});
+        crossroad23.addHowToGo(lineH16, new Line[] {lineH18, lineV15});
+        crossroad23.addHowToGo(lineH17, new Line[] {lineH15, lineV16});
+        crossroad23.addHowToGo(lineV17, new Line[] {lineH15, lineH18});
+        crossroad23.addHowToGo(lineV18, new Line[] {lineH15, lineH18});
+
+        crossroad24.setEntrances(new Line[] {lineH18, lineV20, lineES2});
+        crossroad24.setExits(new Line[] {lineH17, lineV19, lineES1});
+        crossroad24.addHowToGo(lineH18, new Line[] {lineV19, lineES2});
+        crossroad24.addHowToGo(lineV20, new Line[] {lineH17, lineES2});
+        crossroad24.addHowToGo(lineES1, new Line[] {lineH17, lineV19});
+
+        crossroad31.setEntrances(new Line[] {lineH20, lineH21, lineV13, lineV22});
+        crossroad31.setExits(new Line[] {lineH19, lineH22, lineV14, lineV21});
+        crossroad31.addHowToGo(lineH20, new Line[] {lineH22, lineV14, lineV21});
+        crossroad31.addHowToGo(lineH21, new Line[] {lineH19, lineV14, lineV21});
+        crossroad31.addHowToGo(lineV13, new Line[] {lineH19, lineH22, lineV21});
+        crossroad31.addHowToGo(lineV22, new Line[] {lineH19, lineH22, lineV14});
+
+        crossroad32.setEntrances(new Line[] {lineH22, lineH23, lineH24,lineV24});
+        crossroad32.setExits(new Line[] {lineH21, lineH25, lineH26, lineV23});
+        crossroad32.addHowToGo(lineH22, new Line[] {lineH25, lineV23});
+        crossroad32.addHowToGo(lineH23, new Line[] {lineH21, lineV23});
+        crossroad32.addHowToGo(lineH24, new Line[] {lineH21, lineV23});
+        crossroad32.addHowToGo(lineV24, new Line[] {lineH21, lineH26});
+
+        crossroad33.setEntrances(new Line[] {lineH25, lineH26, lineH27, lineH28, lineV15, lineV16, lineV27, lineV28});
+        crossroad33.setExits(new Line[] {lineH23, lineH24, lineH29, lineH30, lineV17, lineV18, lineV25, lineV26});
+        crossroad33.addHowToGo(lineH25, new Line[] {lineV17});
+        crossroad33.addHowToGo(lineH26, new Line[] {lineH30, lineV25});
+        crossroad33.addHowToGo(lineH27, new Line[] {lineH23, lineV18});
+        crossroad33.addHowToGo(lineH28, new Line[] {lineV26});
+        crossroad33.addHowToGo(lineV15, new Line[] {lineH23, lineV25});
+        crossroad33.addHowToGo(lineV16, new Line[] {lineH29});
+        crossroad33.addHowToGo(lineV27, new Line[] {lineH24});
+        crossroad33.addHowToGo(lineV28, new Line[] {lineH30, lineV18});
+
+
+        crossroad34.setEntrances(new Line[] {lineH29, lineH30, lineH31, lineH32, lineV19});
+        crossroad34.setExits(new Line[] {lineH27, lineH28, lineH33, lineH34, lineV20});
+        crossroad34.addHowToGo(lineH29, new Line[] {lineV20});
+        crossroad34.addHowToGo(lineH30, new Line[] {lineH34});
+        crossroad34.addHowToGo(lineH31, new Line[] {lineH27, lineV20});
+        crossroad34.addHowToGo(lineH32, new Line[] {lineH28});
+        crossroad34.addHowToGo(lineV19, new Line[] {lineH27, lineH33});
+
+        crossroad35.setEntrances(new Line[] {lineH33, lineH34, lineH35, lineH36, lineV11, lineV30});
+        crossroad35.setExits(new Line[] {lineH31, lineH32, lineH37, lineH38, lineV12, lineV29});
+        crossroad35.addHowToGo(lineH33, new Line[] {lineV12});
+        crossroad35.addHowToGo(lineH34, new Line[] {lineH38, lineV29});
+        crossroad35.addHowToGo(lineH35, new Line[] {lineH31, lineV12});
+        crossroad35.addHowToGo(lineH36, new Line[] {lineV29});
+        crossroad35.addHowToGo(lineV11, new Line[] {lineH31, lineH37, lineV29});
+        crossroad35.addHowToGo(lineV30, new Line[] {lineH32, lineH38, lineV12});
 
     }
 
-    private void connectCrossroads() {
+    private void connectCrossroads(){
+        crossroad11.addNextCrossroads(new Crossroad[] {null, crossroad12, crossroad21, null});
+        crossroad12.addNextCrossroads(new Crossroad[] {null, crossroad13, crossroad22, crossroad11});
+        crossroad13.addNextCrossroads(new Crossroad[] {null, crossroad14, null, crossroad12});
+        crossroad14.addNextCrossroads(new Crossroad[] {null, crossroad15, null, crossroad14});
+        crossroad15.addNextCrossroads(new Crossroad[] {null, null, crossroad35, crossroad14});
+
+        crossroad21.addNextCrossroads(new Crossroad[] {crossroad11, crossroad22, crossroad31, null});
+        crossroad22.addNextCrossroads(new Crossroad[] {crossroad12, crossroad23, null, crossroad21});
+        crossroad23.addNextCrossroads(new Crossroad[] {null, crossroad24, crossroad33, crossroad22});
+        crossroad24.addNextCrossroads(new Crossroad[] {null, null, crossroad34, crossroad23});
+
+        crossroad31.addNextCrossroads(new Crossroad[] {crossroad21, crossroad32, null, null});
+        crossroad32.addNextCrossroads(new Crossroad[] {null, crossroad33, null, crossroad31});
+        crossroad33.addNextCrossroads(new Crossroad[] {crossroad23, crossroad34, null, crossroad32});
+        crossroad34.addNextCrossroads(new Crossroad[] {crossroad24,crossroad35, null, crossroad33});
+        crossroad35.addNextCrossroads(new Crossroad[] {crossroad15,null, null, crossroad34});
 
     }
 
-    private void initializeCrossroads() {
+    private void initializeCrossroads(){
+        List<Road> roads11 = new ArrayList<>();
+        roads11.add(roadV1);
+        roads11.add(roadV2);
+        roads11.add(roadH1);
+        roads11.add(roadH2);
+        crossroad11 = new Crossroad(roads11, null, new Point(210, 210),10);
 
+        List<Road> roads12 = new ArrayList<>();
+        roads12.add(roadH2);
+        roads12.add(roadH3);
+        roads12.add(roadV5);
+        crossroad12 = new Crossroad(roads12, null, new Point(430, 210),10);
+
+        List<Road> roads13 = new ArrayList<>();
+        roads13.add(roadV2);
+        roads13.add(roadH3);
+        roads13.add(roadH4);
+        crossroad13 = new Crossroad(roads13, null, new Point(650, 210), 10);
+
+        List<Road> roads14 = new ArrayList<>();
+        roads14.add(roadV3);
+        roads14.add(roadH4);
+        roads14.add(roadH5);
+        crossroad14 = new Crossroad(roads14, null, new Point(870, 210), 10);
+
+        List<Road> roads15 = new ArrayList<>();
+        roads15.add(roadV6);
+        roads15.add(roadH5);
+        roads15.add(roadH6);
+        crossroad15 = new Crossroad(roads15, null, new Point(1090, 210), 10);
+
+        List<Road> roads21 = new ArrayList<>();
+        roads21.add(roadV4);
+        roads21.add(roadV7);
+        roads21.add(roadH7);
+        crossroad21 = new Crossroad(roads21, null, new Point(210, 430), 10);
+
+        List<Road> roads22 = new ArrayList<>();
+        roads22.add(roadV5);
+        roads22.add(roadH7);
+        roads22.add(roadH8);
+        crossroad22 = new Crossroad(roads22, null, new Point(430, 430), 10);
+
+        List<Road> roads23 = new ArrayList<>();
+        roads23.add(roadV8);
+        roads23.add(roadV9);
+        roads23.add(roadH8);
+        roads23.add(roadH9);
+        crossroad23 = new Crossroad(roads23, null, new Point(650, 430), 22);
+
+        List<Road> roads24 = new ArrayList<>();
+        roads24.add(roadV10);
+        roads24.add(roadH9);
+        roads24.add(roadES);
+        crossroad24 = new Crossroad(roads24, null, new Point(870, 430), 10);
+
+        List<Road> roads31 = new ArrayList<>();
+        roads31.add(roadV7);
+        roads31.add(roadV11);
+        roads31.add(roadH10);
+        roads31.add(roadH11);
+        crossroad31 = new Crossroad(roads31, null, new Point(210, 650), 10);
+
+        List<Road> roads32 = new ArrayList<>();
+        roads32.add(roadV12);
+        roads32.add(roadH11);
+        roads32.add(roadH12);
+        roads32.add(roadH13);
+        crossroad32 = new Crossroad(roads32, null, new Point(430, 650), 22);
+
+        List<Road> roads33 = new ArrayList<>();
+        roads33.add(roadV8);
+        roads33.add(roadV9);
+        roads33.add(roadV13);
+        roads33.add(roadV14);
+        roads33.add(roadH12);
+        roads33.add(roadH13);
+        roads33.add(roadH14);
+        roads33.add(roadH15);
+        crossroad33 = new Crossroad(roads33, null, new Point(650, 650), 22);
+
+        List<Road> roads34 = new ArrayList<>();
+        roads34.add(roadV10);
+        roads34.add(roadH14);
+        roads34.add(roadH15);
+        roads34.add(roadH16);
+        roads34.add(roadH17);
+        crossroad34 = new Crossroad(roads34, null, new Point(870, 650), 22);
+
+        List<Road> roads35 = new ArrayList<>();
+        roads35.add(roadV6);
+        roads35.add(roadV15);
+        roads35.add(roadH16);
+        roads35.add(roadH17);
+        roads35.add(roadH18);
+        roads35.add(roadH19);
+        crossroad35 = new Crossroad(roads35, null, new Point(1090, 650), 22);
     }
 
-    private void initializeRoads() {
+    private void initializeRoads(){
         List<PedestrianCrossing> pedestrianCrossingsV1 = new ArrayList<>();
         pedestrianCrossingsV1.add(pedestrianCrossingH1);
         List<Line> linesV1 = new ArrayList<>();
@@ -293,7 +507,7 @@ public class Initialize {
         List<Line> linesV9 = new ArrayList<>();
         linesV9.add(lineV17);
         linesV9.add(lineV18);
-        roadV9 = new Road(50, pedestrianCrossingsV8, linesV8,
+        roadV9 = new Road(50, pedestrianCrossingsV9, linesV9,
                 new Point(662,452), new Point(662,628), "1way", false, null);
 
         List<PedestrianCrossing> pedestrianCrossingsV10 = new ArrayList<>();
@@ -513,11 +727,14 @@ public class Initialize {
         roadH19 = new Road(70, pedestrianCrossingsH19, linesH19,
                 new Point(1112,662), new Point(1300,662), "1way", false, null);
 
-        roadES = new Road(20, null, null,
+        List<Line> linesES = new ArrayList<>();
+        linesES.add(lineES1);
+        linesES.add(lineES2);
+        roadES = new Road(20, null, linesES,
                 new Point(880,430), new Point(880,430), "2way", false, new Point(880,430));
     }
 
-    private void initializePedestrianCrossings() {
+    private void initializePedestrianCrossings(){
         pedestrianCrossingH1 = new PedestrianCrossing(new Point(210,187), null);
         pedestrianCrossingH2 = new PedestrianCrossing(new Point(650,187), null);
         pedestrianCrossingH3 = new PedestrianCrossing(new Point(870,187), null);
@@ -567,7 +784,7 @@ public class Initialize {
         pedestrianCrossingV26 = new PedestrianCrossing(new Point(1125,650), null);
     }
 
-    private void initializeLines() {
+    private void initializeLines(){
         lineV1 = new Line(null, new Point(205,0), new Point(205,200), "S", false);
         lineV2 = new Line(null, new Point(215,0), new Point(215,200), "N", false);
         lineV3 = new Line(null, new Point(645,0), new Point(645,200), "S", false);
@@ -637,14 +854,18 @@ public class Initialize {
         lineH36 = new Line(null, new Point(1112, 643), new Point(1300, 643), "W", false);
         lineH37 = new Line(null, new Point(1112, 657), new Point(1300, 657), "E", false);
         lineH38 = new Line(null, new Point(1112, 667), new Point(1300, 667), "E", false);
+
+        lineES1 = new Line(null, new Point(680, 425), new Point(680, 425), "W", false);
+        lineES2 = new Line(null, new Point(680, 435), new Point(680, 435), "E", false);
+
     }
 
 
-    private void initializeStreetLights() {
+    private void initializeStreetLights(){
 
     }
 
-    private void initializeRoadsigns() {
+    private void initializeRoadsigns(){
 
     }
 }

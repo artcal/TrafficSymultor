@@ -26,10 +26,10 @@ public class Initialize {
     public static StreetLights streetLights8;
     public static StreetLights streetLights9;
 
-    public static Line lineV1;
-    public static Line lineV2;
-    public static Line lineV3;
-    public static Line lineV4;
+    static Line lineV1;
+    static Line lineV2;
+    static Line lineV3;
+    static Line lineV4;
     public static Line lineV5;
     public static Line lineV6;
     public static Line lineV7;
@@ -129,6 +129,7 @@ public class Initialize {
     public static Road roadH17;
     public static Road roadH18;
     public static Road roadH19;
+    public static Road roadES;
 
     public static PedestrianCrossing pedestrianCrossingH1;
     public static PedestrianCrossing pedestrianCrossingH2;
@@ -256,7 +257,7 @@ public class Initialize {
         linesV5.add(lineV9);
         linesV5.add(lineV10);
         roadV5 = new Road(50, pedestrianCrossingsV5, linesV5,
-                new Point(430,220), new Point(430,420), "2way", false, null);
+                new Point(430,220), new Point(430,420), "2way", false, new Point(440,320));
 
         List<PedestrianCrossing> pedestrianCrossingsV6 = new ArrayList<>();
         pedestrianCrossingsV6.add(pedestrianCrossingH6);
@@ -266,7 +267,7 @@ public class Initialize {
         linesV6.add(lineV11);
         linesV6.add(lineV12);
         roadV6 = new Road(50, pedestrianCrossingsV6, linesV6,
-                new Point(1090,220), new Point(1090,628), "2way", false, null);
+                new Point(1090,220), new Point(1090,628), "2way", false, new Point(1080,430));
 
         List<PedestrianCrossing> pedestrianCrossingsV7 = new ArrayList<>();
         pedestrianCrossingsV7.add(pedestrianCrossingH10);
@@ -449,7 +450,7 @@ public class Initialize {
         linesH12.add(lineH23);
         linesH12.add(lineH24);
         roadH12 = new Road(70, pedestrianCrossingsH12, linesH12,
-                new Point(452,638), new Point(628,638), "1way", false, null);
+                new Point(452,638), new Point(628,638), "1way", false, new Point(540,628));
 
         List<PedestrianCrossing> pedestrianCrossingsH13 = new ArrayList<>();
         pedestrianCrossingsH13.add(pedestrianCrossingV20);
@@ -511,6 +512,9 @@ public class Initialize {
         linesH19.add(lineH38);
         roadH19 = new Road(70, pedestrianCrossingsH19, linesH19,
                 new Point(1112,662), new Point(1300,662), "1way", false, null);
+
+        roadES = new Road(20, null, null,
+                new Point(880,430), new Point(880,430), "2way", false, new Point(880,430));
     }
 
     private void initializePedestrianCrossings() {

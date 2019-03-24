@@ -11,6 +11,7 @@ public class Line {
     private boolean isClosed;
     private Crossroad nextCrossroad;
 
+
     public Line(List<Roadsign> roadsigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
         this.roadsigns = roadsigns;
         this.start = start;

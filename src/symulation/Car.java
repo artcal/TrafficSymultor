@@ -68,7 +68,7 @@ public class Car extends TrafficParticipant{
     @Override
     public void generateRoute(){
         route = new Route();
-        route.generateRoute(startingPoint,endingPoint,this);
+        route.generateRoute(startingPoint,endingPoint,this,"shortest");
         road = route.getRoute().get(0);
     }
 }

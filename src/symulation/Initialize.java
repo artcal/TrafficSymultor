@@ -195,6 +195,12 @@ public class Initialize {
     private static Crossroad crossroad34;
     private static Crossroad crossroad35;
 
+    private static List<Road> roads;
+    private static List<Line> lines;
+    private static List<Crossroad> crossroads;
+    private static List<PedestrianCrossing> pedestrianCrossings;
+
+
     public Initialize(){
         initializeRoadsigns();
         initializeStreetLights();
@@ -204,6 +210,256 @@ public class Initialize {
         initializeCrossroads();
         connectCrossroads();
         connectLinesOnCrossroads();
+        addNextCrossroadsToLines();
+
+        fieldsToLists();
+    }
+
+    private void fieldsToLists() {
+        roads = new ArrayList<>();
+        lines = new ArrayList<>();
+        crossroads = new ArrayList<>();
+        pedestrianCrossings = new ArrayList<>();
+
+        roads.add(roadV1);
+        roads.add(roadV2);
+        roads.add(roadV3);
+        roads.add(roadV4);
+        roads.add(roadV5);
+        roads.add(roadV6);
+        roads.add(roadV7);
+        roads.add(roadV8);
+        roads.add(roadV9);
+        roads.add(roadV10);
+        roads.add(roadV11);
+        roads.add(roadV12);
+        roads.add(roadV13);
+        roads.add(roadV14);
+        roads.add(roadV15);
+        roads.add(roadH1);
+        roads.add(roadH2);
+        roads.add(roadH3);
+        roads.add(roadH4);
+        roads.add(roadH5);
+        roads.add(roadH6);
+        roads.add(roadH7);
+        roads.add(roadH8);
+        roads.add(roadH9);
+        roads.add(roadH10);
+        roads.add(roadH11);
+        roads.add(roadH12);
+        roads.add(roadH13);
+        roads.add(roadH14);
+        roads.add(roadH15);
+        roads.add(roadH16);
+        roads.add(roadH17);
+        roads.add(roadH18);
+        roads.add(roadH19);
+
+        lines.add(lineV1);
+        lines.add(lineV2);
+        lines.add(lineV3);
+        lines.add(lineV4);
+        lines.add(lineV5);
+        lines.add(lineV6);
+        lines.add(lineV7);
+        lines.add(lineV8);
+        lines.add(lineV9);
+        lines.add(lineV10);
+        lines.add(lineV11);
+        lines.add(lineV12);
+        lines.add(lineV13);
+        lines.add(lineV14);
+        lines.add(lineV15);
+        lines.add(lineV16);
+        lines.add(lineV17);
+        lines.add(lineV18);
+        lines.add(lineV19);
+        lines.add(lineV20);
+        lines.add(lineV21);
+        lines.add(lineV22);
+        lines.add(lineV23);
+        lines.add(lineV24);
+        lines.add(lineV25);
+        lines.add(lineV26);
+        lines.add(lineV27);
+        lines.add(lineV28);
+        lines.add(lineV29);
+        lines.add(lineV30);
+        lines.add(lineH1);
+        lines.add(lineH2);
+        lines.add(lineH3);
+        lines.add(lineH4);
+        lines.add(lineH5);
+        lines.add(lineH6);
+        lines.add(lineH7);
+        lines.add(lineH8);
+        lines.add(lineH9);
+        lines.add(lineH10);
+        lines.add(lineH11);
+        lines.add(lineH12);
+        lines.add(lineH13);
+        lines.add(lineH14);
+        lines.add(lineH15);
+        lines.add(lineH16);
+        lines.add(lineH17);
+        lines.add(lineH18);
+        lines.add(lineH19);
+        lines.add(lineH20);
+        lines.add(lineH21);
+        lines.add(lineH22);
+        lines.add(lineH23);
+        lines.add(lineH24);
+        lines.add(lineH25);
+        lines.add(lineH26);
+        lines.add(lineH27);
+        lines.add(lineH28);
+        lines.add(lineH29);
+        lines.add(lineH30);
+        lines.add(lineH31);
+        lines.add(lineH32);
+        lines.add(lineH33);
+        lines.add(lineH34);
+        lines.add(lineH35);
+        lines.add(lineH36);
+        lines.add(lineH37);
+        lines.add(lineH38);
+
+        crossroads.add(crossroad11);
+        crossroads.add(crossroad12);
+        crossroads.add(crossroad13);
+        crossroads.add(crossroad14);
+        crossroads.add(crossroad15);
+        crossroads.add(crossroad21);
+        crossroads.add(crossroad22);
+        crossroads.add(crossroad23);
+        crossroads.add(crossroad24);
+        crossroads.add(crossroad31);
+        crossroads.add(crossroad32);
+        crossroads.add(crossroad33);
+        crossroads.add(crossroad34);
+        crossroads.add(crossroad35);
+
+        pedestrianCrossings.add(pedestrianCrossingH1);
+        pedestrianCrossings.add(pedestrianCrossingH2);
+        pedestrianCrossings.add(pedestrianCrossingH3);
+        pedestrianCrossings.add(pedestrianCrossingH4);
+        pedestrianCrossings.add(pedestrianCrossingH5);
+        pedestrianCrossings.add(pedestrianCrossingH6);
+        pedestrianCrossings.add(pedestrianCrossingH7);
+        pedestrianCrossings.add(pedestrianCrossingH8);
+        pedestrianCrossings.add(pedestrianCrossingH9);
+        pedestrianCrossings.add(pedestrianCrossingH10);
+        pedestrianCrossings.add(pedestrianCrossingH11);
+        pedestrianCrossings.add(pedestrianCrossingH12);
+        pedestrianCrossings.add(pedestrianCrossingH13);
+        pedestrianCrossings.add(pedestrianCrossingH14);
+        pedestrianCrossings.add(pedestrianCrossingH15);
+        pedestrianCrossings.add(pedestrianCrossingH16);
+        pedestrianCrossings.add(pedestrianCrossingH17);
+        pedestrianCrossings.add(pedestrianCrossingH18);
+        pedestrianCrossings.add(pedestrianCrossingH19);
+        pedestrianCrossings.add(pedestrianCrossingH20);
+        pedestrianCrossings.add(pedestrianCrossingV1);
+        pedestrianCrossings.add(pedestrianCrossingV2);
+        pedestrianCrossings.add(pedestrianCrossingV3);
+        pedestrianCrossings.add(pedestrianCrossingV4);
+        pedestrianCrossings.add(pedestrianCrossingV5);
+        pedestrianCrossings.add(pedestrianCrossingV6);
+        pedestrianCrossings.add(pedestrianCrossingV7);
+        pedestrianCrossings.add(pedestrianCrossingV8);
+        pedestrianCrossings.add(pedestrianCrossingV9);
+        pedestrianCrossings.add(pedestrianCrossingV10);
+        pedestrianCrossings.add(pedestrianCrossingV11);
+        pedestrianCrossings.add(pedestrianCrossingV12);
+        pedestrianCrossings.add(pedestrianCrossingV13);
+        pedestrianCrossings.add(pedestrianCrossingV14);
+        pedestrianCrossings.add(pedestrianCrossingV15);
+        pedestrianCrossings.add(pedestrianCrossingV16);
+        pedestrianCrossings.add(pedestrianCrossingV17);
+        pedestrianCrossings.add(pedestrianCrossingV18);
+        pedestrianCrossings.add(pedestrianCrossingV19);
+        pedestrianCrossings.add(pedestrianCrossingV20);
+        pedestrianCrossings.add(pedestrianCrossingV21);
+        pedestrianCrossings.add(pedestrianCrossingV22);
+        pedestrianCrossings.add(pedestrianCrossingV23);
+        pedestrianCrossings.add(pedestrianCrossingV24);
+        pedestrianCrossings.add(pedestrianCrossingV25);
+        pedestrianCrossings.add(pedestrianCrossingV26);
+
+    }
+
+    private void addNextCrossroadsToLines() {
+        lineV1.setNextCrossroad(crossroad11);
+        lineV2.setNextCrossroad(null);
+        lineV3.setNextCrossroad(crossroad13);
+        lineV4.setNextCrossroad(null);
+        lineV5.setNextCrossroad(crossroad14);
+        lineV6.setNextCrossroad(null);
+        lineV7.setNextCrossroad(crossroad21);
+        lineV8.setNextCrossroad(crossroad11);
+        lineV9.setNextCrossroad(crossroad22);
+        lineV10.setNextCrossroad(crossroad12);
+        lineV11.setNextCrossroad(crossroad35);
+        lineV12.setNextCrossroad(crossroad15);
+        lineV13.setNextCrossroad(crossroad31);
+        lineV14.setNextCrossroad(crossroad21);
+        lineV15.setNextCrossroad(crossroad33);
+        lineV16.setNextCrossroad(crossroad33);
+        lineV17.setNextCrossroad(crossroad23);
+        lineV18.setNextCrossroad(crossroad23);
+        lineV19.setNextCrossroad(crossroad34);
+        lineV20.setNextCrossroad(crossroad24);
+        lineV21.setNextCrossroad(null);
+        lineV22.setNextCrossroad(crossroad31);
+        lineV23.setNextCrossroad(null);
+        lineV24.setNextCrossroad(crossroad32);
+        lineV25.setNextCrossroad(null);
+        lineV26.setNextCrossroad(null);
+        lineV27.setNextCrossroad(crossroad33);
+        lineV28.setNextCrossroad(crossroad33);
+        lineV29.setNextCrossroad(null);
+        lineV30.setNextCrossroad(crossroad35);
+        lineH1.setNextCrossroad(null);
+        lineH2.setNextCrossroad(crossroad11);
+        lineH3.setNextCrossroad(crossroad11);
+        lineH4.setNextCrossroad(crossroad12);
+        lineH5.setNextCrossroad(crossroad12);
+        lineH6.setNextCrossroad(crossroad13);
+        lineH7.setNextCrossroad(crossroad13);
+        lineH8.setNextCrossroad(crossroad14);
+        lineH9.setNextCrossroad(crossroad14);
+        lineH10.setNextCrossroad(crossroad15);
+        lineH11.setNextCrossroad(crossroad15);
+        lineH12.setNextCrossroad(null);
+        lineH13.setNextCrossroad(crossroad21);
+        lineH14.setNextCrossroad(crossroad22);
+        lineH15.setNextCrossroad(crossroad22);
+        lineH16.setNextCrossroad(crossroad23);
+        lineH17.setNextCrossroad(crossroad23);
+        lineH18.setNextCrossroad(crossroad24);
+        lineH19.setNextCrossroad(null);
+        lineH20.setNextCrossroad(crossroad31);
+        lineH21.setNextCrossroad(crossroad31);
+        lineH22.setNextCrossroad(crossroad32);
+        lineH23.setNextCrossroad(crossroad32);
+        lineH24.setNextCrossroad(crossroad32);
+        lineH25.setNextCrossroad(crossroad33);
+        lineH26.setNextCrossroad(crossroad33);
+        lineH27.setNextCrossroad(crossroad33);
+        lineH28.setNextCrossroad(crossroad33);
+        lineH29.setNextCrossroad(crossroad34);
+        lineH30.setNextCrossroad(crossroad34);
+        lineH31.setNextCrossroad(crossroad34);
+        lineH32.setNextCrossroad(crossroad34);
+        lineH33.setNextCrossroad(crossroad35);
+        lineH34.setNextCrossroad(crossroad35);
+        lineH35.setNextCrossroad(crossroad35);
+        lineH36.setNextCrossroad(crossroad35);
+        lineH37.setNextCrossroad(null);
+        lineH38.setNextCrossroad(null);
+        lineES1.setNextCrossroad(crossroad24);
+        lineES2.setNextCrossroad(null);
     }
 
     private void connectLinesOnCrossroads(){ // connect a line to another lines after crossroad
@@ -281,7 +537,7 @@ public class Initialize {
 
         crossroad33.setEntrances(new Line[] {lineH25, lineH26, lineH27, lineH28, lineV15, lineV16, lineV27, lineV28});
         crossroad33.setExits(new Line[] {lineH23, lineH24, lineH29, lineH30, lineV17, lineV18, lineV25, lineV26});
-        crossroad33.addHowToGo(lineH25, new Line[] {lineV17});
+        crossroad33.addHowToGo(lineH25, new Line[] {lineV17, lineH23});
         crossroad33.addHowToGo(lineH26, new Line[] {lineH30, lineV25});
         crossroad33.addHowToGo(lineH27, new Line[] {lineH23, lineV18});
         crossroad33.addHowToGo(lineH28, new Line[] {lineV26});
@@ -378,7 +634,6 @@ public class Initialize {
         roads23.add(roadV8);
         roads23.add(roadV9);
         roads23.add(roadH8);
-        roads23.add(roadH9);
         crossroad23 = new Crossroad(roads23, null, new Point(650, 430), 22);
 
         List<Road> roads24 = new ArrayList<>();
@@ -397,26 +652,19 @@ public class Initialize {
         List<Road> roads32 = new ArrayList<>();
         roads32.add(roadV12);
         roads32.add(roadH11);
-        roads32.add(roadH12);
         roads32.add(roadH13);
         crossroad32 = new Crossroad(roads32, null, new Point(430, 650), 22);
 
         List<Road> roads33 = new ArrayList<>();
-        roads33.add(roadV8);
         roads33.add(roadV9);
         roads33.add(roadV13);
-        roads33.add(roadV14);
         roads33.add(roadH12);
-        roads33.add(roadH13);
-        roads33.add(roadH14);
         roads33.add(roadH15);
         crossroad33 = new Crossroad(roads33, null, new Point(650, 650), 22);
 
         List<Road> roads34 = new ArrayList<>();
         roads34.add(roadV10);
         roads34.add(roadH14);
-        roads34.add(roadH15);
-        roads34.add(roadH16);
         roads34.add(roadH17);
         crossroad34 = new Crossroad(roads34, null, new Point(870, 650), 22);
 
@@ -424,8 +672,6 @@ public class Initialize {
         roads35.add(roadV6);
         roads35.add(roadV15);
         roads35.add(roadH16);
-        roads35.add(roadH17);
-        roads35.add(roadH18);
         roads35.add(roadH19);
         crossroad35 = new Crossroad(roads35, null, new Point(1090, 650), 22);
     }
@@ -437,7 +683,7 @@ public class Initialize {
         linesV1.add(lineV1);
         linesV1.add(lineV2);
         roadV1 = new Road(50, pedestrianCrossingsV1, linesV1,
-                new Point(210,0), new Point(210,200), "2way", false, null);
+                new Point(210,0), new Point(210,200), "2way", false, new Point(210,0));
 
         List<PedestrianCrossing> pedestrianCrossingsV2 = new ArrayList<>();
         pedestrianCrossingsV2.add(pedestrianCrossingH2);
@@ -445,7 +691,7 @@ public class Initialize {
         linesV2.add(lineV3);
         linesV2.add(lineV4);
         roadV2 = new Road(50,pedestrianCrossingsV2, linesV2,
-                new Point(650,0),new Point(650, 200),"2way", false, null);
+                new Point(650,0),new Point(650, 200),"2way", false, new Point(650,0));
 
         List<PedestrianCrossing> pedestrianCrossingsV3 = new ArrayList<>();
         pedestrianCrossingsV3.add(pedestrianCrossingH3);
@@ -453,7 +699,7 @@ public class Initialize {
         linesV3.add(lineV5);
         linesV3.add(lineV6);
         roadV3 = new Road(50, pedestrianCrossingsV3, linesV3,
-                new Point(870,0), new Point(870,200), "2way", false, null);
+                new Point(870,0), new Point(870,200), "2way", false, new Point(870,0));
 
         List<PedestrianCrossing> pedestrianCrossingsV4 = new ArrayList<>();
         pedestrianCrossingsV4.add(pedestrianCrossingH4);
@@ -525,7 +771,7 @@ public class Initialize {
         linesV11.add(lineV21);
         linesV11.add(lineV22);
         roadV11 = new Road(50, pedestrianCrossingsV11, linesV11,
-                new Point(210,660), new Point(210,800), "2way", false, null);
+                new Point(210,660), new Point(210,800), "2way", false, new Point(210,800));
 
         List<PedestrianCrossing> pedestrianCrossingsV12 = new ArrayList<>();
         pedestrianCrossingsV12.add(pedestrianCrossingH18);
@@ -533,7 +779,7 @@ public class Initialize {
         linesV12.add(lineV23);
         linesV12.add(lineV24);
         roadV12 = new Road(50, pedestrianCrossingsV12, linesV12,
-                new Point(430,672), new Point(430,800), "2way", false, null);
+                new Point(430,672), new Point(430,800), "2way", false, new Point(430,800));
 
         List<PedestrianCrossing> pedestrianCrossingsV13 = new ArrayList<>();
         pedestrianCrossingsV13.add(pedestrianCrossingH19);
@@ -541,7 +787,7 @@ public class Initialize {
         linesV13.add(lineV25);
         linesV13.add(lineV26);
         roadV13 = new Road(50, pedestrianCrossingsV13, linesV13,
-                new Point(638,672), new Point(638,800), "1way", false, null);
+                new Point(638,672), new Point(638,800), "1way", false, new Point(638,800));
 
         List<PedestrianCrossing> pedestrianCrossingsV14 = new ArrayList<>();
         pedestrianCrossingsV14.add(pedestrianCrossingH19);
@@ -549,7 +795,7 @@ public class Initialize {
         linesV14.add(lineV27);
         linesV14.add(lineV28);
         roadV14 = new Road(50, pedestrianCrossingsV14, linesV14,
-                new Point(662,672), new Point(662,800), "1way", false, null);
+                new Point(662,672), new Point(662,800), "1way", false, new Point(662,800));
 
         List<PedestrianCrossing> pedestrianCrossingsV15 = new ArrayList<>();
         pedestrianCrossingsV15.add(pedestrianCrossingH20);
@@ -557,7 +803,7 @@ public class Initialize {
         linesV15.add(lineV29);
         linesV15.add(lineV30);
         roadV15 = new Road(50, pedestrianCrossingsV15, linesV15,
-                new Point(1090,672), new Point(1090,800), "2way", false, null);
+                new Point(1090,672), new Point(1090,800), "2way", false, new Point(1090,800));
 
 //Horizontal
 
@@ -567,7 +813,7 @@ public class Initialize {
         linesH1.add(lineH1);
         linesH1.add(lineH2);
         roadH1 = new Road(50, pedestrianCrossingsH1, linesH1,
-                new Point(0,210), new Point(200,210), "2way", false, null);
+                new Point(0,210), new Point(200,210), "2way", false, new Point(0,210));
 
         List<PedestrianCrossing> pedestrianCrossingsH2 = new ArrayList<>();
         pedestrianCrossingsH2.add(pedestrianCrossingV2);
@@ -611,7 +857,7 @@ public class Initialize {
         linesH6.add(lineH11);
         linesH6.add(lineH12);
         roadH6 = new Road(50, pedestrianCrossingsH6, linesH6,
-                new Point(1100,210), new Point(1300,210), "2way", false, null);
+                new Point(1100,210), new Point(1300,210), "2way", false, new Point(1300,210));
 
         List<PedestrianCrossing> pedestrianCrossingsH7 = new ArrayList<>();
         pedestrianCrossingsH7.add(pedestrianCrossingV11);
@@ -646,7 +892,7 @@ public class Initialize {
         linesH10.add(lineH19);
         linesH10.add(lineH20);
         roadH10 = new Road(50, pedestrianCrossingsH10, linesH10,
-                new Point(0,650), new Point(200,650), "2way", false, null);
+                new Point(0,650), new Point(200,650), "2way", false, new Point(0,650));
 
         List<PedestrianCrossing> pedestrianCrossingsH11 = new ArrayList<>();
         pedestrianCrossingsH11.add(pedestrianCrossingV18);
@@ -717,7 +963,7 @@ public class Initialize {
         linesH18.add(lineH35);
         linesH18.add(lineH36);
         roadH18 = new Road(70, pedestrianCrossingsH18, linesH18,
-                new Point(1112,638), new Point(1300,638), "1way", false, null);
+                new Point(1112,638), new Point(1300,638), "1way", false, new Point(1300,638));
 
         List<PedestrianCrossing> pedestrianCrossingsH19 = new ArrayList<>();
         pedestrianCrossingsH19.add(pedestrianCrossingV26);
@@ -725,7 +971,7 @@ public class Initialize {
         linesH19.add(lineH37);
         linesH19.add(lineH38);
         roadH19 = new Road(70, pedestrianCrossingsH19, linesH19,
-                new Point(1112,662), new Point(1300,662), "1way", false, null);
+                new Point(1112,662), new Point(1300,662), "1way", false, new Point(1300,662));
 
         List<Line> linesES = new ArrayList<>();
         linesES.add(lineES1);
@@ -867,5 +1113,21 @@ public class Initialize {
 
     private void initializeRoadsigns(){
 
+    }
+
+    public static List<Road> getRoads() {
+        return roads;
+    }
+
+    public static List<Line> getLines() {
+        return lines;
+    }
+
+    public static List<Crossroad> getCrossroads() {
+        return crossroads;
+    }
+
+    public static List<PedestrianCrossing> getPedestrianCrossings() {
+        return pedestrianCrossings;
     }
 }

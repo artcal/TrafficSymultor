@@ -15,7 +15,7 @@ public class Route {
 
     }
 
-    private void chooseRoute() {
+    private void chooseRoute(String priority) {
 
     }
 
@@ -23,13 +23,13 @@ public class Route {
 
     }
 
-    public void generateRoute(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant) {
+    public void generateRoute(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant, String priority) {
         if(trafficParticipant.getClass() == Pedestrian.class) {
             findRoutes(startingPoint, endingPoint, "pedestrian");
         }else {
             findRoutes(startingPoint, endingPoint, "car");
         }
-        chooseRoute();
+        chooseRoute(priority);
 
     }
 

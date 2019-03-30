@@ -14,7 +14,8 @@ import java.util.Map;
 
 public class Main extends Application {
 
-    Map<Point,Road> exitPoints,startingPoints;
+    static Map<Point,Road> exitPoints,startingPoints;
+    private Initialize intialize;
 
 
     @Override
@@ -31,7 +32,8 @@ public class Main extends Application {
         exitPoints = new HashMap<>();
         startingPoints = new HashMap<>();
 
-        List<Road> roads = Initialize.getRoads();
+        intialize = new Initialize();
+        List<Road> roads = intialize.getRoads();
         Point point;
 
         for(Road road: roads){

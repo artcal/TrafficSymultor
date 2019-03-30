@@ -12,7 +12,7 @@ public class Pedestrian extends TrafficParticipant {
     protected void generateRoute(){
         route = new Route();
         route.generateRoute(startingPoint,endingPoint,this,"shortest");
-        road = route.getRoute().get(0);
+       // road = route.getRoute().get(0);
     }
 
     private void walkThroughRoad(){

@@ -1,6 +1,8 @@
 package symulation;
 
-import java.awt.*;
+import java.awt.Point;
+import java.util.List;
+
 
 public class TrafficParticipant {
 
@@ -29,11 +31,18 @@ public class TrafficParticipant {
         this.isSafe = isSafe;
     }
 
-    protected void generateRoute(){}
+    protected void generateRoute(){
+        route = new Route(startingPoint,endingPoint,this,null);
+    }
 
     protected void changeRoute(){}
 
-    protected void checkTraffic(){}
+    protected void checkTraffic(List<TrafficParticipant> trafficParticipants){
+        for (TrafficParticipant trafficParticipant : trafficParticipants) {
+
+
+        }
+    }
 
     protected boolean checkTrafficLights(){return true;}
 

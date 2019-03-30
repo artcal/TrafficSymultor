@@ -49,6 +49,8 @@ public class Car extends TrafficParticipant{
         }
     }
 
+
+
     private void changeLine(){
 
     }
@@ -63,12 +65,5 @@ public class Car extends TrafficParticipant{
 
     private void chcekDistanceToCrossRoad(){
 
-    }
-
-    @Override
-    public void generateRoute(){
-        route = new Route();
-        route.generateRoute(startingPoint,endingPoint,this,"shortest");
-        road = route.getRoute().get(0);
     }
 }

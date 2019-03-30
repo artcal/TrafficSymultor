@@ -39,7 +39,11 @@ public class TrafficParticipant {
 
     protected void checkTraffic(List<TrafficParticipant> trafficParticipants){
         for (TrafficParticipant trafficParticipant : trafficParticipants) {
+            if(!trafficParticipant.equals(this)){
+                if(trafficParticipant.line.equals(this.line)){
 
+                }
+            }
 
         }
     }

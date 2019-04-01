@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.util.Timer;
 import java.util.TimerTask;

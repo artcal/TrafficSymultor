@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.awt.*;
 import java.util.List;

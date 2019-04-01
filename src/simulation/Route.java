@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +20,14 @@ public class Route {
 
         List<RouteElement> newRoute = new ArrayList<>();
         List<List<RouteElement> > unfinishedRoutes = new ArrayList<>();
-        Road startingRoad = Main.startingPoints.get(startingPoint);
+        Road startingRoad = null;
+        for (ExitStartPoint exitStartPoint: Main.startingPoints) {
+            if(exitStartPoint.getPosition().equals(startingPoint)){
+                startingRoad = exitStartPoint.getRoad();
+                break;
+            }
+        }
+
 
         for (Line line : startingRoad.getLines()) {
             if(line.getNextCrossroad() != null){
@@ -51,9 +58,11 @@ public class Route {
                         boolean isCorrectRoad = false;
                         String direction = "";
                         for (Line line : road.getLines()) {
-                            if(line.getNextCrossroad() != null || !line.getNextCrossroad().equals(currentCrossroad)){
-                                isCorrectRoad = true;
-                                direction = line.getTrafficMovement();
+                            if(line.getNextCrossroad() != null ){
+                                if(!line.getNextCrossroad().equals(currentCrossroad)) {
+                                    isCorrectRoad = true;
+                                    direction = line.getTrafficMovement();
+                                }
                             }
                         }
                         if(isCorrectRoad){
@@ -80,27 +89,35 @@ public class Route {
     }
 
     private boolean addLastRoad(Crossroad nextCrossroad, List<RouteElement> tempRoute, Point endingPoint) {
-        for (Road road :nextCrossroad.getRoads()) {
-            if(comparePoints(road.getExitSpawnPoint(), endingPoint)){
-                String direction = "";
-                for (Line line : road.getLines()) {
-                    if(!line.getNextCrossroad().equals(nextCrossroad)){
-                        direction = line.getTrafficMovement();
+        if(nextCrossroad != null) {
+            for (Road road : nextCrossroad.getRoads()) {
+                if (comparePoints(road.getExitSpawnPoint(), endingPoint)) {
+                    String direction = "";
+                    for (Line line : road.getLines()) {
+                        if(line.getNextCrossroad() != null) {
+                            if (!line.getNextCrossroad().equals(nextCrossroad)) {
+                                direction = line.getTrafficMovement();
+                            }
+                        } else {
+                            direction = line.getTrafficMovement();
+                        }
                     }
+                    tempRoute.add(new RouteElement(road, direction));
+                    routes.add(tempRoute);
+                    return true;
                 }
-                tempRoute.add(new RouteElement(road, direction));
-                routes.add(tempRoute);
-                return true;
             }
         }
         return false;
     }
 
     private boolean comparePoints(Point exitSpawnPoint, Point endingPoint) {
-        if(endingPoint.x == exitSpawnPoint.x){
-            if (endingPoint.y == exitSpawnPoint.y+5 || endingPoint.y == exitSpawnPoint.y-5) return true;
-        }else if(endingPoint.y == exitSpawnPoint.y) {
-            if (endingPoint.x == exitSpawnPoint.x+5 || endingPoint.x == exitSpawnPoint.x-5) return true;
+        if(exitSpawnPoint != null) {
+            if (endingPoint.x == exitSpawnPoint.x) {
+                if (endingPoint.y == exitSpawnPoint.y + 5 || endingPoint.y == exitSpawnPoint.y - 5) return true;
+            } else if (endingPoint.y == exitSpawnPoint.y) {
+                if (endingPoint.x == exitSpawnPoint.x + 5 || endingPoint.x == exitSpawnPoint.x - 5) return true;
+            }
         }
         return false;
     }

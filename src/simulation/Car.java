@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.awt.*;
 
@@ -18,6 +18,9 @@ public class Car extends TrafficParticipant{
         this.maxSpeed = maxSpeed;
         this.weight = weight;
         this.downturn = downturn;
+        System.out.println(startingPoint);
+        System.out.println(endingPoint);
+        generateRoute();
     }
 
     private void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1

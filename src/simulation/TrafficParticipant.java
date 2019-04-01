@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.awt.Point;
 import java.util.List;
@@ -32,7 +32,29 @@ public class TrafficParticipant {
     }
 
     protected void generateRoute(){
+
         route = new Route(startingPoint,endingPoint,this,null);
+        road = route.getRoute().get(0).getRoad();
+        for (Line line : road.getLines()) {
+            if(line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint)){
+                this.line = line;
+                break;
+            }else{
+                String direction = line.getTrafficMovement();
+                if(direction.equals("N") || direction.equals("S")){
+                    if(this.line == null || Math.pow(this.line.getEnd().x - startingPoint.x,2) == 25){
+                        this.line = line;
+                        break;
+                    }
+                }else{
+                    if(this.line == null || Math.pow(this.line.getEnd().y - startingPoint.y,2) == 25){
+                        this.line = line;
+                        break;
+                    }
+                }
+            }
+
+        }
     }
 
     protected void changeRoute(){}

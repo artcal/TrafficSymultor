@@ -1,7 +1,8 @@
-package symulation;
+package simulation;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ public class Crossroad {
         this.size = size;
         this.entrances = new ArrayList<>();
         this.exits = new ArrayList<>();
+        this.howToGo = new HashMap<>();
     }
 
     public void addHowToGo(Line from, Line[] to){

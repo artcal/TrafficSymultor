@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 import java.awt.*;
 
@@ -10,7 +10,7 @@ public class Pedestrian extends TrafficParticipant {
 
     @Override
     protected void generateRoute(){
-        route = new Route();
+        //route = new Route();
         route.generateRoute(startingPoint,endingPoint,this,"shortest");
        // road = route.getRoute().get(0);
     }

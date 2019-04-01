@@ -1,4 +1,4 @@
-package symulation;
+package simulation;
 
 public class User {
 

@@ -589,7 +589,7 @@ public class Initialize {
     private void initializeCrossroads(){
         List<Road> roads11 = new ArrayList<>();
         roads11.add(roadV1);
-        roads11.add(roadV2);
+        roads11.add(roadV4);
         roads11.add(roadH1);
         roads11.add(roadH2);
         crossroad11 = new Crossroad(roads11, null, new Point(210, 210),10);
@@ -846,8 +846,8 @@ public class Initialize {
         pedestrianCrossingsH5.add(pedestrianCrossingV8);
         pedestrianCrossingsH5.add(pedestrianCrossingV9);
         List<Line> linesH5 = new ArrayList<>();
-        linesH2.add(lineH9);
-        linesH2.add(lineH10);
+        linesH5.add(lineH9);
+        linesH5.add(lineH10);
         roadH5 = new Road(50, pedestrianCrossingsH5, linesH5,
                 new Point(880,210), new Point(1080,210), "2way", false, null);
 

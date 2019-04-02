@@ -18,8 +18,6 @@ public class Car extends TrafficParticipant{
         this.maxSpeed = maxSpeed;
         this.weight = weight;
         this.downturn = downturn;
-        System.out.println(startingPoint);
-        System.out.println(endingPoint);
         generateRoute();
     }
 

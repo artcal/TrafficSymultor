@@ -11,6 +11,9 @@ public class Route {
     private List<Crossroad> crossroads;
 
     public Route(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant, String priority) {
+        route = new ArrayList<>();
+        routes = new ArrayList<>();
+        crossroads = new ArrayList<>();
         generateRoute(startingPoint,endingPoint,trafficParticipant,priority);
     }
 
@@ -33,16 +36,19 @@ public class Route {
             if(line.getNextCrossroad() != null){
                 newRoute.add(new RouteElement(startingRoad, line.getTrafficMovement()));
                 unfinishedRoutes.add(newRoute);
+                break;
             }
         }
 
-        while (unfinishedRoutes != null){
+        while (unfinishedRoutes.size() > 0){
             List<RouteElement> tempRoute;
             tempRoute = unfinishedRoutes.get(0);
 
+            boolean isOneWay = false;
             for (Line line : tempRoute.get(tempRoute.size() -1).getRoad().getLines() ) {
-                if(line.getTrafficMovement().equals(tempRoute.get(tempRoute.size() - 1).getDirection())){
+                if(line.getTrafficMovement().equals(tempRoute.get(tempRoute.size() - 1).getDirection()) && !isOneWay){
                     addNextRoad(line.getNextCrossroad(),tempRoute,unfinishedRoutes,endingPoint);
+                    isOneWay = tempRoute.get(tempRoute.size() -1).getRoad().getType().equals("1way") ? true : false;
                 }
             }
 
@@ -53,7 +59,14 @@ public class Route {
     private void addNextRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute, List<List<RouteElement>> unfinishedRoutes, Point endingPoint) {
         if(!addLastRoad(currentCrossroad,tempRoute,endingPoint)){
             for (Road road :currentCrossroad.getRoads()) {
-                if(!road.equals(tempRoute.get(tempRoute.size() - 1).getRoad())){
+                boolean isNewRoad = true;
+                for (RouteElement routeElement : tempRoute) {
+                    if(routeElement.getRoad().equals(road)){
+                        isNewRoad = false;
+                        break;
+                    }
+                }
+                if(!road.equals(tempRoute.get(tempRoute.size() - 1).getRoad()) && isNewRoad){
                     if(!road.getLines().get(0).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))){
                         boolean isCorrectRoad = false;
                         String direction = "";
@@ -66,7 +79,10 @@ public class Route {
                             }
                         }
                         if(isCorrectRoad){
-                            List<RouteElement> newRoute = tempRoute;
+                            List<RouteElement> newRoute = new ArrayList<>();
+                            for (RouteElement routeElement :tempRoute) {
+                                newRoute.add(routeElement);
+                            }
                             newRoute.add(new RouteElement(road,direction));
                             unfinishedRoutes.add(newRoute);
                         }
@@ -125,7 +141,7 @@ public class Route {
 
     private void chooseRoute(String priority) {
         for (List<RouteElement> route: routes) {
-            if(this.route == null || this.route.size() > route.size()){
+            if(this.route.size() == 0 || this.route.size() > route.size()){
                 this.route = route;
             }
         }

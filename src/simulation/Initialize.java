@@ -255,6 +255,7 @@ public class Initialize {
         roads.add(roadH17);
         roads.add(roadH18);
         roads.add(roadH19);
+        roads.add(roadES);
 
         lines.add(lineV1);
         lines.add(lineV2);
@@ -324,6 +325,8 @@ public class Initialize {
         lines.add(lineH36);
         lines.add(lineH37);
         lines.add(lineH38);
+        lines.add(lineES1);
+        lines.add(lineES2);
 
         crossroads.add(crossroad11);
         crossroads.add(crossroad12);

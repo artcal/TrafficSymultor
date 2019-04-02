@@ -19,6 +19,7 @@ public class Route {
 
     //TODO dodać do parametrów drogę, jeśli nie będzie nullem to startingRoad będzię tą drogą
     //TODO dodanie trasy dla pieszego
+    //TODO dodać zawracanie dla dwujezdniowej ze starting pointem
     private void findRoutes(Point startingPoint, Point endingPoint, String trafficParticipant) {
 
         List<RouteElement> newRoute = new ArrayList<>();
@@ -67,7 +68,8 @@ public class Route {
                     }
                 }
                 if(!road.equals(tempRoute.get(tempRoute.size() - 1).getRoad()) && isNewRoad){
-                    if(!road.getLines().get(0).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))){
+                    if(!road.getLines().get(0).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))
+                            || !road.getLines().get(1).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))){
                         boolean isCorrectRoad = false;
                         String direction = "";
                         for (Line line : road.getLines()) {

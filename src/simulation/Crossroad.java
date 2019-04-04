@@ -57,7 +57,7 @@ public class Crossroad {
         }
     }
 
-    public void addNextCrossroads(Crossroad[] crossroads){
+    public void addNextCrossroads(Crossroad... crossroads){
         this.N = crossroads[0];
         this.E = crossroads[1];
         this.S = crossroads[2];

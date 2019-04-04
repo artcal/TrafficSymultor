@@ -8,12 +8,12 @@ import java.util.Random;
 // do terstowania co nam potrzeba
 public class Test {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
 
         Random rand = new Random();
         //Main main = new Main();
         Main.generateExitSpawnPoints();
-        Car car = new Car("mk_1",Main.startingPoints.get(12).getPosition(),Main.exitPoints.get(13).getPosition(),true,
+        Car car = new Car("mk_1",Main.startingPoints.get(0).getPosition(),Main.exitPoints.get(13).getPosition(),true,
                 10,5,50,10);
 
         for (RouteElement routeElement : car.getRoute().getRoute()) {

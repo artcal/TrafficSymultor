@@ -570,22 +570,22 @@ public class Initialize {
     }
 
     private void connectCrossroads(){
-        crossroad11.addNextCrossroads(new Crossroad[] {null, crossroad12, crossroad21, null});
-        crossroad12.addNextCrossroads(new Crossroad[] {null, crossroad13, crossroad22, crossroad11});
-        crossroad13.addNextCrossroads(new Crossroad[] {null, crossroad14, null, crossroad12});
-        crossroad14.addNextCrossroads(new Crossroad[] {null, crossroad15, null, crossroad14});
-        crossroad15.addNextCrossroads(new Crossroad[] {null, null, crossroad35, crossroad14});
+        crossroad11.addNextCrossroads(null, crossroad12, crossroad21, null);
+        crossroad12.addNextCrossroads(null, crossroad13, crossroad22, crossroad11);
+        crossroad13.addNextCrossroads(null, crossroad14, null, crossroad12);
+        crossroad14.addNextCrossroads(null, crossroad15, null, crossroad14);
+        crossroad15.addNextCrossroads(null, null, crossroad35, crossroad14);
 
-        crossroad21.addNextCrossroads(new Crossroad[] {crossroad11, crossroad22, crossroad31, null});
-        crossroad22.addNextCrossroads(new Crossroad[] {crossroad12, crossroad23, null, crossroad21});
-        crossroad23.addNextCrossroads(new Crossroad[] {null, crossroad24, crossroad33, crossroad22});
-        crossroad24.addNextCrossroads(new Crossroad[] {null, null, crossroad34, crossroad23});
+        crossroad21.addNextCrossroads(crossroad11, crossroad22, crossroad31, null);
+        crossroad22.addNextCrossroads(crossroad12, crossroad23, null, crossroad21);
+        crossroad23.addNextCrossroads(null, crossroad24, crossroad33, crossroad22);
+        crossroad24.addNextCrossroads(null, null, crossroad34, crossroad23);
 
-        crossroad31.addNextCrossroads(new Crossroad[] {crossroad21, crossroad32, null, null});
-        crossroad32.addNextCrossroads(new Crossroad[] {null, crossroad33, null, crossroad31});
-        crossroad33.addNextCrossroads(new Crossroad[] {crossroad23, crossroad34, null, crossroad32});
-        crossroad34.addNextCrossroads(new Crossroad[] {crossroad24,crossroad35, null, crossroad33});
-        crossroad35.addNextCrossroads(new Crossroad[] {crossroad15,null, null, crossroad34});
+        crossroad31.addNextCrossroads(crossroad21, crossroad32, null, null);
+        crossroad32.addNextCrossroads(null, crossroad33, null, crossroad31);
+        crossroad33.addNextCrossroads(crossroad23, crossroad34, null, crossroad32);
+        crossroad34.addNextCrossroads(crossroad24,crossroad35, null, crossroad33);
+        crossroad35.addNextCrossroads(crossroad15,null, null, crossroad34);
 
     }
 

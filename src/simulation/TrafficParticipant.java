@@ -31,9 +31,8 @@ public class TrafficParticipant {
         this.isSafe = isSafe;
     }
 
-    protected void generateRoute(){
-
-        route = new Route(startingPoint,endingPoint,this,null);
+    protected void generateRoute() throws Exception {
+        route = new Route(startingPoint,endingPoint,this,null, road);
         road = route.getRoute().get(0).getRoad();
         for (Line line : road.getLines()) {
             if(line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint)){

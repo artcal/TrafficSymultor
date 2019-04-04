@@ -3,168 +3,209 @@ package simulation;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class Route {
+class Route {
 
     private List<RouteElement> route;
     private List<List<RouteElement>> routes;
-    private List<Crossroad> crossroads;
+    private List<List<RouteElement>> unfinishedRoutes;
+    private TrafficParticipant trafficParticipant;
+    private Point endingPoint;
 
-    public Route(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant, String priority) {
+    Route(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant,
+                 String priority, Road currentRoad) throws Exception {
         route = new ArrayList<>();
         routes = new ArrayList<>();
-        crossroads = new ArrayList<>();
-        generateRoute(startingPoint,endingPoint,trafficParticipant,priority);
+        unfinishedRoutes = new ArrayList<>();
+        this.trafficParticipant = trafficParticipant;
+        this.endingPoint = endingPoint;
+        generateRoute(startingPoint, priority, currentRoad);
     }
 
-    //TODO dodać do parametrów drogę, jeśli nie będzie nullem to startingRoad będzię tą drogą
+    private void generateRoute(Point startingPoint, String priority, Road currentRoad) throws Exception {
+        findRoutes(startingPoint, currentRoad);
+        chooseRoute(priority);
+    }
+
     //TODO dodanie trasy dla pieszego
     //TODO dodać zawracanie dla dwujezdniowej ze starting pointem
-    private void findRoutes(Point startingPoint, Point endingPoint, String trafficParticipant) {
+    private void findRoutes(Point startingPoint, Road currentRoad) throws Exception {
+        if(isTrafficParticipantACarClass()){
+            Road startingRoad = currentRoad;
+            if(startingRoad == null)
+                startingRoad = getStartingRoad(startingPoint);
+            addFirstRouteElement(startingRoad);
 
-        List<RouteElement> newRoute = new ArrayList<>();
-        List<List<RouteElement> > unfinishedRoutes = new ArrayList<>();
-        Road startingRoad = null;
-        for (ExitStartPoint exitStartPoint: Main.startingPoints) {
-            if(exitStartPoint.getPosition().equals(startingPoint)){
-                startingRoad = exitStartPoint.getRoad();
-                break;
-            }
+            while (unfinishedRoutes.size() > 0)
+                finishRoutes();
         }
-
-
-        for (Line line : startingRoad.getLines()) {
-            if(line.getNextCrossroad() != null){
-                newRoute.add(new RouteElement(startingRoad, line.getTrafficMovement()));
-                unfinishedRoutes.add(newRoute);
-                break;
-            }
-        }
-
-        while (unfinishedRoutes.size() > 0){
-            List<RouteElement> tempRoute;
-            tempRoute = unfinishedRoutes.get(0);
-
-            boolean isOneWay = false;
-            for (Line line : tempRoute.get(tempRoute.size() -1).getRoad().getLines() ) {
-                if(line.getTrafficMovement().equals(tempRoute.get(tempRoute.size() - 1).getDirection()) && !isOneWay){
-                    addNextRoad(line.getNextCrossroad(),tempRoute,unfinishedRoutes,endingPoint);
-                    isOneWay = tempRoute.get(tempRoute.size() -1).getRoad().getType().equals("1way") ? true : false;
-                }
-            }
-
-        }
-
     }
 
-    private void addNextRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute, List<List<RouteElement>> unfinishedRoutes, Point endingPoint) {
-        if(!addLastRoad(currentCrossroad,tempRoute,endingPoint)){
-            for (Road road :currentCrossroad.getRoads()) {
-                boolean isNewRoad = true;
-                for (RouteElement routeElement : tempRoute) {
-                    if(routeElement.getRoad().equals(road)){
-                        isNewRoad = false;
-                        break;
-                    }
-                }
-                if(!road.equals(tempRoute.get(tempRoute.size() - 1).getRoad()) && isNewRoad){
-                    if(!road.getLines().get(0).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))
-                            || !road.getLines().get(1).getTrafficMovement().equals(getOppositeDirection(tempRoute.get(tempRoute.size() -1).getDirection()))){
-                        boolean isCorrectRoad = false;
-                        String direction = "";
-                        for (Line line : road.getLines()) {
-                            if(line.getNextCrossroad() != null ){
-                                if(!line.getNextCrossroad().equals(currentCrossroad)) {
-                                    isCorrectRoad = true;
-                                    direction = line.getTrafficMovement();
-                                }
-                            }
-                        }
-                        if(isCorrectRoad){
-                            List<RouteElement> newRoute = new ArrayList<>();
-                            for (RouteElement routeElement :tempRoute) {
-                                newRoute.add(routeElement);
-                            }
-                            newRoute.add(new RouteElement(road,direction));
-                            unfinishedRoutes.add(newRoute);
-                        }
-                    }
-                }
+    private boolean isTrafficParticipantACarClass() {
+        return trafficParticipant.getClass().equals(Car.class);
+    }
+
+    private Road getStartingRoad(Point startingPoint) throws Exception {
+        for (ExitStartPoint exitStartPoint : Main.startingPoints) {
+            if (exitStartPoint.getPosition().equals(startingPoint))
+                return exitStartPoint.getRoad();
+        }
+        throw new Exception("No road for this startingPoint");
+    }
+
+    private void addFirstRouteElement(Road startingRoad) throws Exception {
+        for (Line line : startingRoad.getLines()) {
+            if (line.getNextCrossroad() != null) {
+                List<RouteElement> newRoute = new ArrayList<>();
+                newRoute.add(new RouteElement(startingRoad, line.getTrafficMovement()));
+                unfinishedRoutes.add(newRoute);
+                return;
+            }
+        }
+        throw new Exception("First road not added to unfinishedRoutes");
+    }
+
+    private void finishRoutes() throws Exception {
+        List<RouteElement> tempRoute;
+        tempRoute = unfinishedRoutes.get(0);
+        boolean isOneWay = false;
+        for (Line line : getLastRouteElement(tempRoute).getRoad().getLines()) {
+            if (isLineAndRouteDirectionEqual(line, getLastRouteElement(tempRoute)) && !isOneWay) {
+                addNextRoad(line.getNextCrossroad(), tempRoute);
+                isOneWay = getLastRouteElement(tempRoute).getRoad().getType().equals("1way");
             }
         }
         unfinishedRoutes.remove(0);
     }
 
-    private String getOppositeDirection(String direction) {
+    private boolean isLineAndRouteDirectionEqual(Line line, RouteElement routeElement) {
+        return line.getTrafficMovement().equals(routeElement.getDirection());
+    }
+
+    private void addNextRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
+        if(!isLastRoadAdded(currentCrossroad,tempRoute)){
+            for (Road road :currentCrossroad.getRoads())
+                tryAddingNewRoadToUnfinishedRoutes(currentCrossroad, tempRoute, road);
+        }
+    }
+
+    private boolean isLastRoadAdded(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
+        return tryAddingLastRoad(currentCrossroad, tempRoute);
+    }
+
+    private boolean tryAddingLastRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
+        if(currentCrossroad != null) {
+            for (Road road : currentCrossroad.getRoads()) {
+                if (isExitSpawnPointAnEndingPoint(road.getExitSpawnPoint()))
+                    return addLastRoad(currentCrossroad, tempRoute, road);
+            }
+        }
+        return false;
+    }
+
+    private boolean isExitSpawnPointAnEndingPoint(Point exitSpawnPoint) {
+        if(exitSpawnPoint != null) {
+            if (endingPoint.x == exitSpawnPoint.x) {
+                return endingPoint.y == exitSpawnPoint.y + 5 || endingPoint.y == exitSpawnPoint.y - 5;
+            } else if (endingPoint.y == exitSpawnPoint.y) {
+                return endingPoint.x == exitSpawnPoint.x + 5 || endingPoint.x == exitSpawnPoint.x - 5;
+            }
+        }
+        return false;
+    }
+
+    private boolean addLastRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute, Road road) throws Exception {
+        String direction = getDirection(currentCrossroad, road);
+        tempRoute.add(new RouteElement(road, direction));
+        routes.add(tempRoute);
+        return true;
+    }
+
+    private String getDirection(Crossroad currentCrossroad, Road road) throws Exception {
+        for (Line line : road.getLines())
+            if(isLineDirectionCorrect(currentCrossroad, line))
+                return line.getTrafficMovement();
+        throw new Exception("None of the lines is in correct direction, wrong road");
+    }
+
+    private boolean isLineDirectionCorrect(Crossroad currentCrossroad, Line line) {
+        if (line.getNextCrossroad() != null) {
+            return !line.getNextCrossroad().equals(currentCrossroad);
+        } else {
+            return true;
+        }
+    }
+
+    private void tryAddingNewRoadToUnfinishedRoutes(Crossroad currentCrossroad, List<RouteElement> tempRoute, Road road) throws Exception {
+        boolean isNewRoad = isNewRoad(tempRoute, road);
+        if(isNewRoad){
+            if(!isNewRoadTurningBack(getLastRouteElement(tempRoute), road)){
+                boolean isCorrectRoad = false;
+                String direction = "";
+                for (Line line : road.getLines()) {
+                    if(line.getNextCrossroad() != null ){
+                        if(!line.getNextCrossroad().equals(currentCrossroad)) {
+                            isCorrectRoad = true;
+                            direction = line.getTrafficMovement();
+                        }
+                    }
+                }
+                if(isCorrectRoad){
+                    List<RouteElement> newRoute = new ArrayList<>(tempRoute);
+                    newRoute.add(new RouteElement(road,direction));
+                    unfinishedRoutes.add(newRoute);
+                }
+            }
+        }
+    }
+
+    private boolean isNewRoad(List<RouteElement> tempRoute, Road road) {
+        for (RouteElement routeElement : tempRoute) {
+            if(isRoadsEquals(routeElement.getRoad(), road))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isRoadsEquals(Road roadFromRoute, Road road) {
+        return roadFromRoute.equals(road);
+    }
+
+    private boolean isNewRoadTurningBack(RouteElement routeElement, Road road) throws Exception {
+        for(Line line : road.getLines()) {
+            if(!isLineTurningBack(routeElement, line))
+                return false;
+        }
+        return true;
+    }
+
+    private boolean isLineTurningBack(RouteElement routeElement, Line line) throws Exception {
+        return line.getTrafficMovement().equals(getOppositeDirection(routeElement.getDirection()));
+    }
+
+    private String getOppositeDirection(String direction) throws Exception {
         switch(direction){
             case "N": return "S";
             case "E": return "W";
             case "S": return "N";
             case "W": return "E";
-            default: return "";
+            default: throw new Exception("Wrong direction, use [N,E,S,W]");
         }
-
     }
 
-    private boolean addLastRoad(Crossroad nextCrossroad, List<RouteElement> tempRoute, Point endingPoint) {
-        if(nextCrossroad != null) {
-            for (Road road : nextCrossroad.getRoads()) {
-                if (comparePoints(road.getExitSpawnPoint(), endingPoint)) {
-                    String direction = "";
-                    for (Line line : road.getLines()) {
-                        if(line.getNextCrossroad() != null) {
-                            if (!line.getNextCrossroad().equals(nextCrossroad)) {
-                                direction = line.getTrafficMovement();
-                            }
-                        } else {
-                            direction = line.getTrafficMovement();
-                        }
-                    }
-                    tempRoute.add(new RouteElement(road, direction));
-                    routes.add(tempRoute);
-                    return true;
-                }
-            }
-        }
-        return false;
+    private RouteElement getLastRouteElement(List<RouteElement> routeElementList) {
+        return routeElementList.get(routeElementList.size() - 1);
     }
-
-    private boolean comparePoints(Point exitSpawnPoint, Point endingPoint) {
-        if(exitSpawnPoint != null) {
-            if (endingPoint.x == exitSpawnPoint.x) {
-                if (endingPoint.y == exitSpawnPoint.y + 5 || endingPoint.y == exitSpawnPoint.y - 5) return true;
-            } else if (endingPoint.y == exitSpawnPoint.y) {
-                if (endingPoint.x == exitSpawnPoint.x + 5 || endingPoint.x == exitSpawnPoint.x - 5) return true;
-            }
-        }
-        return false;
-    }
-
 
     private void chooseRoute(String priority) {
-        for (List<RouteElement> route: routes) {
-            if(this.route.size() == 0 || this.route.size() > route.size()){
-                this.route = route;
-            }
+        if(priority == null) {
+            Random random = new Random();
+            this.route = routes.get(random.nextInt(routes.size()));
         }
-
     }
 
-    public void generateRoute(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant, String priority) {
-        if(trafficParticipant.getClass() == Pedestrian.class) {
-            findRoutes(startingPoint, endingPoint, "pedestrian");
-        }else {
-            findRoutes(startingPoint, endingPoint, "car");
-        }
-        chooseRoute(priority);
-
-    }
-
-    public List<RouteElement> getRoute() {
+    List<RouteElement> getRoute() {
         return route;
-    }
-
-    public List<Crossroad> getCrossroads() {
-        return crossroads;
     }
 }

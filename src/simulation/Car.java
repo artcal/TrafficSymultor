@@ -12,7 +12,7 @@ public class Car extends TrafficParticipant{
     private int driverBehavior; // od -10% do 10%
 
     public Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
-               int downturn,int maxSpeed, int weight) {
+               int downturn,int maxSpeed, int weight) throws Exception {
         super(name, startingPoint, endingPoint, isSafe);
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;

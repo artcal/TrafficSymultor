@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main extends Application {
 
     static List<ExitStartPoint> exitPoints,startingPoints;
     private static Initialize intialize;
-
+    private List<Car> cars;
+    private List<Pedestrian> pedestrians;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -24,6 +26,8 @@ public class Main extends Application {
         primaryStage.show();
 
         generateExitSpawnPoints();
+        cars = new ArrayList<>();
+        pedestrians = new ArrayList<>();
     }
 
     static void generateExitSpawnPoints() {
@@ -122,9 +126,19 @@ public class Main extends Application {
         }
     }
 
+    private void initializeCars(int quantity) throws Exception{
+        Random random = new Random();
+
+        for (int i = 0; i < quantity; i++)
+            cars.add(new Car("Car"+ i, startingPoints.get(random.nextInt(startingPoints.size())).getPosition(),
+                    exitPoints.get(random.nextInt(exitPoints.size())).getPosition(), true,
+                    random.nextInt(5)+2, 50));
+
+    }
+
 
     public static void main(String[] args) {
-        launch(args);
+       launch(args);
     }
 }
 

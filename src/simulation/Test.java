@@ -1,35 +1,36 @@
 package simulation;
 
+import javax.xml.bind.Marshaller;
 import java.awt.*;
-import java.util.HashMap;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.EventListener;
 import java.util.Map;
 import java.util.Random;
 
 // do terstowania co nam potrzeba
-public class Test {
+public class Test implements PropertyChangeListener{
+
+    int temp;
+
+    public Test(int temp) {
+        this.temp = temp;
+    }
 
     public static void main(String[] args) throws Exception {
 
         Random rand = new Random();
         //Main main = new Main();
-        Main.generateExitSpawnPoints();
-        Car car = new Car("mk_1",Main.startingPoints.get(0).getPosition(),Main.exitPoints.get(13).getPosition(),true,
-                10,5,50,10);
-
-        for (RouteElement routeElement : car.getRoute().getRoute()) {
-            System.out.println(routeElement.getDirection());
-        }
-
-//        Car car = new Car("mk_1",Main.startingPoints.get(rand.nextInt(16)).getPosition(),Main.exitPoints.get(rand.nextInt(16)).getPosition(),true,
-//                10,5,50,10);
-
-//        for (ExitStartPoint exitStartPoint :Main.exitPoints) {
-//            System.out.println(exitStartPoint.getPosition().x+"\t" + exitStartPoint.getPosition().y);
+//        Main.generateExitSpawnPoints();
+//        Car car = new Car("mk_1",Main.startingPoints.get(0).getPosition(),Main.exitPoints.get(13).getPosition(),true,
+//                10,50);
 //
+//        for (RouteElement routeElement : car.getRoute().getRoute()) {
+//            System.out.println(routeElement.getDirection());
 //        }
-//        System.out.println(Main.startingPoints);
-//        System.out.println("--------");
-//        System.out.println(Main.exitPoints);
+        Test test = new Test(1);
+        test.propertyChange(new PropertyChangeEvent());
+
 
 
 
@@ -51,4 +52,8 @@ public class Test {
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+
+    }
 }

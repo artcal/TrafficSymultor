@@ -10,7 +10,7 @@ public class TrafficParticipant {
     protected Point startingPoint;
     protected Point endingPoint;
     protected Point position;
-    protected Route route;
+    protected List<RouteElement> route;
     protected boolean isSafe;
     protected Road road;
     protected Line line;
@@ -32,8 +32,9 @@ public class TrafficParticipant {
     }
 
     protected void generateRoute() throws Exception {
-        route = new Route(startingPoint,endingPoint,this,null, road);
-        road = route.getRoute().get(0).getRoad();
+        route = new Route(startingPoint,endingPoint,this,null, road).getRoute();
+        road = route.get(0).getRoad();
+        route.remove(0);
         for (Line line : road.getLines()) {
             if(line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint)){
                 this.line = line;
@@ -79,7 +80,7 @@ public class TrafficParticipant {
         return position;
     }
 
-    public Route getRoute() {
+    public List<RouteElement> getRoute() {
         return route;
     }
 

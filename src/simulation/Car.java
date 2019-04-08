@@ -2,7 +2,7 @@ package simulation;
 
 import java.awt.*;
 
-public class Car extends TrafficParticipant{
+public class Car extends TrafficParticipant implements RoadChange{
 
     private int acceleration;
     private int downturn;
@@ -10,6 +10,8 @@ public class Car extends TrafficParticipant{
     private int speed = 0;
     private int driverBehavior; // od -10% do 10%
     private int distance = 0;
+    private Line nextLine;
+    private Point turningPoint;
 
     public Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
                int maxSpeed) throws Exception {
@@ -35,6 +37,7 @@ public class Car extends TrafficParticipant{
     }
 
     private void changeDirection(){
+
 
     }
 
@@ -100,4 +103,74 @@ public class Car extends TrafficParticipant{
         return -1;
     }
 
+    @Override
+    public void onRoadChange() {
+        if (road.getType().equals("1way")) {
+            if (route.size() > 0)
+                if (!isLineOk()) {
+                    changeLine();
+                    isLineOk();
+                }
+            else {
+                int correctLineId = getCorrectLineId();
+                if (correctLineId >= 0) {
+                    if (!road.getLines().get(correctLineId).equals(line))
+                        changeLine();
+                } else
+                    if (!road.getLines().get(0).equals(line)) {
+                        changeLine();
+                }
+            }
+        }
+    }
+
+    private int getCorrectLineId() {
+        for (Line line :road.getLines()) {
+            if(line.getEnd().equals(endingPoint) || line.getStart().equals(endingPoint)) {
+                return road.getLines().indexOf(line);
+            }
+        }
+        return -1;
+    }
+
+    private boolean isLineOk() {
+        for (Line line : line.getNextCrossroad().getHowToGo(line)) {
+            if(route.get(0).getRoad().getLines().get(0).equals(line)) {
+                setNextLine(line);
+                return true;
+            }
+            if(route.get(0).getRoad().getLines().get(1).equals(line)) {
+                setNextLine(line);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setRoadAndLine(Road road, Line line){
+        this.road = road;
+        this.line = line;
+        onRoadChange();
+    }
+
+    private void setNextLine(Line nextLine) {
+        this.nextLine = nextLine;
+        setTurningPoint();
+    }
+
+    private void setTurningPoint() {
+        if(line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S")) {
+            if(route.get(0).getDirection().equals("W") || route.get(0).getDirection().equals("E")){
+                turningPoint = new Point(line.getEnd().x,nextLine.getEnd().y);
+            }else{
+                turningPoint = new Point(line.getEnd().x, line.getNextCrossroad().getPosition().y);
+            }
+        }else{
+            if(nextLine.getTrafficMovement().equals("N") || nextLine.getTrafficMovement().equals("S")){
+                turningPoint = new Point(nextLine.getEnd().x, line.getEnd().y);
+            }else{
+                turningPoint = new Point(line.getNextCrossroad().getPosition().x, line.getEnd().y);
+            }
+        }
+    }
 }

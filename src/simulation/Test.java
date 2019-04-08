@@ -29,7 +29,7 @@ public class Test implements PropertyChangeListener{
 //            System.out.println(routeElement.getDirection());
 //        }
         Test test = new Test(1);
-        test.propertyChange(new PropertyChangeEvent());
+       // test.propertyChange(new PropertyChangeEvent());
 
 
 

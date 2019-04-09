@@ -7,6 +7,11 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+sourceSets.main.java.srcDirs = ['src']
+
+apply plugin: 'application'
+mainClassName = "simulation.Main"
+
 repositories {
     mavenCentral()
 }
@@ -16,9 +21,4 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-controls', version: '13-ea+1'
     implementation group: 'org.openjfx', name: 'javafx-base', version: '13-ea+1'
     compile files('lib/jfxrt.jar')
-
 }
-
-sourceSets.main.java.srcDirs = ['src']
-
-//mainClassName = "simulation.Main"

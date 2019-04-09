@@ -60,14 +60,11 @@ public class TrafficParticipant {
     protected void changeRoute(){}
 
     protected void checkTraffic(List<TrafficParticipant> trafficParticipants){
-        for (TrafficParticipant trafficParticipant : trafficParticipants) {
-            if(!trafficParticipant.equals(this)){
+        for (TrafficParticipant trafficParticipant : trafficParticipants)
+            if(!trafficParticipant.equals(this))
                 if(trafficParticipant.line.equals(this.line)){
 
                 }
-            }
-
-        }
     }
 
     protected boolean checkTrafficLights(){return true;}
@@ -87,7 +84,4 @@ public class TrafficParticipant {
     public boolean isSafe() {
         return isSafe;
     }
-
-
-
 }

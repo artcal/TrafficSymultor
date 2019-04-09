@@ -1,10 +1,8 @@
 package simulation;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.awt.Point;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class Crossroad {
 
@@ -17,7 +15,7 @@ public class Crossroad {
     private List<Line> entrances, exits;
     private int size;
 
-    public Crossroad(List<Road> roads, List<StreetLights> streetLights, Point position, int size) {
+    Crossroad(List<Road> roads, List<StreetLights> streetLights, Point position, int size) {
         this.roads = roads;
         this.streetLights = streetLights;
         this.position = position;
@@ -27,11 +25,11 @@ public class Crossroad {
         this.howToGo = new HashMap<>();
     }
 
-    public void addHowToGo(Line from, Line[] to){
+    void addHowToGo(Line from, Line[] to){
         howToGo.put(from, to);
     }
 
-    public Line[] getHowToGo(Line line) {
+    Line[] getHowToGo(Line line) {
         return howToGo.get(line);
     }
 
@@ -39,25 +37,19 @@ public class Crossroad {
         return entrances;
     }
 
-    public void setEntrances(Line[] entrances) {
-
-        for(Line line: entrances){
-            this.entrances.add(line);
-        }
+    void setEntrances(Line[] entrances) {
+        this.entrances.addAll(Arrays.asList(entrances));
     }
 
     public List<Line> getExits() {
         return exits;
     }
 
-    public void setExits(Line[] exits) {
-
-        for(Line line: exits){
-            this.exits.add(line);
-        }
+    void setExits(Line[] exits) {
+        this.exits.addAll(Arrays.asList(exits));
     }
 
-    public void addNextCrossroads(Crossroad... crossroads){
+    void addNextCrossroads(Crossroad... crossroads){
         this.N = crossroads[0];
         this.E = crossroads[1];
         this.S = crossroads[2];
@@ -81,7 +73,7 @@ public class Crossroad {
     }
 
 
-    public List<Road> getRoads() {
+    List<Road> getRoads() {
         return roads;
     }
 
@@ -93,7 +85,7 @@ public class Crossroad {
         return type;
     }
 
-    public Point getPosition() {
+    Point getPosition() {
         return position;
     }
 }

@@ -1,5 +1,3 @@
-import sun.tools.jar.Main
-
 plugins {
     id 'java'
 }
@@ -21,16 +19,6 @@ dependencies {
 
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-    }
+sourceSets.main.java.srcDirs = ['src']
 
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-    }
-}
+//mainClassName = "simulation.Main"

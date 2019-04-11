@@ -17,9 +17,9 @@ public class Test implements PropertyChangeListener{
 
         Random rand = new Random();
         //Main main = new Main();
-        Main.generateExitSpawnPoints();
-        Car car = new Car("mk_1",Main.startingPoints.get(0).getPosition(),Main.exitPoints.get(13).getPosition(),true,
-                10,50);
+//        Main.generateExitSpawnPoints();
+//        Car car = new Car("mk_1",Main.startingPoints.get(0).getPosition(),Main.exitPoints.get(13).getPosition(),true,
+//                10,50);
 
 //
 //        for (RouteElement routeElement : car.getRoute().getRoute()) {

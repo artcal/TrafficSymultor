@@ -85,7 +85,7 @@ class Route {
 
     private void addNextRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
         if(!isLastRoadAdded(currentCrossroad,tempRoute)){
-            for (Road road :currentCrossroad.getRoads())
+            for (Road road : currentCrossroad.getRoads())
                 tryAddingNewRoadToUnfinishedRoutes(currentCrossroad, tempRoute, road);
         }
     }

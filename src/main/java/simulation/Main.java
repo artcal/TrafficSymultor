@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,29 +15,34 @@ import java.util.Random;
 public class Main extends Application {
 
     static List<ExitStartPoint> exitPoints,startingPoints;
-    private static Initialize intialize;
+    private Initialize initialize;
     private List<Car> cars;
     private List<Pedestrian> pedestrians;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        URL resource = getClass().getClassLoader().getResource("symulation_window.fxml"); // FIXME handle null
-        Parent root = FXMLLoader.load(resource);
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.show();
+    public void start(Stage primaryStage) throws Exception {
+        URL resource = getClass().getClassLoader().getResource("simulation_window.fxml");
+        if(resource != null) {
+            Parent root = FXMLLoader.load(resource);
+            primaryStage.setTitle("Traffic simulator");
+            primaryStage.setScene(new Scene(root, 1000, 600));
+            primaryStage.show();
+        } else {
+            throw new Exception("No FXML resource");
+        }
 
         generateExitSpawnPoints();
         cars = new ArrayList<>();
         pedestrians = new ArrayList<>();
+        initializeCars(30);
     }
 
-    static void generateExitSpawnPoints() {
+    private void generateExitSpawnPoints() {
         exitPoints = new ArrayList<>();
         startingPoints = new ArrayList<>();
 
-        intialize = new Initialize();
-        List<Road> roads = intialize.getRoads();
+        initialize = new Initialize();
+        List<Road> roads = Initialize.getRoads();
         Point point;
 
         for(Road road: roads){
@@ -103,6 +107,9 @@ public class Main extends Application {
                         else if(point.y == 800){
                             startingPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
                             exitPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                        } else {
+                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
+                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
                         }
                     }
                 } else {
@@ -129,16 +136,20 @@ public class Main extends Application {
         }
     }
 
-    private void initializeCars(int quantity) throws Exception{
+    private void initializeCars(int quantity) throws Exception {
         Random random = new Random();
 
-        for (int i = 0; i < quantity; i++)
-            cars.add(new Car("Car"+ i, startingPoints.get(random.nextInt(startingPoints.size())).getPosition(),
-                    exitPoints.get(random.nextInt(exitPoints.size())).getPosition(), true,
-                    random.nextInt(5)+2, 50));
-
+        for (int i = 0; i < quantity; i++) {
+            int startingPointIndex = random.nextInt(startingPoints.size());
+            int exitPointIndex;
+            //noinspection StatementWithEmptyBody
+            while ((exitPointIndex = random.nextInt(exitPoints.size())) == startingPointIndex)
+                ;
+            cars.add(new Car("Car" + i, startingPoints.get(startingPointIndex).getPosition(),
+                    exitPoints.get(exitPointIndex).getPosition(), true,
+                    random.nextInt(5) + 2, 50));
+        }
     }
-
 
     public static void main(String[] args) {
        launch(args);

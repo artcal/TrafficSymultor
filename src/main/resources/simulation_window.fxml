@@ -21,7 +21,8 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="simulation.Controller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -89,11 +90,11 @@
                   <Slider layoutX="27.0" layoutY="123.0" prefHeight="26.0" prefWidth="140.0" />
           </children>
         </AnchorPane>
-        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+        <ScrollPane prefHeight="530" prefWidth="1000" maxHeight="650" maxWidth="1300">
           <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="400" prefWidth="650">
                      <children>
-                        <ImageView fitHeight="544.0" fitWidth="430.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.6000000000000227" AnchorPane.leftAnchor="0.4000000000000341" AnchorPane.rightAnchor="0.39999999999997726" AnchorPane.topAnchor="1.0" />
+                        <ImageView fx:id="imageView" fitHeight="530" fitWidth="1000" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                      </children>
             </AnchorPane>
           </content>
@@ -102,7 +103,7 @@
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Statystyki" textAlignment="CENTER" textFill="$x2" wrapText="false" />
                   <Label layoutX="14.0" layoutY="52.0" text="Logi" />
-                  <TextArea layoutX="11.0" layoutY="70.0" prefHeight="394.0" prefWidth="200.0" />
+                  <TextArea fx:id="logs" layoutX="11.0" layoutY="70.0" prefHeight="394.0" prefWidth="200.0" />
                   <Button layoutX="5.0" layoutY="494.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="213.0" text="Pokaż raport" />
           </children>
         </AnchorPane>

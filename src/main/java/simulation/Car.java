@@ -1,5 +1,6 @@
 package simulation;
 
+import javax.swing.text.html.ImageView;
 import java.awt.*;
 
 public class Car extends TrafficParticipant implements RoadChange{
@@ -10,12 +11,11 @@ public class Car extends TrafficParticipant implements RoadChange{
     private int speed = 0;
     private int driverBehavior; // od -10% do 10%
     private int distance = 0;
-    private Line nextLine;
     private Point turningPoint;
 
     public Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
                int maxSpeed) throws Exception {
-        super(name, startingPoint, endingPoint, isSafe);
+        super(name, startingPoint, endingPoint, isSafe,"car.png");
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;
         this.downturn = 2 * acceleration;

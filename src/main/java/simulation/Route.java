@@ -47,7 +47,7 @@ class Route {
     }
 
     private Road getStartingRoad(Point startingPoint) throws Exception {
-        for (ExitStartPoint exitStartPoint : Main.startingPoints) {
+        for (ExitStartPoint exitStartPoint : Controller.startingPoints) {
             if (exitStartPoint.getPosition().equals(startingPoint))
                 return exitStartPoint.getRoad();
         }

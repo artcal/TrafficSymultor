@@ -65,7 +65,7 @@
     </MenuBar>
     <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane>
+        <AnchorPane maxWidth="70">
           <children>
             <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Opcje symulacji" textAlignment="CENTER" wrapText="false">
               <font>
@@ -90,16 +90,16 @@
                   <Slider layoutX="27.0" layoutY="123.0" prefHeight="26.0" prefWidth="140.0" />
           </children>
         </AnchorPane>
-        <ScrollPane prefHeight="530" prefWidth="1000" maxHeight="650" maxWidth="1300">
+        <ScrollPane prefHeight="820" prefWidth="1300" maxHeight="820" >
           <content>
-            <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="400" prefWidth="650">
+            <AnchorPane fx:id="content" minHeight="-1.0" minWidth="-1.0" prefHeight="800" prefWidth="1300">
                      <children>
-                        <ImageView fx:id="imageView" fitHeight="530" fitWidth="1000" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
+                        <ImageView fx:id="imageView" fitHeight="800" fitWidth="1300" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0" />
                      </children>
             </AnchorPane>
           </content>
         </ScrollPane>
-        <AnchorPane>
+        <AnchorPane maxWidth="75" >
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Statystyki" textAlignment="CENTER" textFill="$x2" wrapText="false" />
                   <Label layoutX="14.0" layoutY="52.0" text="Logi" />

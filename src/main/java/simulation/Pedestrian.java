@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Pedestrian extends TrafficParticipant {
 
-    public Pedestrian(String name, Point startingPoint, Point endingPoint, boolean isSafe) {
-        super(name, startingPoint, endingPoint, isSafe);
+    public Pedestrian(String name, Point startingPoint, Point endingPoint, boolean isSafe) throws Exception {
+        super(name, startingPoint, endingPoint, isSafe, null);
     }
 
     @Override

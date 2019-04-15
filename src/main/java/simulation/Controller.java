@@ -3,6 +3,7 @@ package simulation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -18,15 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
 
     private Image simulationMap;
     static List<ExitStartPoint> exitPoints, startingPoints;
     private Initialize initialize;
-    private List<Car> cars;
+    private static List<Car> cars;
     private List<Pedestrian> pedestrians;
-    private boolean isSimulationStopped;
+    private static boolean isSimulationStopped;
+    static boolean isCycleFinished, isNextCycleReady;
 
     @FXML
     private ImageView imageView;
@@ -158,6 +161,8 @@ public class Controller implements Initializable {
 
     public void startSimulation(ActionEvent actionEvent) {
         isSimulationStopped = false;
+        isCycleFinished = false;
+        isNextCycleReady = true;
         int carsQuantity = 1;
         try {
             if (!tCarsQuantity.getText().equals(""))
@@ -192,17 +197,25 @@ public class Controller implements Initializable {
 
     public void stopSimulation(ActionEvent actionEvent) {
         isSimulationStopped = true;
-        for(Car car : cars)
-            content.getChildren().remove(car.trafficParticipantImageView);
+        for(Car car : cars) {
+            List<Node> nodes = new ArrayList<>();
+            nodes.add(content.getChildren().get(0));
+            content.getChildren().removeAll(content.getChildren());
+            content.getChildren().add(nodes.get(0));
+        }
         cars.removeAll(cars);
     }
 
-    private void runSimulation() {
-        //while (!isSimulationStopped) {
-        for(int i = 0; i < 300; i++) {
+    static void runSimulation() {
+        while(isNextCycleReady && !isSimulationStopped){
+            isNextCycleReady = false;
+            Reminder.main(new String[]{"100"});
             cars.stream().forEach(car -> car.accelerate());
             cars.stream().forEach(car -> car.move());
+           // content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car -> car.getTrafficParticipantImageView()).collect(Collectors.toList()));
+            cars.removeAll(cars.stream().filter(car -> car.isEndReached()).collect(Collectors.toList()));
             cars.stream().forEach(car -> car.setImagePosition());
+            isCycleFinished = true;
         }
     }
 }

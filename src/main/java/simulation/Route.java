@@ -96,7 +96,7 @@ class Route {
     private boolean tryAddingLastRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
         if (currentCrossroad != null)
             for (Road road : currentCrossroad.getRoads())
-                if (isExitSpawnPointAnEndingPoint(road.getExitSpawnPoint()))
+                if (isExitSpawnPointAnEndingPoint(road.getExitSpawnPoint()) && !isNewRoadTurningBack(getLastRouteElement(tempRoute),road))
                     return addLastRoad(currentCrossroad, tempRoute, road);
         return false;
     }

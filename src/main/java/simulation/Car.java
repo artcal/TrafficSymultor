@@ -23,7 +23,7 @@ public class Car extends TrafficParticipant implements RoadChange{
         this.line = getStartingLine(road);
         route.remove(0);
         this.position = setStartingPosition();
-        isLineOk();
+        onRoadChange();
         imageOrientation();
         setImagePosition();
     }
@@ -89,14 +89,14 @@ public class Car extends TrafficParticipant implements RoadChange{
         }
         distance %= 50;
         if(route.size() > 0) {
-            if (isTurningPointReached()) {
+            if (isPointReached(turningPoint)) {
                 Road road = route.get(0).getRoad();
                 route.remove(0);
                 setRoadAndLine(road, nextLine);
                 imageOrientation();
                 correctPositionPoint();
             }
-        } else if(position.equals(endingPoint)) {
+        } else if(isPointReached(endingPoint)) {
             isEndReached = true;
         }
     }
@@ -110,19 +110,19 @@ public class Car extends TrafficParticipant implements RoadChange{
                 position.y = line.getEnd().y;
     }
 
-    private boolean isTurningPointReached() {
-        if(position.equals(turningPoint))
+    private boolean isPointReached(Point point) {
+        if(position.equals(point))
             return true;
         else
             switch (line.getTrafficMovement()){
                 case "N":
-                    return position.y == turningPoint.y - 1;
+                    return position.y == point.y - 1;
                 case "E":
-                    return position.x == turningPoint.x + 1;
+                    return position.x == point.x + 1;
                 case "S":
-                    return position.y == turningPoint.y + 1;
+                    return position.y == point.y + 1;
                 case "W":
-                    return position.x == turningPoint.x - 1;
+                    return position.x == point.x - 1;
                 default:
                     return false;
             }

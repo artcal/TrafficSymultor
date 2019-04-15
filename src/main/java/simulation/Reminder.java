@@ -8,20 +8,22 @@ import java.util.TimerTask;
 public class Reminder {
     private Timer timer;
 
-    private Reminder(int seconds) {
+    private Reminder(int time) {
         timer = new Timer();
-        timer.schedule(new RemindTask(), seconds*1000);
+        timer.schedule(new RemindTask(), time);
     }
 
     class RemindTask extends TimerTask {
         public void run() {
-            System.out.format("Time's up!%n");
             timer.cancel();
+            Controller.isNextCycleReady = true;
+            if(Controller.isCycleFinished){
+                Controller.runSimulation();
+            }
         }
     }
 
     public static void main(String[] args) {
-        new Reminder(5);
-        System.out.format("Task scheduled.%n");
+        new Reminder(Integer.parseInt(args[0]));
     }
 }

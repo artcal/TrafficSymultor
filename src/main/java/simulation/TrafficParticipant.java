@@ -101,4 +101,8 @@ public class TrafficParticipant {
     public Point getStartingPoint() {
         return startingPoint;
     }
+
+    public boolean isEndReached() {
+        return isEndReached;
+    }
 }

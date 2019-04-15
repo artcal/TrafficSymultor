@@ -15,11 +15,10 @@ import java.util.Random;
 public class Main extends Application {
 
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL resource = getClass().getClassLoader().getResource("simulation_window.fxml");
-        if(resource != null) {
+        if (resource != null) {
             Parent root = FXMLLoader.load(resource);
             primaryStage.setTitle("Traffic simulator");
             primaryStage.setScene(new Scene(root, 1000, 600));
@@ -27,13 +26,10 @@ public class Main extends Application {
         } else {
             throw new Exception("No FXML resource");
         }
-
-
     }
 
-
     public static void main(String[] args) {
-       launch(args);
+        launch(args);
     }
 }
 

@@ -76,17 +76,17 @@
               </textFill>
             </Label>
                   <CheckBox layoutX="25.0" layoutY="60.0" mnemonicParsing="false" text="Tryb bezpieczny" />
-                  <Label layoutX="25.0" layoutY="155.0" text="Natężenie ruchu" />
+                  <Label layoutX="25.0" layoutY="155.0" text="Ilość pojazdów" />
                   <Label layoutX="25.0" layoutY="208.0" text="Ilość pieszych" />
                   <Label layoutX="25.0" layoutY="257.0" text="Czas symulacji" />
                   <Label layoutX="25.0" layoutY="308.0" text="Szybkość symulacji" />
                   <Label layoutX="26.0" layoutY="97.0" text="Poziom zagrożnia" />
-                  <TextField layoutX="25.0" layoutY="173.0" />
+                  <TextField fx:id="tCarsQuantity" layoutX="25.0" layoutY="173.0"/>
                   <TextField layoutX="25.0" layoutY="226.0" />
                   <TextField layoutX="25.0" layoutY="275.0" />
                   <Slider layoutX="27.0" layoutY="331.0" prefHeight="22.0" prefWidth="140.0" />
-                  <Button layoutX="4.0" layoutY="502.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Start" />
-                  <Button layoutX="112.0" layoutY="502.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Stop" />
+                  <Button fx:id="bStart" onAction="#startSimulation" layoutX="4.0" layoutY="502.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Start" />
+                  <Button fx:id="bStop" onAction="#stopSimulation" layoutX="112.0" layoutY="502.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="108.0" text="Stop" />
                   <Slider layoutX="27.0" layoutY="123.0" prefHeight="26.0" prefWidth="140.0" />
           </children>
         </AnchorPane>

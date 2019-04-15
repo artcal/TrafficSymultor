@@ -1,6 +1,5 @@
 package simulation;
 
-import javax.swing.text.html.ImageView;
 import java.awt.*;
 
 public class Car extends TrafficParticipant implements RoadChange{
@@ -13,16 +12,52 @@ public class Car extends TrafficParticipant implements RoadChange{
     private int distance = 0;
     private Point turningPoint;
 
-    public Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
+    Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
                int maxSpeed) throws Exception {
         super(name, startingPoint, endingPoint, isSafe,"car.png");
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;
         this.downturn = 2 * acceleration;
         generateRoute();
+        this.road = route.get(0).getRoad();
+        this.line = getStartingLine(road);
+        route.remove(0);
+        this.position = setStartingPosition();
+        isLineOk();
+        imageOrientation();
+        setImagePosition();
     }
 
-    private void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1
+    private Line getStartingLine(Road road) throws Exception {
+        for (Line line : road.getLines()) {
+            if (line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint))
+                return line;
+            else if (line.getTrafficMovement().equals(route.get(0).getDirection()))
+                return line;
+        }
+        throw new Exception("Cannot generate starting road");
+    }
+
+    private Point setStartingPosition() {
+        if(startingPoint.equals(line.getEnd()) || startingPoint.equals(line.getStart()))
+            return startingPoint;
+        else if(line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S"))
+            return new Point(line.getEnd().x, startingPoint.y);
+        else
+            return new Point(startingPoint.x, line.getEnd().y);
+    }
+
+    void setImagePosition() {
+        if((int)trafficParticipantImageView.getRotate() == 0 || (int)trafficParticipantImageView.getRotate() == 180){
+            trafficParticipantImageView.setX(position.x - 5);
+            trafficParticipantImageView.setY(position.y - 3);
+        }else{
+            trafficParticipantImageView.setX(position.x - 3);
+            trafficParticipantImageView.setY(position.y - 5);
+        }
+    }
+
+    void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1
         if(speed < 20) speed += 3*acceleration;
         else if(speed < 40) speed += 2*acceleration;
         else if(speed < maxSpeed + maxSpeed*driverBehavior/100)
@@ -36,37 +71,67 @@ public class Car extends TrafficParticipant implements RoadChange{
         }
     }
 
-    private void changeDirection(){
-
-
-    }
-
-    public void move() {
+    void move() {
         distance += speed;
         switch(line.getTrafficMovement()) {
             case "N":
-                position = new Point(position.x, position.y + distance/5);
+                position = new Point(position.x, position.y - distance/50);
                 break;
             case "E":
-                position = new Point(position.x + distance/5, position.y);
+                position = new Point(position.x + distance/50, position.y);
                 break;
             case "S":
-                position = new Point(position.x, position.y - distance/5);
+                position = new Point(position.x, position.y + distance/50);
                 break;
             case "W":
-                position = new Point(position.x - distance/5, position.y);
+                position = new Point(position.x - distance/50, position.y);
                 break;
         }
-        distance %= 5;
+        distance %= 50;
+        if(route.size() > 0) {
+            if (isTurningPointReached()) {
+                Road road = route.get(0).getRoad();
+                route.remove(0);
+                setRoadAndLine(road, nextLine);
+                imageOrientation();
+                correctPositionPoint();
+            }
+        } else if(position.equals(endingPoint)) {
+            isEndReached = true;
+        }
     }
 
+    private void correctPositionPoint() {
+        if(line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S")) {
+            if(position.x != line.getEnd().x)
+                position.x = line.getEnd().x;
+        } else
+            if(position.y != line.getEnd().y)
+                position.y = line.getEnd().y;
+    }
 
+    private boolean isTurningPointReached() {
+        if(position.equals(turningPoint))
+            return true;
+        else
+            switch (line.getTrafficMovement()){
+                case "N":
+                    return position.y == turningPoint.y - 1;
+                case "E":
+                    return position.x == turningPoint.x + 1;
+                case "S":
+                    return position.y == turningPoint.y + 1;
+                case "W":
+                    return position.x == turningPoint.x - 1;
+                default:
+                    return false;
+            }
+    }
 
     private void changeLine(){
         if(road.getType().equals("1way")){
             change();
         }
-
     }
 
     private void change() {
@@ -83,7 +148,6 @@ public class Car extends TrafficParticipant implements RoadChange{
         if(road.getType().equals("2way")){
             change();
         }
-
     }
 
     private void checkDistanceToCar(){
@@ -105,21 +169,18 @@ public class Car extends TrafficParticipant implements RoadChange{
 
     @Override
     public void onRoadChange() {
-        if (road.getType().equals("1way")) {
-            if (route.size() > 0)
-                if (!isLineOk()) {
+        if (route.size() > 0)
+            if (!isLineOk()) {
+                changeLine();
+                isLineOk();
+            }
+        else {
+            int correctLineId = getCorrectLineId();
+            if (correctLineId >= 0) {
+                if (!road.getLines().get(correctLineId).equals(line))
                     changeLine();
-                    isLineOk();
-                }
-            else {
-                int correctLineId = getCorrectLineId();
-                if (correctLineId >= 0) {
-                    if (!road.getLines().get(correctLineId).equals(line))
-                        changeLine();
-                } else
-                    if (!road.getLines().get(0).equals(line)) {
-                        changeLine();
-                }
+            } else if (!road.getLines().get(0).equals(line)) {
+                changeLine();
             }
         }
     }

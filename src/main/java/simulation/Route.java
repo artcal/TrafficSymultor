@@ -14,7 +14,7 @@ class Route {
     private Point endingPoint;
 
     Route(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant,
-                 String priority, Road currentRoad) throws Exception {
+          String priority, Road currentRoad) throws Exception {
         route = new ArrayList<>();
         routes = new ArrayList<>();
         unfinishedRoutes = new ArrayList<>();
@@ -31,9 +31,9 @@ class Route {
     //TODO dodanie trasy dla pieszego
     //TODO dodać zawracanie dla dwujezdniowej ze starting pointem
     private void findRoutes(Point startingPoint, Road currentRoad) throws Exception {
-        if(isTrafficParticipantACarClass()){
+        if (isTrafficParticipantACarClass()) {
             Road startingRoad = currentRoad;
-            if(startingRoad == null)
+            if (startingRoad == null)
                 startingRoad = getStartingRoad(startingPoint);
             addFirstRouteElement(startingRoad);
 
@@ -84,10 +84,9 @@ class Route {
     }
 
     private void addNextRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
-        if(!isLastRoadAdded(currentCrossroad,tempRoute)){
+        if (!isLastRoadAdded(currentCrossroad, tempRoute))
             for (Road road : currentCrossroad.getRoads())
                 tryAddingNewRoadToUnfinishedRoutes(currentCrossroad, tempRoute, road);
-        }
     }
 
     private boolean isLastRoadAdded(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
@@ -95,22 +94,19 @@ class Route {
     }
 
     private boolean tryAddingLastRoad(Crossroad currentCrossroad, List<RouteElement> tempRoute) throws Exception {
-        if(currentCrossroad != null) {
-            for (Road road : currentCrossroad.getRoads()) {
+        if (currentCrossroad != null)
+            for (Road road : currentCrossroad.getRoads())
                 if (isExitSpawnPointAnEndingPoint(road.getExitSpawnPoint()))
                     return addLastRoad(currentCrossroad, tempRoute, road);
-            }
-        }
         return false;
     }
 
     private boolean isExitSpawnPointAnEndingPoint(Point exitSpawnPoint) {
-        if(exitSpawnPoint != null) {
-            if (endingPoint.x == exitSpawnPoint.x) {
+        if (exitSpawnPoint != null) {
+            if (endingPoint.x == exitSpawnPoint.x)
                 return endingPoint.y == exitSpawnPoint.y + 5 || endingPoint.y == exitSpawnPoint.y - 5;
-            } else if (endingPoint.y == exitSpawnPoint.y) {
+            else if (endingPoint.y == exitSpawnPoint.y)
                 return endingPoint.x == exitSpawnPoint.x + 5 || endingPoint.x == exitSpawnPoint.x - 5;
-            }
         }
         return false;
     }
@@ -124,47 +120,42 @@ class Route {
 
     private String getDirection(Crossroad currentCrossroad, Road road) throws Exception {
         for (Line line : road.getLines())
-            if(isLineDirectionCorrect(currentCrossroad, line))
+            if (isLineDirectionCorrect(currentCrossroad, line))
                 return line.getTrafficMovement();
         throw new Exception("None of the lines is in correct direction, wrong road");
     }
 
     private boolean isLineDirectionCorrect(Crossroad currentCrossroad, Line line) {
-        if (line.getNextCrossroad() != null) {
+        if (line.getNextCrossroad() != null)
             return !line.getNextCrossroad().equals(currentCrossroad);
-        } else {
+        else
             return true;
-        }
     }
 
     private void tryAddingNewRoadToUnfinishedRoutes(Crossroad currentCrossroad, List<RouteElement> tempRoute, Road road) throws Exception {
         boolean isNewRoad = isNewRoad(tempRoute, road);
-        if(isNewRoad){
-            if(!isNewRoadTurningBack(getLastRouteElement(tempRoute), road)){
+        if (isNewRoad)
+            if (!isNewRoadTurningBack(getLastRouteElement(tempRoute), road)) {
                 boolean isCorrectRoad = false;
                 String direction = "";
-                for (Line line : road.getLines()) {
-                    if(line.getNextCrossroad() != null ){
-                        if(!line.getNextCrossroad().equals(currentCrossroad)) {
+                for (Line line : road.getLines())
+                    if (line.getNextCrossroad() != null)
+                        if (!line.getNextCrossroad().equals(currentCrossroad)) {
                             isCorrectRoad = true;
                             direction = line.getTrafficMovement();
                         }
-                    }
-                }
-                if(isCorrectRoad){
+                if (isCorrectRoad) {
                     List<RouteElement> newRoute = new ArrayList<>(tempRoute);
-                    newRoute.add(new RouteElement(road,direction));
+                    newRoute.add(new RouteElement(road, direction));
                     unfinishedRoutes.add(newRoute);
                 }
             }
-        }
     }
 
     private boolean isNewRoad(List<RouteElement> tempRoute, Road road) {
-        for (RouteElement routeElement : tempRoute) {
-            if(isRoadsEquals(routeElement.getRoad(), road))
+        for (RouteElement routeElement : tempRoute)
+            if (isRoadsEquals(routeElement.getRoad(), road))
                 return false;
-        }
         return true;
     }
 
@@ -173,10 +164,9 @@ class Route {
     }
 
     private boolean isNewRoadTurningBack(RouteElement routeElement, Road road) throws Exception {
-        for(Line line : road.getLines()) {
-            if(!isLineTurningBack(routeElement, line))
+        for (Line line : road.getLines())
+            if (!isLineTurningBack(routeElement, line))
                 return false;
-        }
         return true;
     }
 
@@ -185,12 +175,17 @@ class Route {
     }
 
     private String getOppositeDirection(String direction) throws Exception {
-        switch(direction){
-            case "N": return "S";
-            case "E": return "W";
-            case "S": return "N";
-            case "W": return "E";
-            default: throw new Exception("Wrong direction, use [N,E,S,W]");
+        switch (direction) {
+            case "N":
+                return "S";
+            case "E":
+                return "W";
+            case "S":
+                return "N";
+            case "W":
+                return "E";
+            default:
+                throw new Exception("Wrong direction, need [N,E,S,W]");
         }
     }
 
@@ -199,7 +194,7 @@ class Route {
     }
 
     private void chooseRoute(String priority) {
-        if(priority == null) {
+        if (priority == null) {
             Random random = new Random();
             this.route = routes.get(random.nextInt(routes.size()));
         }

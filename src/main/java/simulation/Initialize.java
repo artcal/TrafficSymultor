@@ -980,7 +980,7 @@ public class Initialize {
         linesES.add(lineES1);
         linesES.add(lineES2);
         roadES = new Road(20, null, linesES,
-                new Point(880,430), new Point(880,430), "2way", false, new Point(880,430));
+                new Point(880,430), new Point(885,430), "2way", false, new Point(885,430));
     }
 
     private void initializePedestrianCrossings(){
@@ -1104,8 +1104,8 @@ public class Initialize {
         lineH37 = new Line(null, new Point(1112, 657), new Point(1300, 657), "E", false);
         lineH38 = new Line(null, new Point(1112, 667), new Point(1300, 667), "E", false);
 
-        lineES1 = new Line(null, new Point(680, 425), new Point(680, 425), "W", false);
-        lineES2 = new Line(null, new Point(680, 435), new Point(680, 435), "E", false);
+        lineES1 = new Line(null, new Point(880, 425), new Point(885, 425), "W", false);
+        lineES2 = new Line(null, new Point(880, 435), new Point(885, 435), "E", false);
 
     }
 

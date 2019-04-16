@@ -15,6 +15,7 @@ public class Reminder {
 
     class RemindTask extends TimerTask {
         public void run() {
+            timer.purge();
             timer.cancel();
             Controller.isNextCycleReady = true;
             if(Controller.isCycleFinished){

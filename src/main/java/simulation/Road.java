@@ -1,6 +1,7 @@
 package simulation;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Road {
@@ -23,6 +24,12 @@ public class Road {
         this.type = type;
         this.isClosed = isClosed;
         this.exitSpawnPoint = exitSpawnPoint;
+    }
+
+    public Road(Point point, PedestrianCrossing pedestrianCrossing) {
+        this.start = point;
+        this.pedestrianCrossings = new ArrayList<>();
+        this.pedestrianCrossings.add(pedestrianCrossing);
     }
 
     public int getMaxSpeed() {

@@ -169,7 +169,8 @@ public class Controller implements Initializable {
                 carsQuantity = Integer.parseInt(tCarsQuantity.getText());
             initializeCars(carsQuantity);
             addCarsToMap();
-            runSimulation();
+//            while(!isSimulationStopped)
+                runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -197,12 +198,10 @@ public class Controller implements Initializable {
 
     public void stopSimulation(ActionEvent actionEvent) {
         isSimulationStopped = true;
-        for(Car car : cars) {
-            List<Node> nodes = new ArrayList<>();
-            nodes.add(content.getChildren().get(0));
-            content.getChildren().removeAll(content.getChildren());
-            content.getChildren().add(nodes.get(0));
-        }
+        List<Node> nodes = new ArrayList<>();
+        nodes.add(content.getChildren().get(0));
+        content.getChildren().removeAll(content.getChildren());
+        content.getChildren().add(nodes.get(0));
         cars.removeAll(cars);
     }
 
@@ -212,7 +211,7 @@ public class Controller implements Initializable {
             Reminder.main(new String[]{"100"});
             cars.stream().forEach(car -> car.accelerate());
             cars.stream().forEach(car -> car.move());
-           // content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car -> car.getTrafficParticipantImageView()).collect(Collectors.toList()));
+            //content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car -> car.getTrafficParticipantImageView()).collect(Collectors.toList()));
             cars.removeAll(cars.stream().filter(car -> car.isEndReached()).collect(Collectors.toList()));
             cars.stream().forEach(car -> car.setImagePosition());
             isCycleFinished = true;

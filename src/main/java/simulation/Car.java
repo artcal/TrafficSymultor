@@ -14,10 +14,12 @@ public class Car extends TrafficParticipant implements RoadChange{
 
     Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
                int maxSpeed) throws Exception {
-        super(name, startingPoint, endingPoint, isSafe,"car.png");
+        super(name, isSafe,"car.png");
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;
         this.downturn = 2 * acceleration;
+        this.startingPoint = startingPoint;
+        this.endingPoint = endingPoint;
         generateRoute();
         this.road = route.get(0).getRoad();
         this.line = getStartingLine(road);

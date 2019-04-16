@@ -23,10 +23,8 @@ public class TrafficParticipant {
     protected int ignoreTraffic;
     protected ImageView trafficParticipantImageView;
 
-    public TrafficParticipant(String name, Point startingPoint, Point endingPoint, boolean isSafe, String imageString) throws Exception {
+    public TrafficParticipant(String name, boolean isSafe, String imageString) throws Exception {
         this.name = name;
-        this.startingPoint = startingPoint;
-        this.endingPoint = endingPoint;
         this.isSafe = isSafe;
         this.isEndReached = false;
         URL carUrl = getClass().getClassLoader().getResource(imageString);
@@ -45,11 +43,16 @@ public class TrafficParticipant {
         this.isSafe = isSafe;
     }
 
-    protected void generateRoute() throws Exception {
-        route = new Route(startingPoint,endingPoint,this,null, road).getRoute();
+    void generateRoute() throws Exception {
+        Route route = new Route(startingPoint,endingPoint,this,null, road);
+        this.route = route.getRoute();
+        if(this.getClass().equals(Pedestrian.class)) {
+            this.startingPoint = route.getStartingPoint();
+            this.endingPoint = route.getEndingPoint();
+        }
     }
 
-    protected void imageOrientation() {
+    void imageOrientation() {
         switch (line.getTrafficMovement()){
             case "N":
                 trafficParticipantImageView.setRotate(270);break;

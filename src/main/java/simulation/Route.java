@@ -11,7 +11,7 @@ class Route {
     private List<List<RouteElement>> routes;
     private List<List<RouteElement>> unfinishedRoutes;
     private TrafficParticipant trafficParticipant;
-    private Point endingPoint;
+    private Point startingPoint, endingPoint;
 
     Route(Point startingPoint, Point endingPoint, TrafficParticipant trafficParticipant,
           String priority, Road currentRoad) throws Exception {
@@ -19,26 +19,28 @@ class Route {
         routes = new ArrayList<>();
         unfinishedRoutes = new ArrayList<>();
         this.trafficParticipant = trafficParticipant;
+        this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
-        generateRoute(startingPoint, priority, currentRoad);
+        generateRoute(priority, currentRoad);
     }
 
-    private void generateRoute(Point startingPoint, String priority, Road currentRoad) throws Exception {
-        findRoutes(startingPoint, currentRoad);
+    private void generateRoute(String priority, Road currentRoad) throws Exception {
+        findRoutes(currentRoad);
         chooseRoute(priority);
     }
 
     //TODO dodanie trasy dla pieszego
-    //TODO dodać zawracanie dla dwujezdniowej ze starting pointem
-    private void findRoutes(Point startingPoint, Road currentRoad) throws Exception {
+    private void findRoutes(Road currentRoad) throws Exception {
         if (isTrafficParticipantACarClass()) {
             Road startingRoad = currentRoad;
             if (startingRoad == null)
-                startingRoad = getStartingRoad(startingPoint);
+                startingRoad = getStartingRoad();
             addFirstRouteElement(startingRoad);
 
             while (unfinishedRoutes.size() > 0)
                 finishRoutes();
+        } else {
+            makePedestrianRoute(currentRoad);
         }
     }
 
@@ -46,7 +48,7 @@ class Route {
         return trafficParticipant.getClass().equals(Car.class);
     }
 
-    private Road getStartingRoad(Point startingPoint) throws Exception {
+    private Road getStartingRoad() throws Exception {
         for (ExitStartPoint exitStartPoint : Controller.startingPoints) {
             if (exitStartPoint.getPosition().equals(startingPoint))
                 return exitStartPoint.getRoad();
@@ -193,6 +195,10 @@ class Route {
         return routeElementList.get(routeElementList.size() - 1);
     }
 
+    private void makePedestrianRoute(Road currentRoad) {
+
+    }
+
     private void chooseRoute(String priority) {
         if (priority == null) {
             Random random = new Random();
@@ -202,5 +208,13 @@ class Route {
 
     List<RouteElement> getRoute() {
         return route;
+    }
+
+    Point getStartingPoint() {
+        return startingPoint;
+    }
+
+    Point getEndingPoint() {
+        return endingPoint;
     }
 }

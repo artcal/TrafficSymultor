@@ -26,6 +26,10 @@ public class Road {
         this.exitSpawnPoint = exitSpawnPoint;
     }
 
+    public Road(Point point){
+        this.start = point;
+    }
+
     public Road(Point point, PedestrianCrossing pedestrianCrossing) {
         this.start = point;
         this.pedestrianCrossings = new ArrayList<>();

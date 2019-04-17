@@ -1,6 +1,7 @@
 package simulation;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Car extends TrafficParticipant implements RoadChange{
 
@@ -12,17 +13,18 @@ public class Car extends TrafficParticipant implements RoadChange{
     private int distance = 0;
     private Point turningPoint;
 
-    Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration,
-               int maxSpeed) throws Exception {
+    Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration) throws Exception {
         super(name, isSafe,"car.png");
         this.acceleration = acceleration;
-        this.maxSpeed = maxSpeed;
         this.downturn = 2 * acceleration;
+        Random random = new Random();
+        this.driverBehavior = random.nextInt(20) - 10;
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
         generateRoute();
         this.road = route.get(0).getRoad();
         this.line = getStartingLine(road);
+        this.maxSpeed = this.road.getMaxSpeed() + (this.road.getMaxSpeed() * this.driverBehavior / 100);
         route.remove(0);
         this.position = setStartingPosition();
         onRoadChange();
@@ -59,11 +61,15 @@ public class Car extends TrafficParticipant implements RoadChange{
         }
     }
 
-    void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1
+    void correctSpeed() {
+        if(speed < maxSpeed) accelerate();
+        else slowDown();
+    }
+
+    private void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1
         if(speed < 20) speed += 3*acceleration;
         else if(speed < 40) speed += 2*acceleration;
-        else if(speed < maxSpeed + maxSpeed*driverBehavior/100)
-            speed += acceleration;
+        else speed += acceleration;
     }
 
     private void slowDown(){
@@ -171,6 +177,7 @@ public class Car extends TrafficParticipant implements RoadChange{
 
     @Override
     public void onRoadChange() {
+        maxSpeed = road.getMaxSpeed() + (road.getMaxSpeed() * driverBehavior / 100);
         if (route.size() > 0)
             if (!isLineOk()) {
                 changeLine();

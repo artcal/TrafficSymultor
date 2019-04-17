@@ -3,12 +3,10 @@ package simulation;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//class for changing street lights TODO
-
-public class Reminder {
+public class Cycle {
     private Timer timer;
 
-    private Reminder(int time) {
+    private Cycle(int time) {
         timer = new Timer();
         timer.schedule(new RemindTask(), time);
     }
@@ -19,12 +17,11 @@ public class Reminder {
             timer.cancel();
             Controller.isNextCycleReady = true;
             if(Controller.isCycleFinished){
-                Controller.runSimulation();
             }
         }
     }
 
     public static void main(String[] args) {
-        new Reminder(Integer.parseInt(args[0]));
+        new Cycle(Integer.parseInt(args[0]));
     }
 }

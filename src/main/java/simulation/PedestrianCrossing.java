@@ -6,10 +6,12 @@ public class PedestrianCrossing {
 
     private Point position;
     private StreetLights streetLights;
+    private int width;
 
-    public PedestrianCrossing(Point position, StreetLights streetLights) {
+    public PedestrianCrossing(Point position, StreetLights streetLights, int width) {
         this.position = position;
         this.streetLights = streetLights;
+        this.width = width;
     }
 
     public Point getPosition() {
@@ -18,5 +20,9 @@ public class PedestrianCrossing {
 
     public String getStreetLights() {
         return streetLights.getLight();
+    }
+
+    public int getWidth() {
+        return width;
     }
 }

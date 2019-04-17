@@ -1,5 +1,8 @@
 package simulation;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 import java.awt.*;
 import java.net.URI;
@@ -43,6 +47,8 @@ public class Controller implements Initializable {
     private Button bStop;
     @FXML
     private TextField tCarsQuantity;
+    @FXML
+    private TextField tPedestriansQuantity;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -164,21 +170,31 @@ public class Controller implements Initializable {
         isCycleFinished = false;
         isNextCycleReady = true;
         int carsQuantity = 1;
+        int pedestriansQuantity = 0;
         try {
             if (!tCarsQuantity.getText().equals(""))
                 carsQuantity = Integer.parseInt(tCarsQuantity.getText());
             initializeCars(carsQuantity);
+            if(!tPedestriansQuantity.getText().equals(""))
+                pedestriansQuantity = Integer.parseInt(tPedestriansQuantity.getText());
+            initializePedestrians(pedestriansQuantity);
             addCarsToMap();
-//            while(!isSimulationStopped)
-                runSimulation();
+            addPedestriansToMap();
+            runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void initializePedestrians(int quantity) throws Exception {
+        Random random = new Random();
+        for (int i = 0; i < quantity; i++)
+            pedestrians.add(new Pedestrian("Pedestrian" + i, Initialize.getRoads().
+                    get(random.nextInt(Initialize.getRoads().size() - 1)), true));
+    }
+
     private void initializeCars(int quantity) throws Exception {
         Random random = new Random();
-
         for (int i = 0; i < quantity; i++) {
             int startingPointIndex = random.nextInt(startingPoints.size());
             int exitPointIndex;
@@ -187,8 +203,13 @@ public class Controller implements Initializable {
                 ;
             cars.add(new Car("Car" + i, startingPoints.get(startingPointIndex).getPosition(),
                     exitPoints.get(exitPointIndex).getPosition(), true,
-                    random.nextInt(5) + 2, 50));
+                    random.nextInt(4) + 2));
         }
+    }
+
+    private void addPedestriansToMap() {
+        for (Pedestrian pedestrian : pedestrians)
+            content.getChildren().add(pedestrian.getTrafficParticipantImageView());
     }
 
     private void addCarsToMap() {
@@ -203,18 +224,37 @@ public class Controller implements Initializable {
         content.getChildren().removeAll(content.getChildren());
         content.getChildren().add(nodes.get(0));
         cars.removeAll(cars);
+        pedestrians.removeAll(pedestrians);
     }
 
-    static void runSimulation() {
+    private void runSimulation() {
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
-            Reminder.main(new String[]{"100"});
-            cars.stream().forEach(car -> car.accelerate());
+            cycle(100);
+            cars.stream().forEach(car -> car.correctSpeed());
             cars.stream().forEach(car -> car.move());
-            //content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car -> car.getTrafficParticipantImageView()).collect(Collectors.toList()));
+            pedestrians.stream().forEach(pedestrian -> pedestrian.walk());
+            content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car ->
+                    car.getTrafficParticipantImageView()).collect(Collectors.toList()));
             cars.removeAll(cars.stream().filter(car -> car.isEndReached()).collect(Collectors.toList()));
+            content.getChildren().removeAll(pedestrians.stream().filter(pedestrian -> pedestrian.isEndReached())
+                    .map(pedestrian -> pedestrian.getTrafficParticipantImageView()).collect(Collectors.toList()));
+            pedestrians.removeAll(pedestrians.stream().filter(pedestrian -> pedestrian.isEndReached())
+                    .collect(Collectors.toList()));
             cars.stream().forEach(car -> car.setImagePosition());
+            pedestrians.stream().forEach(pedestrian -> pedestrian.setImagePosition());
             isCycleFinished = true;
         }
+    }
+
+    private void cycle(int time) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> {
+            isNextCycleReady = true;
+            if(isCycleFinished) {
+                runSimulation();
+            }
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 }

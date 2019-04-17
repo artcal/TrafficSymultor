@@ -26,7 +26,8 @@ class Route {
 
     private void generateRoute(String priority, Road currentRoad) throws Exception {
         findRoutes(currentRoad);
-        chooseRoute(priority);
+        if(trafficParticipant.getClass().equals(Car.class))
+            chooseRoute(priority);
     }
 
     //TODO dodanie trasy dla pieszego
@@ -196,7 +197,148 @@ class Route {
     }
 
     private void makePedestrianRoute(Road currentRoad) {
+        if(isRoad2way(currentRoad))
+            generatePedestrianRouteFor2wayRoad(isRoadVertical(currentRoad), currentRoad);
+        else
+            generatePedestrianRouteFor1wayRoad(isRoadVertical(currentRoad), currentRoad);
+    }
 
+    private void generatePedestrianRouteFor1wayRoad(boolean roadVertical, Road currentRoad) {
+        Random random = new Random();
+        String direction;
+        if(roadVertical) {
+            // side 0 - left, 1 - right
+            int side = currentRoad.getEnd().x < currentRoad.getPedestrianCrossings().get(0).getPosition().x ? 0 : 1;
+            int yPositionStart = random.nextInt(currentRoad.getEnd().y - currentRoad.getStart().y - 60)
+                    + currentRoad.getStart().y + 30;
+            int yPositionEnd = random.nextInt(currentRoad.getEnd().y - currentRoad.getStart().y - 60)
+                    + currentRoad.getStart().y + 30;
+            PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
+                    get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
+            direction = pedestrianCrossing.getPosition().y < (currentRoad.getEnd().y - currentRoad.getStart().y) / 2
+                    + currentRoad.getStart().y ? "N" : "S";
+            if (side == 0) {
+                startingPoint = new Point(currentRoad.getEnd().x - 13, yPositionStart);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
+                        pedestrianCrossing),"E"));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
+                        pedestrianCrossing.getPosition().y)), direction.equals("N") ? "S" : "N"));
+                endingPoint = new Point(currentRoad.getEnd().x + 37, yPositionEnd);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            } else {
+                startingPoint = new Point(currentRoad.getEnd().x + 13, yPositionStart);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
+                        pedestrianCrossing),"W"));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
+                        pedestrianCrossing.getPosition().y)), direction.equals("N") ? "S" : "N"));
+                endingPoint = new Point(currentRoad.getEnd().x - 37, yPositionEnd);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            }
+        } else {
+            // side 0 - up, 1 - down
+            int side = currentRoad.getEnd().y < currentRoad.getPedestrianCrossings().get(0).getPosition().y ? 0 : 1;
+            int xPositionStart = random.nextInt(currentRoad.getEnd().x - currentRoad.getStart().x - 60)
+                    + currentRoad.getStart().x + 30;
+            int xPositionEnd = random.nextInt(currentRoad.getEnd().x - currentRoad.getStart().x - 60)
+                    + currentRoad.getStart().x + 30;
+            PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
+                    get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
+            direction = pedestrianCrossing.getPosition().x < (currentRoad.getEnd().x - currentRoad.getStart().x) / 2
+                    + currentRoad.getStart().x ? "W" : "E";
+            if (side == 0) {
+                startingPoint = new Point(xPositionStart, currentRoad.getEnd().y - 13);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
+                        pedestrianCrossing),"S"));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
+                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), direction.equals("W") ? "E" : "W"));
+                endingPoint = new Point(xPositionEnd, currentRoad.getEnd().y + 37);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            } else {
+                startingPoint = new Point(xPositionStart, currentRoad.getEnd().y + 13);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
+                        pedestrianCrossing),"N"));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
+                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), direction.equals("W") ? "E" : "W"));
+                endingPoint = new Point(xPositionEnd, currentRoad.getEnd().y - 37);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            }
+        }
+    }
+
+    private void generatePedestrianRouteFor2wayRoad(boolean roadVertical, Road currentRoad) {
+        Random random = new Random();
+        String direction;
+        int side = random.nextInt(2); // 0 - left/up, 1 - right/down
+        if(roadVertical) {
+            int yPositionStart = random.nextInt(currentRoad.getEnd().y - currentRoad.getStart().y - 60)
+                    + currentRoad.getStart().y + 30;
+            int yPositionEnd = random.nextInt(currentRoad.getEnd().y - currentRoad.getStart().y - 60)
+                    + currentRoad.getStart().y + 30;
+            PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
+                    get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
+            direction = pedestrianCrossing.getPosition().y < (currentRoad.getEnd().y - currentRoad.getStart().y) / 2
+                    + currentRoad.getStart().y ? "N" : "S";
+            if (side == 0) {
+                startingPoint = new Point(currentRoad.getEnd().x - 13, yPositionStart);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
+                        pedestrianCrossing),"E"));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
+                        pedestrianCrossing.getPosition().y)), direction.equals("N") ? "S" : "N"));
+                endingPoint = new Point(currentRoad.getEnd().x + 13, yPositionEnd);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            } else {
+                startingPoint = new Point(currentRoad.getEnd().x + 13, yPositionStart);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
+                        pedestrianCrossing),"W"));
+                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
+                        pedestrianCrossing.getPosition().y)), direction.equals("N") ? "S" : "N"));
+                endingPoint = new Point(currentRoad.getEnd().x - 13, yPositionEnd);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            }
+        } else {
+            int xPositionStart = random.nextInt(currentRoad.getEnd().x - currentRoad.getStart().x - 60)
+                    + currentRoad.getStart().x + 30;
+            int xPositionEnd = random.nextInt(currentRoad.getEnd().x - currentRoad.getStart().x - 60)
+                    + currentRoad.getStart().x + 30;
+            PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
+                    get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
+            direction = pedestrianCrossing.getPosition().x < (currentRoad.getEnd().x - currentRoad.getStart().x) / 2
+                    + currentRoad.getStart().x ? "W" : "E";
+            if (side == 0) {
+                startingPoint = new Point(xPositionStart, currentRoad.getEnd().y - 13);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
+                        pedestrianCrossing),"S"));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
+                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), direction.equals("W") ? "E" : "W"));
+                endingPoint = new Point(xPositionEnd, currentRoad.getEnd().y + 13);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            } else {
+                startingPoint = new Point(xPositionStart, currentRoad.getEnd().y + 13);
+                route.add(new RouteElement(new Road(startingPoint), direction));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
+                        pedestrianCrossing),"N"));
+                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
+                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), direction.equals("W") ? "E" : "W"));
+                endingPoint = new Point(xPositionEnd, currentRoad.getEnd().y - 13);
+                route.add(new RouteElement(new Road(endingPoint), null));
+            }
+        }
+    }
+
+    private boolean isRoad2way(Road road) {
+        return road.getType().equals("2way");
+    }
+
+    private boolean isRoadVertical(Road road) {
+        return road.getLines().get(0).getTrafficMovement().equals("N")
+                || road.getLines().get(0).getTrafficMovement().equals("S");
     }
 
     private void chooseRoute(String priority) {

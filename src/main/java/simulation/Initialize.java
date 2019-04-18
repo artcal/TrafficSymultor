@@ -4,17 +4,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Initialize {
+class Initialize {
 
-//    private static Roadsign roadsign1;
-//    private static Roadsign roadsign2;
-//    private static Roadsign roadsign3;
-//    private static Roadsign roadsign4;
-//    private static Roadsign roadsign5;
-//    private static Roadsign roadsign6;
-//    private static Roadsign roadsign7;
-//    private static Roadsign roadsign8;
-//    private static Roadsign roadsign9;
+//    private static RoadSign roadSign1;
+//    private static RoadSign roadSign2;
+//    private static RoadSign roadSign3;
+//    private static RoadSign roadSign4;
+//    private static RoadSign roadSign5;
+//    private static RoadSign roadSign6;
+//    private static RoadSign roadSign7;
+//    private static RoadSign roadSign8;
+//    private static RoadSign roadSign9;
 //
 //    private static StreetLights streetLights1;
 //    private static StreetLights streetLights2;
@@ -196,30 +196,24 @@ public class Initialize {
     private static Crossroad crossroad35;
 
     private static List<Road> roads;
-    private static List<Line> lines;
-    private static List<Crossroad> crossroads;
-    private static List<PedestrianCrossing> pedestrianCrossings;
 
 
-    public Initialize(){
-        initializeRoadsigns();
-        initializeStreetLights();
-        initializeLines();
-        initializePedestrianCrossings();
-        initializeRoads();
-        initializeCrossroads();
-        connectCrossroads();
-        connectLinesOnCrossroads();
-        addNextCrossroadsToLines();
+    static void main(String[] args) {
+        Initialize initialize = new Initialize();
+        initialize.initializeRoadSigns();
+        initialize.initializeStreetLights();
+        initialize.initializeLines();
+        initialize.initializePedestrianCrossings();
+        initialize.initializeRoads();
+        initialize.initializeCrossroads();
+        initialize.connectLinesOnCrossroads();
+        initialize.addNextCrossroadsToLines();
 
-        fieldsToLists();
+        initialize.roadsToLists();
     }
 
-    private void fieldsToLists() {
+    private void roadsToLists() {
         roads = new ArrayList<>();
-        lines = new ArrayList<>();
-        crossroads = new ArrayList<>();
-        pedestrianCrossings = new ArrayList<>();
 
         roads.add(roadV1);
         roads.add(roadV2);
@@ -256,140 +250,6 @@ public class Initialize {
         roads.add(roadH18);
         roads.add(roadH19);
         roads.add(roadES);
-
-        lines.add(lineV1);
-        lines.add(lineV2);
-        lines.add(lineV3);
-        lines.add(lineV4);
-        lines.add(lineV5);
-        lines.add(lineV6);
-        lines.add(lineV7);
-        lines.add(lineV8);
-        lines.add(lineV9);
-        lines.add(lineV10);
-        lines.add(lineV11);
-        lines.add(lineV12);
-        lines.add(lineV13);
-        lines.add(lineV14);
-        lines.add(lineV15);
-        lines.add(lineV16);
-        lines.add(lineV17);
-        lines.add(lineV18);
-        lines.add(lineV19);
-        lines.add(lineV20);
-        lines.add(lineV21);
-        lines.add(lineV22);
-        lines.add(lineV23);
-        lines.add(lineV24);
-        lines.add(lineV25);
-        lines.add(lineV26);
-        lines.add(lineV27);
-        lines.add(lineV28);
-        lines.add(lineV29);
-        lines.add(lineV30);
-        lines.add(lineH1);
-        lines.add(lineH2);
-        lines.add(lineH3);
-        lines.add(lineH4);
-        lines.add(lineH5);
-        lines.add(lineH6);
-        lines.add(lineH7);
-        lines.add(lineH8);
-        lines.add(lineH9);
-        lines.add(lineH10);
-        lines.add(lineH11);
-        lines.add(lineH12);
-        lines.add(lineH13);
-        lines.add(lineH14);
-        lines.add(lineH15);
-        lines.add(lineH16);
-        lines.add(lineH17);
-        lines.add(lineH18);
-        lines.add(lineH19);
-        lines.add(lineH20);
-        lines.add(lineH21);
-        lines.add(lineH22);
-        lines.add(lineH23);
-        lines.add(lineH24);
-        lines.add(lineH25);
-        lines.add(lineH26);
-        lines.add(lineH27);
-        lines.add(lineH28);
-        lines.add(lineH29);
-        lines.add(lineH30);
-        lines.add(lineH31);
-        lines.add(lineH32);
-        lines.add(lineH33);
-        lines.add(lineH34);
-        lines.add(lineH35);
-        lines.add(lineH36);
-        lines.add(lineH37);
-        lines.add(lineH38);
-        lines.add(lineES1);
-        lines.add(lineES2);
-
-        crossroads.add(crossroad11);
-        crossroads.add(crossroad12);
-        crossroads.add(crossroad13);
-        crossroads.add(crossroad14);
-        crossroads.add(crossroad15);
-        crossroads.add(crossroad21);
-        crossroads.add(crossroad22);
-        crossroads.add(crossroad23);
-        crossroads.add(crossroad24);
-        crossroads.add(crossroad31);
-        crossroads.add(crossroad32);
-        crossroads.add(crossroad33);
-        crossroads.add(crossroad34);
-        crossroads.add(crossroad35);
-
-        pedestrianCrossings.add(pedestrianCrossingH1);
-        pedestrianCrossings.add(pedestrianCrossingH2);
-        pedestrianCrossings.add(pedestrianCrossingH3);
-        pedestrianCrossings.add(pedestrianCrossingH4);
-        pedestrianCrossings.add(pedestrianCrossingH5);
-        pedestrianCrossings.add(pedestrianCrossingH6);
-        pedestrianCrossings.add(pedestrianCrossingH7);
-        pedestrianCrossings.add(pedestrianCrossingH8);
-        pedestrianCrossings.add(pedestrianCrossingH9);
-        pedestrianCrossings.add(pedestrianCrossingH10);
-        pedestrianCrossings.add(pedestrianCrossingH11);
-        pedestrianCrossings.add(pedestrianCrossingH12);
-        pedestrianCrossings.add(pedestrianCrossingH13);
-        pedestrianCrossings.add(pedestrianCrossingH14);
-        pedestrianCrossings.add(pedestrianCrossingH15);
-        pedestrianCrossings.add(pedestrianCrossingH16);
-        pedestrianCrossings.add(pedestrianCrossingH17);
-        pedestrianCrossings.add(pedestrianCrossingH18);
-        pedestrianCrossings.add(pedestrianCrossingH19);
-        pedestrianCrossings.add(pedestrianCrossingH20);
-        pedestrianCrossings.add(pedestrianCrossingV1);
-        pedestrianCrossings.add(pedestrianCrossingV2);
-        pedestrianCrossings.add(pedestrianCrossingV3);
-        pedestrianCrossings.add(pedestrianCrossingV4);
-        pedestrianCrossings.add(pedestrianCrossingV5);
-        pedestrianCrossings.add(pedestrianCrossingV6);
-        pedestrianCrossings.add(pedestrianCrossingV7);
-        pedestrianCrossings.add(pedestrianCrossingV8);
-        pedestrianCrossings.add(pedestrianCrossingV9);
-        pedestrianCrossings.add(pedestrianCrossingV10);
-        pedestrianCrossings.add(pedestrianCrossingV11);
-        pedestrianCrossings.add(pedestrianCrossingV12);
-        pedestrianCrossings.add(pedestrianCrossingV13);
-        pedestrianCrossings.add(pedestrianCrossingV14);
-        pedestrianCrossings.add(pedestrianCrossingV15);
-        pedestrianCrossings.add(pedestrianCrossingV16);
-        pedestrianCrossings.add(pedestrianCrossingV17);
-        pedestrianCrossings.add(pedestrianCrossingV18);
-        pedestrianCrossings.add(pedestrianCrossingV19);
-        pedestrianCrossings.add(pedestrianCrossingV20);
-        pedestrianCrossings.add(pedestrianCrossingV21);
-        pedestrianCrossings.add(pedestrianCrossingV22);
-        pedestrianCrossings.add(pedestrianCrossingV23);
-        pedestrianCrossings.add(pedestrianCrossingV24);
-        pedestrianCrossings.add(pedestrianCrossingV25);
-        pedestrianCrossings.add(pedestrianCrossingV26);
-
     }
 
     private void addNextCrossroadsToLines() {
@@ -566,26 +426,6 @@ public class Initialize {
         crossroad35.addHowToGo(lineH36, new Line[] {lineV29});
         crossroad35.addHowToGo(lineV11, new Line[] {lineH31, lineH37, lineV29});
         crossroad35.addHowToGo(lineV30, new Line[] {lineH32, lineH38, lineV12});
-
-    }
-
-    private void connectCrossroads(){
-        crossroad11.addNextCrossroads(null, crossroad12, crossroad21, null);
-        crossroad12.addNextCrossroads(null, crossroad13, crossroad22, crossroad11);
-        crossroad13.addNextCrossroads(null, crossroad14, null, crossroad12);
-        crossroad14.addNextCrossroads(null, crossroad15, null, crossroad14);
-        crossroad15.addNextCrossroads(null, null, crossroad35, crossroad14);
-
-        crossroad21.addNextCrossroads(crossroad11, crossroad22, crossroad31, null);
-        crossroad22.addNextCrossroads(crossroad12, crossroad23, null, crossroad21);
-        crossroad23.addNextCrossroads(null, crossroad24, crossroad33, crossroad22);
-        crossroad24.addNextCrossroads(null, null, crossroad34, crossroad23);
-
-        crossroad31.addNextCrossroads(crossroad21, crossroad32, null, null);
-        crossroad32.addNextCrossroads(null, crossroad33, null, crossroad31);
-        crossroad33.addNextCrossroads(crossroad23, crossroad34, null, crossroad32);
-        crossroad34.addNextCrossroads(crossroad24,crossroad35, null, crossroad33);
-        crossroad35.addNextCrossroads(crossroad15,null, null, crossroad34);
 
     }
 
@@ -1114,23 +954,11 @@ public class Initialize {
 
     }
 
-    private void initializeRoadsigns(){
+    private void initializeRoadSigns(){
 
     }
 
-    public static List<Road> getRoads() {
+    static List<Road> getRoads() {
         return roads;
-    }
-
-    public static List<Line> getLines() {
-        return lines;
-    }
-
-    public static List<Crossroad> getCrossroads() {
-        return crossroads;
-    }
-
-    public static List<PedestrianCrossing> getPedestrianCrossings() {
-        return pedestrianCrossings;
     }
 }

@@ -15,9 +15,6 @@ public class Cycle {
         public void run() {
             timer.purge();
             timer.cancel();
-            Controller.isNextCycleReady = true;
-            if(Controller.isCycleFinished){
-            }
         }
     }
 

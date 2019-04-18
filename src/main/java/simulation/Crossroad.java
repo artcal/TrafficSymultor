@@ -8,10 +8,8 @@ public class Crossroad {
 
     private List<Road> roads;
     private List<StreetLights> streetLights;
-    private String type; // crossroad, roundabout
     private Point position;
-    private Crossroad N,E,S,W; // next crossroad in 4 directions, null is end of map
-    private Map<Line,Line[]> howToGo; // all possible routes to go through crossroad TODO
+    private Map<Line,Line[]> howToGo;
     private List<Line> entrances, exits;
     private int size;
 
@@ -33,45 +31,13 @@ public class Crossroad {
         return howToGo.get(line);
     }
 
-    public List<Line> getEntrances() {
-        return entrances;
-    }
-
     void setEntrances(Line[] entrances) {
         this.entrances.addAll(Arrays.asList(entrances));
-    }
-
-    public List<Line> getExits() {
-        return exits;
     }
 
     void setExits(Line[] exits) {
         this.exits.addAll(Arrays.asList(exits));
     }
-
-    void addNextCrossroads(Crossroad... crossroads){
-        this.N = crossroads[0];
-        this.E = crossroads[1];
-        this.S = crossroads[2];
-        this.W = crossroads[3];
-    }
-
-    public Crossroad getN() {
-        return N;
-    }
-
-    public Crossroad getE() {
-        return E;
-    }
-
-    public Crossroad getS() {
-        return S;
-    }
-
-    public Crossroad getW() {
-        return W;
-    }
-
 
     List<Road> getRoads() {
         return roads;
@@ -79,10 +45,6 @@ public class Crossroad {
 
     public List<StreetLights> getStreetLights() {
         return streetLights;
-    }
-
-    public String getType() {
-        return type;
     }
 
     Point getPosition() {

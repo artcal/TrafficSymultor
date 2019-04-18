@@ -1,19 +1,19 @@
 package simulation;
 
-public class RouteElement {
+class RouteElement {
     private Road road;
     private String direction;
 
-    public RouteElement(Road road, String direction) {
+    RouteElement(Road road, String direction) {
         this.road = road;
         this.direction = direction;
     }
 
-    public Road getRoad() {
+    Road getRoad() {
         return road;
     }
 
-    public String getDirection() {
+    String getDirection() {
         return direction;
     }
 }

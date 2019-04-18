@@ -1,6 +1,6 @@
 package simulation;
 
-public class StreetLights {
+class StreetLights {
 
     private String[] LIGHTS_LIST = {"R","RY","G","Y","RC","N"}; //R - red
                                                                 //RY - red & yellow
@@ -11,28 +11,28 @@ public class StreetLights {
     private int light;
     private boolean isCollisionFree;
 
-    public StreetLights(int startingLight, boolean isCollisionFree) {
+    StreetLights(int startingLight, boolean isCollisionFree) {
         this.light = startingLight;
         this.isCollisionFree = isCollisionFree;
     }
 
-    public void changeLights() {
+    void changeLights() {
         light = light < 3 ? light++ : 0;
     }
 
-    public void turnConditioned() {
+    void turnConditioned() {
         light = light == 0 ? 4 : 0;
     }
 
-    public void turnLightsOff() {
+    void turnLightsOff() {
         light = light == 5 ? 0 : 5;
     }
 
-    public String getLight() {
+    String getLight() {
         return LIGHTS_LIST[light];
     }
 
-    public boolean isCollisionFree() {
+    boolean isCollisionFree() {
         return isCollisionFree;
     }
 }

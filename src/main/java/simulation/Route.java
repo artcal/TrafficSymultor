@@ -30,7 +30,6 @@ class Route {
             chooseRoute(priority);
     }
 
-    //TODO dodanie trasy dla pieszego
     private void findRoutes(Road currentRoad) throws Exception {
         if (isTrafficParticipantACarClass()) {
             Road startingRoad = currentRoad;
@@ -50,9 +49,9 @@ class Route {
     }
 
     private Road getStartingRoad() throws Exception {
-        for (ExitStartPoint exitStartPoint : Controller.startingPoints) {
-            if (exitStartPoint.getPosition().equals(startingPoint))
-                return exitStartPoint.getRoad();
+        for (ExitStartPlace exitStartPlace : Controller.startingPlaces) {
+            if (exitStartPlace.getPosition().equals(startingPoint))
+                return exitStartPlace.getRoad();
         }
         throw new Exception("No road for this startingPoint");
     }
@@ -209,22 +208,22 @@ class Route {
         Random random = new Random();
         boolean isLeftOrUpSide;
         String startingDirection;
-        int componentPositionStart = getRandomComponentPosition(currentRoad, isRoadVertical);
-        int componentPositionEnd = getRandomComponentPosition(currentRoad, isRoadVertical);
+        int startingPointComponent = getRandomPointComponent(currentRoad, isRoadVertical);
+        int endingPointComponent = getRandomPointComponent(currentRoad, isRoadVertical);
         PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
                 get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
         if(isRoadVertical) {
             isLeftOrUpSide = currentRoad.getEnd().x
                     < currentRoad.getPedestrianCrossings().get(0).getPosition().x;
             startingDirection = pedestrianCrossing.getPosition().y
-                    < (currentRoad.getEnd().y - currentRoad.getStart().y) / 2 + currentRoad.getStart().y ? "N" : "S";
+                    < startingPointComponent ? "N" : "S";
         } else {
             isLeftOrUpSide = currentRoad.getEnd().y
                     < currentRoad.getPedestrianCrossings().get(0).getPosition().y;
             startingDirection = pedestrianCrossing.getPosition().x
-                    < (currentRoad.getEnd().x - currentRoad.getStart().x) / 2 + currentRoad.getStart().x ? "W" : "E";
+                    < startingPointComponent ? "W" : "E";
         }
-        setStartingAndEndingPoint(currentRoad, componentPositionStart, componentPositionEnd, isLeftOrUpSide);
+        setStartingAndEndingPoint(currentRoad, startingPointComponent, endingPointComponent, isLeftOrUpSide);
         generatePedestrianRoute(startingDirection, pedestrianCrossing, isLeftOrUpSide, isRoadVertical);
     }
 
@@ -232,22 +231,22 @@ class Route {
         Random random = new Random();
         boolean isLeftOrUpSide = random.nextBoolean();
         String startingDirection;
-        int componentPositionStart = getRandomComponentPosition(currentRoad, isRoadVertical);
-        int componentPositionEnd = getRandomComponentPosition(currentRoad, isRoadVertical);
+        int startingPointComponent = getRandomPointComponent(currentRoad, isRoadVertical);
+        int endingPointComponent = getRandomPointComponent(currentRoad, isRoadVertical);
         PedestrianCrossing pedestrianCrossing = currentRoad.getPedestrianCrossings().
                 get(random.nextInt(currentRoad.getPedestrianCrossings().size()));
         if(isRoadVertical) {
             startingDirection = pedestrianCrossing.getPosition().y
-                    < (currentRoad.getEnd().y - currentRoad.getStart().y) / 2 + currentRoad.getStart().y ? "N" : "S";
+                    < startingPointComponent ? "N" : "S";
         } else {
             startingDirection = pedestrianCrossing.getPosition().x
-                    < (currentRoad.getEnd().x - currentRoad.getStart().x) / 2 + currentRoad.getStart().x ? "W" : "E";
+                    < startingPointComponent ? "W" : "E";
         }
-        setStartingAndEndingPoint(currentRoad, componentPositionStart, componentPositionEnd, isLeftOrUpSide);
+        setStartingAndEndingPoint(currentRoad, startingPointComponent, endingPointComponent, isLeftOrUpSide);
         generatePedestrianRoute(startingDirection, pedestrianCrossing, isLeftOrUpSide, isRoadVertical);
     }
 
-    private int getRandomComponentPosition(Road road, boolean isRoadVertical) {
+    private int getRandomPointComponent(Road road, boolean isRoadVertical) {
         Random random = new Random();
         if(isRoadVertical)
             return random.nextInt(road.getEnd().y - road.getStart().y - 60)
@@ -257,77 +256,39 @@ class Route {
                     + road.getStart().x + 30;
     }
 
-    private void setStartingAndEndingPoint(Road currentRoad, int componentPositionStart, int componentPositionEnd,
+    private void setStartingAndEndingPoint(Road currentRoad, int startingPointComponent, int endingPointComponent,
                                            boolean isLeftOrUpSide) {
-        if(currentRoad.getType().equals("1way")) {
-            if(isRoadVertical(currentRoad)) {
-                if(isLeftOrUpSide) {
-                    startingPoint = new Point(currentRoad.getEnd().x - 13, componentPositionStart);
-                    endingPoint = new Point(currentRoad.getEnd().x + 37, componentPositionEnd);
-                } else {
-                    startingPoint = new Point(currentRoad.getEnd().x + 13, componentPositionStart);
-                    endingPoint = new Point(currentRoad.getEnd().x - 37, componentPositionEnd);
-                }
-            } else {
-                if(isLeftOrUpSide) {
-                    startingPoint = new Point(componentPositionStart, currentRoad.getEnd().y - 13);
-                    endingPoint = new Point(componentPositionStart, currentRoad.getEnd().y + 37);
-                } else {
-                    startingPoint = new Point(componentPositionStart, currentRoad.getEnd().y + 13);
-                    endingPoint = new Point(componentPositionEnd, currentRoad.getEnd().y - 37);
-                }
-            }
+        int startingPointComponentShift = isLeftOrUpSide ? -13 : 13;
+        int endingPointComponentShift;
+        if (currentRoad.getType().equals("1way"))
+            endingPointComponentShift = isLeftOrUpSide ? 37 : -37;
+        else
+            endingPointComponentShift = -startingPointComponentShift;
+        if (isRoadVertical(currentRoad)) {
+            startingPoint = new Point(currentRoad.getEnd().x + startingPointComponentShift, startingPointComponent);
+            endingPoint = new Point(currentRoad.getEnd().x + endingPointComponentShift, endingPointComponent);
         } else {
-            if(isRoadVertical(currentRoad)) {
-                if(isLeftOrUpSide) {
-                    startingPoint = new Point(currentRoad.getEnd().x - 13, componentPositionStart);
-                    endingPoint = new Point(currentRoad.getEnd().x + 13, componentPositionEnd);
-                } else {
-                    startingPoint = new Point(currentRoad.getEnd().x + 13, componentPositionStart);
-                    endingPoint = new Point(currentRoad.getEnd().x - 13, componentPositionEnd);
-                }
-            } else {
-                if(isLeftOrUpSide) {
-                    startingPoint = new Point(componentPositionStart, currentRoad.getEnd().y - 13);
-                    endingPoint = new Point(componentPositionStart, currentRoad.getEnd().y + 13);
-                } else {
-                    startingPoint = new Point(componentPositionStart, currentRoad.getEnd().y + 13);
-                    endingPoint = new Point(componentPositionEnd, currentRoad.getEnd().y - 13);
-                }
-            }
+            startingPoint = new Point(startingPointComponent, currentRoad.getEnd().y + startingPointComponentShift);
+            endingPoint = new Point(startingPointComponent, currentRoad.getEnd().y + endingPointComponentShift);
         }
     }
 
     private void generatePedestrianRoute(String startingDirection, PedestrianCrossing pedestrianCrossing,
                                          boolean isLeftOrUpSide, boolean isRoadVertical) {
         if (isRoadVertical) {
-            if (isLeftOrUpSide) {
-                route.add(new RouteElement(new Road(startingPoint), startingDirection));
-                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
-                        pedestrianCrossing),"E"));
-                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
-                        pedestrianCrossing.getPosition().y)), startingDirection.equals("N") ? "S" : "N"));
-            } else {
-                route.add(new RouteElement(new Road(startingPoint), startingDirection));
-                route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
-                        pedestrianCrossing),"W"));
-                route.add(new RouteElement(new Road(new Point(startingPoint.x + pedestrianCrossing.getWidth() + 6,
-                        pedestrianCrossing.getPosition().y)), startingDirection.equals("N") ? "S" : "N"));
-            }
+            route.add(new RouteElement(new Road(startingPoint), startingDirection));
+            route.add(new RouteElement(new Road(new Point(startingPoint.x, pedestrianCrossing.getPosition().y),
+                    pedestrianCrossing),isLeftOrUpSide ? "E" : "W"));
+            route.add(new RouteElement(new Road(new Point(startingPoint.x
+                    + (isLeftOrUpSide ? 1 : -1) * (pedestrianCrossing.getWidth() + 6),
+                    pedestrianCrossing.getPosition().y)), startingDirection.equals("N") ? "S" : "N"));
         } else {
-            if (isLeftOrUpSide) {
-                route.add(new RouteElement(new Road(startingPoint), startingDirection));
-                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
-                        pedestrianCrossing),"S"));
-                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
-                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), startingDirection.equals("W") ? "E" : "W"));
-            } else {
-                route.add(new RouteElement(new Road(startingPoint), startingDirection));
-                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
-                        pedestrianCrossing),"N"));
-                route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
-                        startingPoint.y + pedestrianCrossing.getWidth() + 6)), startingDirection.equals("W") ? "E" : "W"));
-            }
+            route.add(new RouteElement(new Road(startingPoint), startingDirection));
+            route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x, startingPoint.y),
+                    pedestrianCrossing),isLeftOrUpSide ? "S" : "N"));
+            route.add(new RouteElement(new Road(new Point(pedestrianCrossing.getPosition().x,
+                    startingPoint.y + (isLeftOrUpSide ? 1 : -1) * (pedestrianCrossing.getWidth() + 6))),
+                    startingDirection.equals("W") ? "E" : "W"));
         }
     }
 

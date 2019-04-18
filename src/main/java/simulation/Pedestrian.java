@@ -5,7 +5,6 @@ import java.awt.*;
 class Pedestrian extends TrafficParticipant {
 
     private String currentDirection;
-    private int SPEED = 20;
     private int distance;
 
     Pedestrian(String name, Road road, boolean isSafe) throws Exception {
@@ -19,6 +18,7 @@ class Pedestrian extends TrafficParticipant {
     }
 
     void walk() {
+        int SPEED = 20;
         distance += SPEED;
         switch (currentDirection) {
             case "N":

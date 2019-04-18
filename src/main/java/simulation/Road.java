@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Road {
+class Road {
 
     private int maxSpeed;
     private List<PedestrianCrossing> pedestrianCrossings;
@@ -14,7 +14,7 @@ public class Road {
     private boolean isClosed;
     private Point exitSpawnPoint; // participants are spawning and deleting in this point
 
-    public Road(int maxSpeed, List<PedestrianCrossing> pedestrianCrossings, List<Line> lines,
+    Road(int maxSpeed, List<PedestrianCrossing> pedestrianCrossings, List<Line> lines,
                 Point start, Point end, String type, boolean isClosed, Point exitSpawnPoint) {
         this.maxSpeed = maxSpeed;
         this.pedestrianCrossings = pedestrianCrossings;
@@ -26,49 +26,49 @@ public class Road {
         this.exitSpawnPoint = exitSpawnPoint;
     }
 
-    public Road(Point point){
+    Road(Point point){
         this.start = point;
     }
 
-    public Road(Point point, PedestrianCrossing pedestrianCrossing) {
+    Road(Point point, PedestrianCrossing pedestrianCrossing) {
         this.start = point;
         this.pedestrianCrossings = new ArrayList<>();
         this.pedestrianCrossings.add(pedestrianCrossing);
     }
 
-    public int getMaxSpeed() {
+    int getMaxSpeed() {
         return maxSpeed;
     }
 
-    public List<PedestrianCrossing> getPedestrianCrossings() {
+    List<PedestrianCrossing> getPedestrianCrossings() {
         return pedestrianCrossings;
     }
 
-    public List<Line> getLines() {
+    List<Line> getLines() {
         return lines;
     }
 
-    public Point getStart() {
+    Point getStart() {
         return start;
     }
 
-    public Point getEnd() {
+    Point getEnd() {
         return end;
     }
 
-    public String getType() {
+    String getType() {
         return type;
     }
 
-    public boolean isClosed() {
+    boolean isClosed() {
         return isClosed;
     }
 
-    public void setClosed(boolean closed) {
+    void setClosed(boolean closed) {
         isClosed = closed;
     }
 
-    public Point getExitSpawnPoint() {
+    Point getExitSpawnPoint() {
         return exitSpawnPoint;
     }
 }

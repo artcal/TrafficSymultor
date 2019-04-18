@@ -3,54 +3,53 @@ package simulation;
 import java.awt.*;
 import java.util.List;
 
-public class Line {
+class Line {
 
-    private List<Roadsign> roadsigns;
+    private List<RoadSign> roadSigns;
     private Point start,end;
     private String trafficMovementDirection; // N,E,S,W
     private boolean isClosed;
     private Crossroad nextCrossroad;
 
 
-    public Line(List<Roadsign> roadsigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
-        this.roadsigns = roadsigns;
+    Line(List<RoadSign> roadSigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
+        this.roadSigns = roadSigns;
         this.start = start;
         this.end = end;
         this.trafficMovementDirection = trafficMovementDirection;
         this.isClosed = isClosed;
     }
 
-    public Crossroad getNextCrossroad() {
+    Crossroad getNextCrossroad() {
         return nextCrossroad;
     }
 
-    public void setNextCrossroad(Crossroad nextCrossroad) {
+    void setNextCrossroad(Crossroad nextCrossroad) {
         this.nextCrossroad = nextCrossroad;
     }
 
-    public List<Roadsign> getRoadsigns() {
-        return roadsigns;
+    List<RoadSign> getRoadSigns() {
+        return roadSigns;
     }
 
-    public Point getStart() {
+    Point getStart() {
         return start;
     }
 
-    public Point getEnd() {
+    Point getEnd() {
         return end;
     }
 
-    public String getTrafficMovement() {
+    String getTrafficMovement() {
         return trafficMovementDirection;
     }
 
-    public boolean isClosed() {
+    boolean isClosed() {
         return isClosed;
     }
 
-    public void setClosed(boolean closed) {
+    void setClosed(boolean closed) {
         isClosed = closed;
     }
-
 }
 

@@ -1,14 +1,10 @@
 package simulation;
 
-import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -27,24 +23,23 @@ import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
 
-    private Image simulationMap;
-    static List<ExitStartPoint> exitPoints, startingPoints;
-    private Initialize initialize;
+    private List<ExitStartPlace> exitPlaces;
+    static List<ExitStartPlace> startingPlaces;
     private static List<Car> cars;
-    private List<Pedestrian> pedestrians;
+    private static List<Pedestrian> pedestrians;
     private static boolean isSimulationStopped;
-    static boolean isCycleFinished, isNextCycleReady;
+    private boolean isCycleFinished, isNextCycleReady;
 
     @FXML
     private ImageView imageView;
-    @FXML
-    private TextArea logs;
+//    @FXML
+//    private TextArea logs;
     @FXML
     private AnchorPane content;
-    @FXML
-    private Button bStart;
-    @FXML
-    private Button bStop;
+//    @FXML
+//    private Button bStart;
+//    @FXML
+//    private Button bStop;
     @FXML
     private TextField tCarsQuantity;
     @FXML
@@ -60,7 +55,7 @@ public class Controller implements Initializable {
         if (url != null) {
             try {
                 simulationMapURI = url.toURI();
-                simulationMap = new Image(simulationMapURI.toString());
+                Image simulationMap = new Image(simulationMapURI.toString());
                 imageView.setImage(simulationMap);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
@@ -75,10 +70,10 @@ public class Controller implements Initializable {
     }
 
     private void generateExitSpawnPoints() {
-        exitPoints = new ArrayList<>();
-        startingPoints = new ArrayList<>();
+        exitPlaces = new ArrayList<>();
+        startingPlaces = new ArrayList<>();
 
-        initialize = new Initialize();
+        Initialize.main(null);
         List<Road> roads = Initialize.getRoads();
         Point point;
 
@@ -89,75 +84,75 @@ public class Controller implements Initializable {
                         switch (road.getLines().get(0).getTrafficMovement()) {
                             case "N":
                                 if (point.y == 0) {
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                                 } else if (point.y == 800) {
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                                 }
                                 break;
                             case "E":
                                 if (point.x == 0) {
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                                 } else if (point.x == 1300) {
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                                 }
                                 break;
                             case "S":
                                 if (point.y == 800) {
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                                 } else if (point.y == 0) {
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                                 }
                                 break;
                             case "W":
                                 if (point.x == 1300) {
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                                    startingPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                                    startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                                 } else if (point.x == 0) {
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                                    exitPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                                    exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                                 }
                                 break;
                         }
                     } else {
                         if (point.x == 0) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                         } else if (point.x == 1300) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
                         } else if (point.y == 0) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
                         } else if (point.y == 800) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                         } else {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
                         }
                     }
                 } else {
                     if (road.getLines().get(0).getTrafficMovement().equals("N") || road.getLines().get(0).getTrafficMovement().equals("S")) {
                         if (point.x < road.getEnd().x) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
                         } else {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x, point.y - 5), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x, point.y + 5), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x, point.y - 5), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x, point.y + 5), road));
                         }
                     } else {
                         if (point.y < road.getEnd().y) {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
                         } else {
-                            startingPoints.add(new ExitStartPoint(new Point(point.x + 5, point.y), road));
-                            exitPoints.add(new ExitStartPoint(new Point(point.x - 5, point.y), road));
+                            startingPlaces.add(new ExitStartPlace(new Point(point.x + 5, point.y), road));
+                            exitPlaces.add(new ExitStartPlace(new Point(point.x - 5, point.y), road));
                         }
                     }
                 }
@@ -165,7 +160,7 @@ public class Controller implements Initializable {
         }
     }
 
-    public void startSimulation(ActionEvent actionEvent) {
+    public void startSimulation() {
         isSimulationStopped = false;
         isCycleFinished = false;
         isNextCycleReady = true;
@@ -196,13 +191,13 @@ public class Controller implements Initializable {
     private void initializeCars(int quantity) throws Exception {
         Random random = new Random();
         for (int i = 0; i < quantity; i++) {
-            int startingPointIndex = random.nextInt(startingPoints.size());
+            int startingPointIndex = random.nextInt(startingPlaces.size());
             int exitPointIndex;
             //noinspection StatementWithEmptyBody
-            while ((exitPointIndex = random.nextInt(exitPoints.size())) == startingPointIndex)
+            while ((exitPointIndex = random.nextInt(exitPlaces.size())) == startingPointIndex)
                 ;
-            cars.add(new Car("Car" + i, startingPoints.get(startingPointIndex).getPosition(),
-                    exitPoints.get(exitPointIndex).getPosition(), true,
+            cars.add(new Car("Car" + i, startingPlaces.get(startingPointIndex).getPosition(),
+                    exitPlaces.get(exitPointIndex).getPosition(), true,
                     random.nextInt(4) + 2));
         }
     }
@@ -217,37 +212,42 @@ public class Controller implements Initializable {
             content.getChildren().add(car.getTrafficParticipantImageView());
     }
 
-    public void stopSimulation(ActionEvent actionEvent) {
+    public void stopSimulation() {
         isSimulationStopped = true;
         List<Node> nodes = new ArrayList<>();
         nodes.add(content.getChildren().get(0));
         content.getChildren().removeAll(content.getChildren());
         content.getChildren().add(nodes.get(0));
-        cars.removeAll(cars);
-        pedestrians.removeAll(pedestrians);
+        List<Car> carsToDelete = cars;
+        cars.removeAll(carsToDelete);
+        List<Pedestrian> pedestriansToDelete = pedestrians;
+        pedestrians.removeAll(pedestriansToDelete);
     }
 
     private void runSimulation() {
+        if(cars.size() == 0 && pedestrians.size() == 0)
+            isSimulationStopped = true;
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
-            cycle(100);
-            cars.stream().forEach(car -> car.correctSpeed());
-            cars.stream().forEach(car -> car.move());
-            pedestrians.stream().forEach(pedestrian -> pedestrian.walk());
-            content.getChildren().removeAll(cars.stream().filter(car -> car.isEndReached()).map(car ->
-                    car.getTrafficParticipantImageView()).collect(Collectors.toList()));
-            cars.removeAll(cars.stream().filter(car -> car.isEndReached()).collect(Collectors.toList()));
-            content.getChildren().removeAll(pedestrians.stream().filter(pedestrian -> pedestrian.isEndReached())
-                    .map(pedestrian -> pedestrian.getTrafficParticipantImageView()).collect(Collectors.toList()));
-            pedestrians.removeAll(pedestrians.stream().filter(pedestrian -> pedestrian.isEndReached())
+            cycle();
+            cars.forEach(Car::correctSpeed);
+            cars.forEach(Car::move);
+            pedestrians.forEach(Pedestrian::walk);
+            content.getChildren().removeAll(cars.stream().filter(TrafficParticipant::isEndReached)
+                    .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
+            cars.removeAll(cars.stream().filter(TrafficParticipant::isEndReached).collect(Collectors.toList()));
+            content.getChildren().removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
+                    .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
+            pedestrians.removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
                     .collect(Collectors.toList()));
-            cars.stream().forEach(car -> car.setImagePosition());
-            pedestrians.stream().forEach(pedestrian -> pedestrian.setImagePosition());
+            cars.forEach(Car::setImagePosition);
+            pedestrians.forEach(Pedestrian::setImagePosition);
             isCycleFinished = true;
         }
     }
 
-    private void cycle(int time) {
+    private void cycle() {
+        int time = 100;
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> {
             isNextCycleReady = true;
             if(isCycleFinished) {

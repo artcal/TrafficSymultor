@@ -2,20 +2,20 @@ package simulation;
 
 import java.awt.*;
 
-public class ExitStartPoint {
+class ExitStartPlace {
     private Point position;
     private Road road;
 
-    public ExitStartPoint(Point position, Road road) {
+    ExitStartPlace(Point position, Road road) {
         this.position = position;
         this.road = road;
     }
 
-    public Point getPosition() {
+    Point getPosition() {
         return position;
     }
 
-    public Road getRoad() {
+    Road getRoad() {
         return road;
     }
 }

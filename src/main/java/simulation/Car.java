@@ -3,7 +3,7 @@ package simulation;
 import java.awt.*;
 import java.util.Random;
 
-public class Car extends TrafficParticipant implements RoadChange{
+class Car extends TrafficParticipant {
 
     private int acceleration;
     private int downturn;
@@ -175,8 +175,7 @@ public class Car extends TrafficParticipant implements RoadChange{
         return -1;
     }
 
-    @Override
-    public void onRoadChange() {
+    private void onRoadChange() {
         maxSpeed = road.getMaxSpeed() + (road.getMaxSpeed() * driverBehavior / 100);
         if (route.size() > 0)
             if (!isLineOk()) {

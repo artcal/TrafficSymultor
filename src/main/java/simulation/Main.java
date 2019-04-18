@@ -6,14 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Main extends Application {
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {

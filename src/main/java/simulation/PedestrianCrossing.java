@@ -18,7 +18,7 @@ class PedestrianCrossing {
         return position;
     }
 
-    String getStreetLights() {
+    int getStreetLights() {
         return streetLights.getLight();
     }
 

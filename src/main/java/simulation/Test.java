@@ -5,7 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 
 // do terstowania co nam potrzeba
-public class Test implements PropertyChangeListener{
+public class Test implements PropertyChangeListener, Runnable{
 
     int temp;
 
@@ -14,11 +14,9 @@ public class Test implements PropertyChangeListener{
     }
 
     public static void main(String[] args) throws Exception {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++)
-            list.add(i);
-        list.stream().forEach(exitStartPoint -> System.out.println(exitStartPoint));
-        System.out.println("----------------");
+        StreetLights streetLights = new StreetLights(5, 7, true);
+        streetLights.run();
+
     }
 
 
@@ -38,6 +36,11 @@ public class Test implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+
+    }
+
+    @Override
+    public void run() {
 
     }
 }

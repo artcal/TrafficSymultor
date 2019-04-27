@@ -16,7 +16,7 @@ class Initialize {
 //    private static RoadSign roadSign8;
 //    private static RoadSign roadSign9;
 //
-//    private static StreetLights streetLights1;
+    private static StreetLights streetLights1;
 //    private static StreetLights streetLights2;
 //    private static StreetLights streetLights3;
 //    private static StreetLights streetLights4;
@@ -196,6 +196,7 @@ class Initialize {
     private static Crossroad crossroad35;
 
     private static List<Road> roads;
+    private static List<StreetLights> streetLights;
 
 
     static void main(String[] args) {
@@ -210,6 +211,12 @@ class Initialize {
         initialize.addNextCrossroadsToLines();
 
         initialize.roadsToLists();
+        initialize.streetLightsToList();
+    }
+
+    private void streetLightsToList() {
+        streetLights = new ArrayList<>();
+        streetLights.add(streetLights1);
     }
 
     private void roadsToLists() {
@@ -949,9 +956,8 @@ class Initialize {
 
     }
 
-
     private void initializeStreetLights(){
-
+        streetLights1 = new StreetLights(8000, 4000, true, true);
     }
 
     private void initializeRoadSigns(){
@@ -960,5 +966,9 @@ class Initialize {
 
     static List<Road> getRoads() {
         return roads;
+    }
+
+    static List<StreetLights> getStreetLights() {
+        return streetLights;
     }
 }

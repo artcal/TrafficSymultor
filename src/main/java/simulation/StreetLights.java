@@ -4,7 +4,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-class StreetLights extends Thread {
+import java.util.Timer;
+import java.util.TimerTask;
+
+class StreetLights implements Runnable {
 
     static int RED = 0;
     static int REDYELLOW = 1;
@@ -16,55 +19,61 @@ class StreetLights extends Thread {
     private int light;
     private int redLightTime;
     private int greenLightTime;
-    private boolean isNonCollision;
+    private boolean isNonCollision, isRunning;
+    private Thread thread;
 
-    StreetLights(int redLightTime, int greenLightTime, boolean isNonCollision) {
-        this.light = 0;
+    StreetLights(int redLightTime, int greenLightTime, boolean isNonCollision, boolean isHorizontal) {
+        this.light = isHorizontal ? 0 : 1;
         this.redLightTime = redLightTime;
         this.greenLightTime = greenLightTime;
         this.isNonCollision = isNonCollision;
     }
 
     public static void main(String[] args) {
-        StreetLights streetLights = new StreetLights(5000, 7000, true);
+        StreetLights streetLights = new StreetLights(8000, 4000, true, true);
+        StreetLights streetLights1 = new StreetLights(8000, 4000, true, false);
         streetLights.start();
+        streetLights1.start();
     }
 
-    //FIXME IllegalMonitorStateException, synchronize thread
+    synchronized void start() {
+        thread = new Thread(this);
+        isRunning = true;
+        thread.start();
+    }
+
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                System.out.println(light);
-                switch (light) {
-                    case 0:
-                        waitForChange(redLightTime);
-                        wait(redLightTime);
-                        break;
-                    case 1:
-                    case 3:
-                        waitForChange(1000);
-                        wait(1000);
-                        break;
-                    case 2:
-                        waitForChange(greenLightTime);
-                        wait(greenLightTime);
-                        break;
+        try {
+            synchronized (this) {
+                if(light == REDYELLOW)
+                    wait(1000);
+                while (!Thread.currentThread().isInterrupted() && isRunning) {
+                    System.out.println(light);
+                    switch (light) {
+                        case 0:
+                            changeLights();
+                            wait(redLightTime);
+                            break;
+                        case 1:
+                        case 3:
+                            changeLights();
+                            wait(1000);
+                            break;
+                        case 2:
+                            changeLights();
+                            wait(greenLightTime);
+                            break;
+                    }
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
             }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
-    private void waitForChange(int time) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> changeLights()));
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-
     private void changeLights() {
-        light = light < 3 ? light++ : 0;
+        light = light < 3 ? light + 1 : 0;
     }
 
     private void turnConditioned() {
@@ -81,5 +90,13 @@ class StreetLights extends Thread {
 
     boolean isNonCollision() {
         return isNonCollision;
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    void setRunningFalse() {
+        isRunning = false;
     }
 }

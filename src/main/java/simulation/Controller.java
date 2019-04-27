@@ -175,6 +175,7 @@ public class Controller implements Initializable {
             initializePedestrians(pedestriansQuantity);
             addCarsToMap();
             addPedestriansToMap();
+            Initialize.getStreetLights().forEach(StreetLights::start);
             runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,6 +223,7 @@ public class Controller implements Initializable {
         cars.removeAll(carsToDelete);
         List<Pedestrian> pedestriansToDelete = pedestrians;
         pedestrians.removeAll(pedestriansToDelete);
+        Initialize.getStreetLights().forEach(StreetLights::setRunningFalse);
     }
 
     private void runSimulation() {

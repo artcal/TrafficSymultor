@@ -14,8 +14,8 @@ public class Test implements PropertyChangeListener, Runnable{
     }
 
     public static void main(String[] args) throws Exception {
-        StreetLights streetLights = new StreetLights(5, 7, true);
-        streetLights.run();
+//        StreetLights streetLights = new StreetLights(5, 7, true);
+//        streetLights.run();
 
     }
 

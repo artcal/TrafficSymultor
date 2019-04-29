@@ -1,46 +1,76 @@
 package simulation;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static simulation.StreetLights.RED;
 
 // do terstowania co nam potrzeba
-public class Test implements PropertyChangeListener, Runnable{
+public class Test implements Runnable{
 
-    int temp;
+    boolean isRunning;
+    final Thread thread;
+    private Timer timer;
 
-    public Test(int temp) {
-        this.temp = temp;
+    public Test() {
+
+        thread = new Thread(this);
+        isRunning = true;
     }
 
     public static void main(String[] args) throws Exception {
-//        StreetLights streetLights = new StreetLights(5, 7, true);
-//        streetLights.run();
+        Test test = new Test();
+        test.start();
 
     }
-
-
-    public static void aod(TrafficParticipant trafficParticipant){
-        System.out.println(trafficParticipant.getClass());
+    void start(){
+        thread.start();
+        synchronized (thread){
+            try {
+                System.out.println("Przed fredem");
+                thread.wait(6000);
+                System.out.println("Po fredzie");
+                setRunningFalse();
+            } catch (InterruptedException e) {
+                thread.interrupt();
+            }
+        }
     }
-
-    void  test_1(Map<String,String> hs){
-        hs.put("dz","ieki");
-
-    }
-
-    void  test_12(Map<String,String> hs){
-        hs.put("dud","ek");
-
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-
+    void setRunningFalse() {
+        synchronized (thread) {
+            isRunning = false;
+            thread.notify();
+        }
     }
 
     @Override
     public void run() {
+        try {
+            synchronized (thread) {
+               while (!Thread.currentThread().isInterrupted() && isRunning) {
+                   System.out.println("Przed wait()");
+//                   cycle(5000);
+                   thread.wait();
+                   System.out.println("Po wait()");
+                }
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    private void cycle(int time) {
+        timer = new Timer();
+        timer.schedule(new Test.RemindTask(), time);
+    }
 
+    class RemindTask extends TimerTask {
+        public void run() {
+            synchronized (thread) {
+                //timer.purge();
+                System.out.println("DUPA");
+                thread.notify();
+                //timer.cancel();
+            }
+        }
     }
 }

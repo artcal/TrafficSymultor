@@ -1,6 +1,10 @@
 package simulation;
 
+import javafx.scene.image.ImageView;
+
 import java.awt.*;
+import java.net.URI;
+import java.net.URL;
 import java.util.List;
 
 class Line {
@@ -10,7 +14,17 @@ class Line {
     private String trafficMovementDirection; // N,E,S,W
     private boolean isClosed;
     private Crossroad nextCrossroad;
+    private StreetLights streetLights;
+    private ImageView imageView;
 
+    Line(StreetLights streetLights, List<RoadSign> roadSigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
+        this.streetLights = streetLights;
+        this.roadSigns = roadSigns;
+        this.start = start;
+        this.end = end;
+        this.trafficMovementDirection = trafficMovementDirection;
+        this.isClosed = isClosed;
+    }
 
     Line(List<RoadSign> roadSigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
         this.roadSigns = roadSigns;
@@ -20,12 +34,55 @@ class Line {
         this.isClosed = isClosed;
     }
 
+    void setImageView(){
+        if(streetLights != null){
+            int shift = getShiftValue();
+            imageView = new ImageView(streetLights.getImage());
+            switch(trafficMovementDirection){
+                case "N":
+                    imageView.setRotate(0);
+                    if(shift < 0) imageView.setX(start.x + shift - 4);
+                    else imageView.setX(start.x + shift);
+                    imageView.setY(start.y);
+                    break;
+                case "E":
+                    imageView.setRotate(90);
+                    imageView.setX(end.x - 9);
+                    if(shift < 0) imageView.setY(end.y - shift - 4);
+                    else imageView.setY(end.y + shift);
+                    break;
+                case "S":
+                    imageView.setRotate(180);
+                    if(shift < 0) imageView.setX(end.x - shift);
+                    else imageView.setX(end.x - shift - 4);
+                    imageView.setY(end.y - 9);
+                    break;
+                case "W":
+                    imageView.setRotate(270);
+                    imageView.setX(start.x);
+                    if(shift < 0) imageView.setY(start.y - shift);
+                    else imageView.setY(start.y - shift - 4);
+                    break;
+            }
+        }
+    }
+
+    private int getShiftValue() {
+        if(trafficMovementDirection.equals("N") || trafficMovementDirection.equals("S")){
+            if(Math.abs(start.x - nextCrossroad.getPosition().x) == 7) return -5;
+        }else {
+            if(Math.abs(start.y - nextCrossroad.getPosition().y) == 7) return -5;
+        }
+        return 5;
+    }
+
     Crossroad getNextCrossroad() {
         return nextCrossroad;
     }
 
     void setNextCrossroad(Crossroad nextCrossroad) {
         this.nextCrossroad = nextCrossroad;
+        setImageView();
     }
 
     List<RoadSign> getRoadSigns() {
@@ -50,6 +107,14 @@ class Line {
 
     void setClosed(boolean closed) {
         isClosed = closed;
+    }
+
+    StreetLights getStreetLights() {
+        return streetLights;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 }
 

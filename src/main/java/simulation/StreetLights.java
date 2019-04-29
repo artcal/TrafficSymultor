@@ -1,39 +1,35 @@
 package simulation;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import javafx.scene.image.Image;
+
+import java.net.URI;
+import java.net.URL;
 
 class StreetLights implements Runnable {
 
-    static int RED = 0;
-    static int REDYELLOW = 1;
-    static int GREEN = 2;
-    static int YELLOW = 3;
-    static int REDCONDITIONAL = 4;
-    static int NONE = 5;
+    static final int RED = 0;
+    static final int REDYELLOW = 1;
+    static final int GREEN = 2;
+    static final int YELLOW = 3;
+    static final int REDCONDITIONAL = 4;
+    static final int NONE = 5;
 
     private int light;
-    private int redLightTime;
-    private int greenLightTime;
+    private int greenLightTime, redLightTime, delay, startingLight;
     private boolean isNonCollision, isRunning;
     private Thread thread;
+    private Image image;
 
-    StreetLights(int redLightTime, int greenLightTime, boolean isNonCollision, boolean isHorizontal) {
-        this.light = isHorizontal ? 0 : 1;
+
+    StreetLights(int redLightTime, int greenLightTime, boolean isNonCollision, int startingLight, int delay ) throws Exception {
+        this.light = startingLight;
         this.redLightTime = redLightTime;
         this.greenLightTime = greenLightTime;
         this.isNonCollision = isNonCollision;
-    }
-
-    public static void main(String[] args) {
-        StreetLights streetLights = new StreetLights(8000, 4000, true, true);
-        StreetLights streetLights1 = new StreetLights(8000, 4000, true, false);
-        streetLights.start();
-        streetLights1.start();
+        this.delay = delay;
+        this.startingLight = startingLight;
+        setImage();
     }
 
     synchronized void start() {
@@ -45,35 +41,40 @@ class StreetLights implements Runnable {
     @Override
     public void run() {
         try {
-            synchronized (this) {
-                if(light == REDYELLOW)
-                    wait(1000);
+            synchronized (thread) {
+                if(delay != 0)
+                    thread.wait(delay);
                 while (!Thread.currentThread().isInterrupted() && isRunning) {
-                    System.out.println(light);
                     switch (light) {
-                        case 0:
+                        case RED:
+                        case GREEN:
                             changeLights();
-                            wait(redLightTime);
+                            System.out.println(startingLight +"\t" + light);
+                            thread.wait(1000);
                             break;
-                        case 1:
-                        case 3:
+                        case REDYELLOW:
                             changeLights();
-                            wait(1000);
+                            System.out.println(startingLight +"\t" + light);
+                            thread.wait(greenLightTime);
                             break;
-                        case 2:
+                        case YELLOW:
                             changeLights();
-                            wait(greenLightTime);
+                            System.out.println(startingLight +"\t" + light);
+                            thread.wait(redLightTime);
                             break;
                     }
                 }
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void changeLights() {
+    private void changeLights() throws Exception {
         light = light < 3 ? light + 1 : 0;
+        setImage();
     }
 
     private void turnConditioned() {
@@ -96,7 +97,38 @@ class StreetLights implements Runnable {
         return isRunning;
     }
 
-    void setRunningFalse() {
-        isRunning = false;
+    void setRunningFalse() throws Exception {
+        synchronized (thread) {
+            isRunning = false;
+            light = startingLight;
+            thread.notify();
+            setImage();
+        }
+    }
+    Image getImage() {
+        return image;
+    }
+
+    void setImage() throws Exception {
+        String imageString = "";
+        switch(light){
+            case RED:
+                imageString = "StreetLightsRED.png";
+                break;
+            case REDYELLOW:
+                imageString = "StreetLightsREDYELLOW.png";
+                break;
+            case GREEN:
+                imageString = "StreetLightsGREEN.png";
+                break;
+            case YELLOW:
+                imageString = "StreetLightsYELLOW.png";
+                break;
+        }
+        URL url = getClass().getClassLoader().getResource(imageString);
+        if(url != null) {
+            URI uri = url.toURI();
+            image = new Image(uri.toString());
+        }
     }
 }

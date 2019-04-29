@@ -27,11 +27,11 @@ public class TrafficParticipant {
         this.name = name;
         this.isSafe = isSafe;
         this.isEndReached = false;
-        URL carUrl = getClass().getClassLoader().getResource(imageString);
-        if(carUrl != null) {
-            URI carURI = carUrl.toURI();
-            Image carImage = new Image(carURI.toString());
-            this.trafficParticipantImageView = new ImageView(carImage);
+        URL url = getClass().getClassLoader().getResource(imageString);
+        if(url != null) {
+            URI uri = url.toURI();
+            Image image = new Image(uri.toString());
+            this.trafficParticipantImageView = new ImageView(image);
         } else
             throw new Exception("Wrong Traffic Participant image name");
     }

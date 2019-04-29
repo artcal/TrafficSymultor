@@ -29,7 +29,9 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
-        Initialize.getStreetLights().forEach(StreetLights::setRunningFalse);
+        for (StreetLights streetLights : Initialize.getStreetLights()) {
+            streetLights.setRunningFalse();
+        }
         super.stop();
     }
 }

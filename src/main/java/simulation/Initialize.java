@@ -16,15 +16,26 @@ class Initialize {
 //    private static RoadSign roadSign8;
 //    private static RoadSign roadSign9;
 //
-    private static StreetLights streetLights1;
-//    private static StreetLights streetLights2;
-//    private static StreetLights streetLights3;
-//    private static StreetLights streetLights4;
-//    private static StreetLights streetLights5;
-//    private static StreetLights streetLights6;
-//    private static StreetLights streetLights7;
-//    private static StreetLights streetLights8;
-//    private static StreetLights streetLights9;
+    private static StreetLights streetLights2wayV;
+    private static StreetLights streetLights2wayH;
+    private static StreetLights streetLights1wayHE;
+    private static StreetLights streetLights1wayHW;
+    private static StreetLights streetLights1wayHEL;
+    private static StreetLights streetLights1wayHWL;
+    private static StreetLights streetLights1wayVN;
+    private static StreetLights streetLights1wayVS;
+    private static StreetLights streetLights1wayVNL;
+    private static StreetLights streetLights1wayVSL;
+    private static StreetLights streetLights1wayHTo2wayW;
+    private static StreetLights streetLights1wayHTo2wayS;
+    private static StreetLights streetLights2wayHTo1way;
+    private static StreetLights streetLights2wayVTo1way;
+    private static StreetLights streetLights1wayVEW;
+    private static StreetLights streetLights1wayHE2;
+    private static StreetLights streetLights1wayHW2;
+    private static StreetLights streetLights1wayHEL2;
+    private static StreetLights streetLights1wayHWL2;
+    private static StreetLights streetLights2wayV2;
 
     private static Line lineV1;
     private static Line lineV2;
@@ -197,9 +208,9 @@ class Initialize {
 
     private static List<Road> roads;
     private static List<StreetLights> streetLights;
+    private static List<Line> lines;
 
-
-    static void main(String[] args) {
+    static void main(String[] args) throws Exception {
         Initialize initialize = new Initialize();
         initialize.initializeRoadSigns();
         initialize.initializeStreetLights();
@@ -210,16 +221,108 @@ class Initialize {
         initialize.connectLinesOnCrossroads();
         initialize.addNextCrossroadsToLines();
 
-        initialize.roadsToLists();
+        initialize.roadsToList();
         initialize.streetLightsToList();
+        initialize.linesToList();
+    }
+
+    private void linesToList() {
+        lines = new ArrayList<>();
+        lines.add(lineV1);
+        lines.add(lineV2);
+        lines.add(lineV3);
+        lines.add(lineV4);
+        lines.add(lineV5);
+        lines.add(lineV6);
+        lines.add(lineV7);
+        lines.add(lineV8);
+        lines.add(lineV9);
+        lines.add(lineV10);
+        lines.add(lineV11);
+        lines.add(lineV12);
+        lines.add(lineV13);
+        lines.add(lineV14);
+        lines.add(lineV15);
+        lines.add(lineV16);
+        lines.add(lineV17);
+        lines.add(lineV18);
+        lines.add(lineV19);
+        lines.add(lineV20);
+        lines.add(lineV21);
+        lines.add(lineV22);
+        lines.add(lineV23);
+        lines.add(lineV24);
+        lines.add(lineV25);
+        lines.add(lineV26);
+        lines.add(lineV27);
+        lines.add(lineV28);
+        lines.add(lineV29);
+        lines.add(lineV30);
+        lines.add(lineH1);
+        lines.add(lineH2);
+        lines.add(lineH3);
+        lines.add(lineH4);
+        lines.add(lineH5);
+        lines.add(lineH6);
+        lines.add(lineH7);
+        lines.add(lineH8);
+        lines.add(lineH9);
+        lines.add(lineH10);
+        lines.add(lineH11);
+        lines.add(lineH12);
+        lines.add(lineH13);
+        lines.add(lineH14);
+        lines.add(lineH15);
+        lines.add(lineH16);
+        lines.add(lineH17);
+        lines.add(lineH18);
+        lines.add(lineH19);
+        lines.add(lineH20);
+        lines.add(lineH21);
+        lines.add(lineH22);
+        lines.add(lineH23);
+        lines.add(lineH24);
+        lines.add(lineH25);
+        lines.add(lineH26);
+        lines.add(lineH27);
+        lines.add(lineH28);
+        lines.add(lineH29);
+        lines.add(lineH30);
+        lines.add(lineH31);
+        lines.add(lineH32);
+        lines.add(lineH33);
+        lines.add(lineH34);
+        lines.add(lineH35);
+        lines.add(lineH36);
+        lines.add(lineH37);
+        lines.add(lineH38);
+        lines.add(lineES1);
+        lines.add(lineES2);
     }
 
     private void streetLightsToList() {
         streetLights = new ArrayList<>();
-        streetLights.add(streetLights1);
+        streetLights.add(streetLights2wayV);
+        streetLights.add(streetLights2wayH);
+        streetLights.add(streetLights2wayHTo1way);
+        streetLights.add(streetLights1wayHE);
+        streetLights.add(streetLights1wayHW);
+        streetLights.add(streetLights1wayHEL);
+        streetLights.add(streetLights1wayHWL);
+        streetLights.add(streetLights1wayVN);
+        streetLights.add(streetLights1wayVS);
+        streetLights.add(streetLights1wayVNL);
+        streetLights.add(streetLights1wayVSL);
+        streetLights.add(streetLights1wayHTo2wayW);
+        streetLights.add(streetLights1wayHTo2wayS);
+        streetLights.add(streetLights1wayHE2);
+        streetLights.add(streetLights1wayHW2);
+        streetLights.add(streetLights1wayHEL2);
+        streetLights.add(streetLights1wayHWL2);
+        streetLights.add(streetLights2wayV2);
     }
 
-    private void roadsToLists() {
+    private void roadsToList() {
         roads = new ArrayList<>();
 
         roads.add(roadV1);
@@ -881,73 +984,73 @@ class Initialize {
     }
 
     private void initializeLines(){
-        lineV1 = new Line(null, new Point(205,0), new Point(205,200), "S", false);
+        lineV1 = new Line(streetLights2wayV,null, new Point(205,0), new Point(205,200), "S", false);
         lineV2 = new Line(null, new Point(215,0), new Point(215,200), "N", false);
         lineV3 = new Line(null, new Point(645,0), new Point(645,200), "S", false);
         lineV4 = new Line(null, new Point(655,0), new Point(655,200), "N", false);
         lineV5 = new Line(null, new Point(865,0), new Point(865,200), "S", false);
         lineV6 = new Line(null, new Point(875,0), new Point(875,200), "N", false);
-        lineV7 = new Line(null, new Point(205,220), new Point(205,420), "S", false);
-        lineV8 = new Line(null, new Point(215,220), new Point(215,420), "N", false);
+        lineV7 = new Line(streetLights2wayV,null, new Point(205,220), new Point(205,420), "S", false);
+        lineV8 = new Line(streetLights2wayV,null, new Point(215,220), new Point(215,420), "N", false);
         lineV9 = new Line(null, new Point(425,220), new Point(425,420), "S", false);
-        lineV10 = new Line(null, new Point(435,220), new Point(435,420), "N", false);
-        lineV11 = new Line(null, new Point(1085,220), new Point(1085,628), "S", false);
-        lineV12 = new Line(null, new Point(1095,220), new Point(1095,628), "N", false);
-        lineV13 = new Line(null, new Point(205,440), new Point(205,640), "S", false);
-        lineV14 = new Line(null, new Point(215,440), new Point(215,640), "N", false);
-        lineV15 = new Line(null, new Point(633,452), new Point(633,628), "S", false);
-        lineV16 = new Line(null, new Point(643,452), new Point(643,628), "S", false);
-        lineV17 = new Line(null, new Point(657,452), new Point(657,628), "N", false);
-        lineV18 = new Line(null, new Point(667,452), new Point(667,628), "N", false);
-        lineV19 = new Line(null, new Point(865,440), new Point(865,628), "S", false);
+        lineV10 = new Line(streetLights2wayV,null, new Point(435,220), new Point(435,420), "N", false);
+        lineV11 = new Line(streetLights2wayV2,null, new Point(1085,220), new Point(1085,628), "S", false);
+        lineV12 = new Line(streetLights2wayV,null, new Point(1095,220), new Point(1095,628), "N", false);
+        lineV13 = new Line(streetLights2wayV,null, new Point(205,440), new Point(205,640), "S", false);
+        lineV14 = new Line(streetLights2wayV,null, new Point(215,440), new Point(215,640), "N", false);
+        lineV15 = new Line(streetLights1wayVS,null, new Point(633,452), new Point(633,628), "S", false);
+        lineV16 = new Line(streetLights1wayVSL,null, new Point(643,452), new Point(643,628), "S", false);
+        lineV17 = new Line(streetLights1wayVEW,null, new Point(657,452), new Point(657,628), "N", false);
+        lineV18 = new Line(streetLights1wayVEW, null, new Point(667,452), new Point(667,628), "N", false);
+        lineV19 = new Line(streetLights2wayV2,null, new Point(865,440), new Point(865,628), "S", false);
         lineV20 = new Line(null, new Point(875,440), new Point(875,628), "N", false);
         lineV21 = new Line(null, new Point(205,660), new Point(205,800), "S", false);
-        lineV22 = new Line(null, new Point(215,660), new Point(215,800), "N", false);
+        lineV22 = new Line(streetLights2wayV,null, new Point(215,660), new Point(215,800), "N", false);
         lineV23 = new Line(null, new Point(425,672), new Point(425,800), "S", false);
-        lineV24 = new Line(null, new Point(435,672), new Point(435,800), "N", false);
+        lineV24 = new Line(streetLights2wayVTo1way,null, new Point(435,672), new Point(435,800), "N", false);
         lineV25 = new Line(null, new Point(633,672), new Point(633,800), "S", false);
         lineV26 = new Line(null, new Point(643,672), new Point(643,800), "S", false);
-        lineV27 = new Line(null, new Point(657,672), new Point(657,800), "N", false);
-        lineV28 = new Line(null, new Point(667,672), new Point(667,800), "N", false);
+        lineV27 = new Line(streetLights1wayVNL, null, new Point(657,672), new Point(657,800), "N", false);
+        lineV28 = new Line(streetLights1wayVN, null, new Point(667,672), new Point(667,800), "N", false);
         lineV29 = new Line(null, new Point(1085,672), new Point(1085,800), "S", false);
-        lineV30 = new Line(null, new Point(1095,672), new Point(1095,800), "N", false);
+        lineV30 = new Line(streetLights2wayV2,null, new Point(1095,672), new Point(1095,800), "N", false);
 
         lineH1 = new Line(null, new Point(0, 205), new Point(200, 205), "W", false);
-        lineH2 = new Line(null, new Point(0, 215), new Point(200, 215), "E", false);
-        lineH3 = new Line(null, new Point(220, 205), new Point(420, 205), "W", false);
-        lineH4 = new Line(null, new Point(220, 215), new Point(420, 215), "E", false);
-        lineH5 = new Line(null, new Point(440, 205), new Point(640, 205), "W", false);
+        lineH2 = new Line(streetLights2wayH,null, new Point(0, 215), new Point(200, 215), "E", false);
+        lineH3 = new Line(streetLights2wayH,null, new Point(220, 205), new Point(420, 205), "W", false);
+        lineH4 = new Line(streetLights2wayH,null, new Point(220, 215), new Point(420, 215), "E", false);
+        lineH5 = new Line(streetLights2wayH,null, new Point(440, 205), new Point(640, 205), "W", false);
         lineH6 = new Line(null, new Point(440, 215), new Point(640, 215), "E", false);
         lineH7 = new Line(null, new Point(660, 205), new Point(860, 205), "W", false);
         lineH8 = new Line(null, new Point(660, 215), new Point(860, 215), "E", false);
         lineH9 = new Line(null, new Point(880, 205), new Point(1080, 205), "W", false);
-        lineH10 = new Line(null, new Point(880, 215), new Point(1080, 215), "E", false);
-        lineH11 = new Line(null, new Point(1100, 205), new Point(1300, 205), "W", false);
+        lineH10 = new Line(streetLights2wayH,null, new Point(880, 215), new Point(1080, 215), "E", false);
+        lineH11 = new Line(streetLights2wayH,null, new Point(1100, 205), new Point(1300, 205), "W", false);
         lineH12 = new Line(null, new Point(1100, 215), new Point(1300, 215), "E", false);
-        lineH13 = new Line(null, new Point(220, 425), new Point(420, 425), "W", false);
+        lineH13 = new Line(streetLights2wayH,null, new Point(220, 425), new Point(420, 425), "W", false);
         lineH14 = new Line(null, new Point(220, 435), new Point(420, 435), "E", false);
         lineH15 = new Line(null, new Point(440, 425), new Point(628, 425), "W", false);
-        lineH16 = new Line(null, new Point(440, 435), new Point(628, 435), "E", false);
-        lineH17 = new Line(null, new Point(672, 425), new Point(860, 425), "W", false);
+        lineH16 = new Line(streetLights2wayH,null, new Point(440, 435), new Point(628, 435), "E", false);
+        lineH17 = new Line(streetLights2wayH,null, new Point(672, 425), new Point(860, 425), "W", false);
         lineH18 = new Line(null, new Point(672, 435), new Point(860, 435), "E", false);
         lineH19 = new Line(null, new Point(0, 645), new Point(200, 645), "W", false);
-        lineH20 = new Line(null, new Point(0, 655), new Point(200, 655), "E", false);
-        lineH21 = new Line(null, new Point(220, 645), new Point(408, 645), "W", false);
-        lineH22 = new Line(null, new Point(220, 655), new Point(408, 655), "E", false);
-        lineH23 = new Line(null, new Point(452, 633), new Point(628, 633), "W", false);
-        lineH24 = new Line(null, new Point(452, 643), new Point(628, 643), "W", false);
-        lineH25 = new Line(null, new Point(452, 657), new Point(628, 657), "E", false);
-        lineH26 = new Line(null, new Point(452, 667), new Point(628, 667), "E", false);
-        lineH27 = new Line(null, new Point(672, 633), new Point(848, 633), "W", false);
-        lineH28 = new Line(null, new Point(672, 643), new Point(848, 643), "W", false);
-        lineH29 = new Line(null, new Point(672, 657), new Point(848, 657), "E", false);
-        lineH30 = new Line(null, new Point(672, 667), new Point(848, 667), "E", false);
-        lineH31 = new Line(null, new Point(892, 633), new Point(1068, 633), "W", false);
-        lineH32 = new Line(null, new Point(892, 643), new Point(1068, 643), "W", false);
-        lineH33 = new Line(null, new Point(892, 657), new Point(1068, 657), "E", false);
-        lineH34 = new Line(null, new Point(892, 667), new Point(1068, 667), "E", false);
-        lineH35 = new Line(null, new Point(1112, 633), new Point(1300, 633), "W", false);
-        lineH36 = new Line(null, new Point(1112, 643), new Point(1300, 643), "W", false);
+        lineH20 = new Line(streetLights2wayH,null, new Point(0, 655), new Point(200, 655), "E", false);
+        lineH21 = new Line(streetLights2wayH,null, new Point(220, 645), new Point(408, 645), "W", false);
+        lineH22 = new Line(streetLights2wayHTo1way, null, new Point(220, 655), new Point(408, 655), "E", false);
+        lineH23 = new Line(streetLights1wayHTo2wayW, null, new Point(452, 633), new Point(628, 633), "W", false);
+        lineH24 = new Line(streetLights1wayHTo2wayS, null, new Point(452, 643), new Point(628, 643), "W", false);
+        lineH25 = new Line(streetLights1wayHEL, null, new Point(452, 657), new Point(628, 657), "E", false);
+        lineH26 = new Line(streetLights1wayHE, null, new Point(452, 667), new Point(628, 667), "E", false);
+        lineH27 = new Line(streetLights1wayHW,null, new Point(672, 633), new Point(848, 633), "W", false);
+        lineH28 = new Line(streetLights1wayHWL,null, new Point(672, 643), new Point(848, 643), "W", false);
+        lineH29 = new Line(streetLights1wayHEL2,null, new Point(672, 657), new Point(848, 657), "E", false);
+        lineH30 = new Line(streetLights1wayHE2, null, new Point(672, 667), new Point(848, 667), "E", false);
+        lineH31 = new Line(streetLights1wayHW2, null, new Point(892, 633), new Point(1068, 633), "W", false);
+        lineH32 = new Line(streetLights1wayHWL2, null, new Point(892, 643), new Point(1068, 643), "W", false);
+        lineH33 = new Line(streetLights1wayHEL2,null, new Point(892, 657), new Point(1068, 657), "E", false);
+        lineH34 = new Line(streetLights1wayHE2, null, new Point(892, 667), new Point(1068, 667), "E", false);
+        lineH35 = new Line(streetLights1wayHW2,null, new Point(1112, 633), new Point(1300, 633), "W", false);
+        lineH36 = new Line(streetLights1wayHWL2,null, new Point(1112, 643), new Point(1300, 643), "W", false);
         lineH37 = new Line(null, new Point(1112, 657), new Point(1300, 657), "E", false);
         lineH38 = new Line(null, new Point(1112, 667), new Point(1300, 667), "E", false);
 
@@ -956,13 +1059,37 @@ class Initialize {
 
     }
 
-    private void initializeStreetLights(){
-        streetLights1 = new StreetLights(8000, 4000, true, true);
+    private void initializeStreetLights() throws Exception {
+        streetLights2wayV = new StreetLights(14000,10000,false, StreetLights.RED, 1000 );
+        streetLights2wayH = new StreetLights(14000,10000,false, StreetLights.YELLOW, 0);
+        streetLights1wayHE = new StreetLights(44000,16000,false, StreetLights.RED, 30000);
+        streetLights1wayHW = new StreetLights(44000,16000,false, StreetLights.RED, 41000);
+        streetLights1wayHEL = new StreetLights(52000,8000,true, StreetLights.RED, 30000);
+        streetLights1wayHWL = new StreetLights(52000,8000,true, StreetLights.RED, 49000);
+        streetLights1wayVN = new StreetLights(44000,16000,false, StreetLights.RED, 10000);
+        streetLights1wayVS = new StreetLights(44000,16000,false, StreetLights.REDYELLOW, 0);
+        streetLights1wayVNL = new StreetLights(52000,8000,true, StreetLights.RED, 18000);
+        streetLights1wayVSL = new StreetLights(52000,8000,true, StreetLights.REDYELLOW, 0);
+        streetLights2wayHTo1way = new StreetLights(21000,10000,false, StreetLights.RED, 12000);
+        streetLights1wayHTo2wayW = new StreetLights(13000,18000,true, StreetLights.RED, 12000);
+        streetLights1wayHTo2wayS = new StreetLights(26000,5000,true, StreetLights.RED, 25000);
+        streetLights2wayHTo1way = new StreetLights(21000,10000, false, StreetLights.REDYELLOW,0);
+        streetLights1wayVEW = streetLights2wayV;
+        streetLights1wayHE2 = new StreetLights(28000,16000,false, StreetLights.RED, 14000);
+        streetLights1wayHW2 = new StreetLights(28000,16000,false, StreetLights.RED, 25000);
+        streetLights1wayHEL2 = new StreetLights(36000,8000,true, StreetLights.RED, 14000);
+        streetLights1wayHWL2 = new StreetLights(36000,8000,true, StreetLights.RED, 33000);
+        streetLights2wayV2 = new StreetLights(34000,10000,false, StreetLights.REDYELLOW, 0);
     }
 
     private void initializeRoadSigns(){
 
     }
+
+    static void changeStreetLightsImageView(StreetLights streetLights){
+        lines.stream().filter(line -> line.getStreetLights().equals(streetLights)).forEach(Line::setImageView);
+    }
+
 
     static List<Road> getRoads() {
         return roads;
@@ -970,5 +1097,9 @@ class Initialize {
 
     static List<StreetLights> getStreetLights() {
         return streetLights;
+    }
+
+    public static List<Line> getLines() {
+        return lines;
     }
 }

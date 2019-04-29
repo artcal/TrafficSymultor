@@ -47,7 +47,11 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        generateExitSpawnPoints();
+        try {
+            generateExitSpawnPoints();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         cars = new ArrayList<>();
         pedestrians = new ArrayList<>();
         URI simulationMapURI;
@@ -69,7 +73,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private void generateExitSpawnPoints() {
+    private void generateExitSpawnPoints() throws Exception {
         exitPlaces = new ArrayList<>();
         startingPlaces = new ArrayList<>();
 
@@ -175,11 +179,16 @@ public class Controller implements Initializable {
             initializePedestrians(pedestriansQuantity);
             addCarsToMap();
             addPedestriansToMap();
+            addStreetLightsToMap();
             Initialize.getStreetLights().forEach(StreetLights::start);
             runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void addStreetLightsToMap() {
+        Initialize.getLines().stream().filter(line -> line.getStreetLights() != null).forEach(line -> content.getChildren().add(line.getImageView()));
     }
 
     private void initializePedestrians(int quantity) throws Exception {
@@ -213,7 +222,7 @@ public class Controller implements Initializable {
             content.getChildren().add(car.getTrafficParticipantImageView());
     }
 
-    public void stopSimulation() {
+    public void stopSimulation() throws Exception {
         isSimulationStopped = true;
         List<Node> nodes = new ArrayList<>();
         nodes.add(content.getChildren().get(0));
@@ -223,7 +232,9 @@ public class Controller implements Initializable {
         cars.removeAll(carsToDelete);
         List<Pedestrian> pedestriansToDelete = pedestrians;
         pedestrians.removeAll(pedestriansToDelete);
-        Initialize.getStreetLights().forEach(StreetLights::setRunningFalse);
+        for (StreetLights streetLights : Initialize.getStreetLights()) {
+            streetLights.setRunningFalse();
+        }
     }
 
     private void runSimulation() {

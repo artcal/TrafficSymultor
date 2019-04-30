@@ -305,6 +305,7 @@ class Initialize {
         streetLights.add(streetLights2wayV);
         streetLights.add(streetLights2wayH);
         streetLights.add(streetLights2wayHTo1way);
+        streetLights.add(streetLights2wayVTo1way);
         streetLights.add(streetLights1wayHE);
         streetLights.add(streetLights1wayHW);
         streetLights.add(streetLights1wayHEL);
@@ -1067,19 +1068,19 @@ class Initialize {
         streetLights1wayHEL = new StreetLights(52000,8000,true, StreetLights.RED, 30000);
         streetLights1wayHWL = new StreetLights(52000,8000,true, StreetLights.RED, 49000);
         streetLights1wayVN = new StreetLights(44000,16000,false, StreetLights.RED, 10000);
-        streetLights1wayVS = new StreetLights(44000,16000,false, StreetLights.REDYELLOW, 0);
+        streetLights1wayVS = new StreetLights(44000,16000,false, StreetLights.RED_YELLOW, 0);
         streetLights1wayVNL = new StreetLights(52000,8000,true, StreetLights.RED, 18000);
-        streetLights1wayVSL = new StreetLights(52000,8000,true, StreetLights.REDYELLOW, 0);
+        streetLights1wayVSL = new StreetLights(52000,8000,true, StreetLights.RED_YELLOW, 0);
         streetLights2wayHTo1way = new StreetLights(21000,10000,false, StreetLights.RED, 12000);
         streetLights1wayHTo2wayW = new StreetLights(13000,18000,true, StreetLights.RED, 12000);
         streetLights1wayHTo2wayS = new StreetLights(26000,5000,true, StreetLights.RED, 25000);
-        streetLights2wayHTo1way = new StreetLights(21000,10000, false, StreetLights.REDYELLOW,0);
+        streetLights2wayVTo1way = new StreetLights(21000,10000, false, StreetLights.RED_YELLOW,0);
         streetLights1wayVEW = streetLights2wayV;
         streetLights1wayHE2 = new StreetLights(28000,16000,false, StreetLights.RED, 14000);
         streetLights1wayHW2 = new StreetLights(28000,16000,false, StreetLights.RED, 25000);
         streetLights1wayHEL2 = new StreetLights(36000,8000,true, StreetLights.RED, 14000);
         streetLights1wayHWL2 = new StreetLights(36000,8000,true, StreetLights.RED, 33000);
-        streetLights2wayV2 = new StreetLights(34000,10000,false, StreetLights.REDYELLOW, 0);
+        streetLights2wayV2 = new StreetLights(34000,10000,false, StreetLights.RED_YELLOW, 0);
     }
 
     private void initializeRoadSigns(){
@@ -1087,9 +1088,9 @@ class Initialize {
     }
 
     static void changeStreetLightsImageView(StreetLights streetLights){
-        lines.stream().filter(line -> line.getStreetLights().equals(streetLights)).forEach(Line::setImageView);
+        lines.stream().filter(line -> line.getStreetLights() != null)
+                .filter(line -> line.getStreetLights().equals(streetLights)).forEach(Line::setImageView);
     }
-
 
     static List<Road> getRoads() {
         return roads;
@@ -1099,7 +1100,7 @@ class Initialize {
         return streetLights;
     }
 
-    public static List<Line> getLines() {
+    static List<Line> getLines() {
         return lines;
     }
 }

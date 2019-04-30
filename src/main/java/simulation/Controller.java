@@ -188,7 +188,8 @@ public class Controller implements Initializable {
     }
 
     private void addStreetLightsToMap() {
-        Initialize.getLines().stream().filter(line -> line.getStreetLights() != null).forEach(line -> content.getChildren().add(line.getImageView()));
+        Initialize.getLines().stream().filter(line -> line.getStreetLights() != null)
+                .forEach(line -> content.getChildren().add(line.getImageView()));
     }
 
     private void initializePedestrians(int quantity) throws Exception {

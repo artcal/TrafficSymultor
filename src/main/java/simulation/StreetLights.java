@@ -9,7 +9,7 @@ import java.net.URL;
 class StreetLights implements Runnable {
 
     static final int RED = 0;
-    static final int REDYELLOW = 1;
+    static final int RED_YELLOW = 1;
     static final int GREEN = 2;
     static final int YELLOW = 3;
     static final int REDCONDITIONAL = 4;
@@ -49,17 +49,14 @@ class StreetLights implements Runnable {
                         case RED:
                         case GREEN:
                             changeLights();
-                            System.out.println(startingLight +"\t" + light);
                             thread.wait(1000);
                             break;
-                        case REDYELLOW:
+                        case RED_YELLOW:
                             changeLights();
-                            System.out.println(startingLight +"\t" + light);
                             thread.wait(greenLightTime);
                             break;
                         case YELLOW:
                             changeLights();
-                            System.out.println(startingLight +"\t" + light);
                             thread.wait(redLightTime);
                             break;
                     }
@@ -75,6 +72,7 @@ class StreetLights implements Runnable {
     private void changeLights() throws Exception {
         light = light < 3 ? light + 1 : 0;
         setImage();
+        Initialize.changeStreetLightsImageView(this);
     }
 
     private void turnConditioned() {
@@ -115,7 +113,7 @@ class StreetLights implements Runnable {
             case RED:
                 imageString = "StreetLightsRED.png";
                 break;
-            case REDYELLOW:
+            case RED_YELLOW:
                 imageString = "StreetLightsREDYELLOW.png";
                 break;
             case GREEN:

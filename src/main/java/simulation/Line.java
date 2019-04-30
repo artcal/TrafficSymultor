@@ -3,11 +3,13 @@ package simulation;
 import javafx.scene.image.ImageView;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 class Line {
 
     private List<RoadSign> roadSigns;
+    private List<Car> cars;
     private Point start,end;
     private String trafficMovementDirection; // N,E,S,W
     private boolean isClosed;
@@ -17,6 +19,7 @@ class Line {
 
     Line(StreetLights streetLights, List<RoadSign> roadSigns, Point start, Point end, String trafficMovementDirection,
          boolean isClosed) {
+        this.cars = new ArrayList<>();
         this.streetLights = streetLights;
         this.roadSigns = roadSigns;
         this.start = start;
@@ -26,6 +29,7 @@ class Line {
     }
 
     Line(List<RoadSign> roadSigns, Point start, Point end, String trafficMovementDirection, boolean isClosed) {
+        this.cars = new ArrayList<>();
         this.roadSigns = roadSigns;
         this.start = start;
         this.end = end;
@@ -70,8 +74,9 @@ class Line {
     }
 
     private int getShiftValue() {
-        if (trafficMovementDirection.equals("N") || trafficMovementDirection.equals("S"))
+        if (trafficMovementDirection.equals("N") || trafficMovementDirection.equals("S")) {
             if (Math.abs(start.x - nextCrossroad.getPosition().x) == 7) return -5;
+        }
         else
             if (Math.abs(start.y - nextCrossroad.getPosition().y) == 7) return -5;
         return 5;
@@ -114,8 +119,21 @@ class Line {
         return streetLights;
     }
 
-    public ImageView getImageView() {
+    ImageView getImageView() {
         return imageView;
     }
+
+    List<Car> getCars() {
+        return cars;
+    }
+
+    void addCar(Car car) {
+        cars.add(car);
+    }
+
+    void removeCar(Car car){
+        cars.remove(car);
+    }
+
 }
 

@@ -25,7 +25,8 @@ public class Controller implements Initializable {
 
     private List<ExitStartPlace> exitPlaces;
     static List<ExitStartPlace> startingPlaces;
-    private static List<Car> cars;
+    private List<Car> cars;
+    private List<Car> carsOnRoad;
     private static List<Pedestrian> pedestrians;
     private static boolean isSimulationStopped;
     private boolean isCycleFinished, isNextCycleReady;
@@ -53,6 +54,7 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
         cars = new ArrayList<>();
+        carsOnRoad = new ArrayList<>();
         pedestrians = new ArrayList<>();
         URI simulationMapURI;
         URL url = getClass().getClassLoader().getResource("SimulatorMap.png");
@@ -177,7 +179,6 @@ public class Controller implements Initializable {
             if(!tPedestriansQuantity.getText().equals(""))
                 pedestriansQuantity = Integer.parseInt(tPedestriansQuantity.getText());
             initializePedestrians(pedestriansQuantity);
-            addCarsToMap();
             addPedestriansToMap();
             addStreetLightsToMap();
             Initialize.getStreetLights().forEach(StreetLights::start);
@@ -218,9 +219,8 @@ public class Controller implements Initializable {
             content.getChildren().add(pedestrian.getTrafficParticipantImageView());
     }
 
-    private void addCarsToMap() {
-        for (Car car : cars)
-            content.getChildren().add(car.getTrafficParticipantImageView());
+    private void addCarToMap(Car car) {
+        content.getChildren().add(car.getTrafficParticipantImageView());
     }
 
     public void stopSimulation() throws Exception {
@@ -239,22 +239,34 @@ public class Controller implements Initializable {
     }
 
     private void runSimulation() {
-        if(cars.size() == 0 && pedestrians.size() == 0)
+        if(cars.size() == 0 && carsOnRoad.size() == 0 && pedestrians.size() == 0)
             isSimulationStopped = true;
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
             cycle();
-            cars.forEach(Car::correctSpeed);
-            cars.forEach(Car::move);
+            List<Car> carsToRemove = new ArrayList<>();
+            synchronized (this) {
+                for (Car car : cars) {
+                    if (car.canEnterRoad()) {
+                        carsOnRoad.add(car);
+                        carsToRemove.add(car);
+                        addCarToMap(car);
+                    }
+                }
+            }
+            carsToRemove.forEach(car -> cars.remove(car));
+            carsOnRoad.forEach(Car::correctSpeed);
+            carsOnRoad.forEach(Car::move);
             pedestrians.forEach(Pedestrian::walk);
-            content.getChildren().removeAll(cars.stream().filter(TrafficParticipant::isEndReached)
+            content.getChildren().removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached)
                     .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
-            cars.removeAll(cars.stream().filter(TrafficParticipant::isEndReached).collect(Collectors.toList()));
+            carsOnRoad.stream().filter(Car::isEndReached).forEach(car -> car.getLine().removeCar(car));
+            carsOnRoad.removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached).collect(Collectors.toList()));
             content.getChildren().removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
                     .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
             pedestrians.removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
                     .collect(Collectors.toList()));
-            cars.forEach(Car::setImagePosition);
+            carsOnRoad.forEach(Car::setImagePosition);
             pedestrians.forEach(Pedestrian::setImagePosition);
             isCycleFinished = true;
         }

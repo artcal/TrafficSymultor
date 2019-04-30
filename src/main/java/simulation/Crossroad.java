@@ -50,4 +50,8 @@ public class Crossroad {
     Point getPosition() {
         return position;
     }
+
+    public int getSize() {
+        return size;
+    }
 }

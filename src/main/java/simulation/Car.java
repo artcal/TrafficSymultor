@@ -31,7 +31,7 @@ class Car extends TrafficParticipant {
         imageOrientation();
         setImagePosition();
     }
-
+//FIXME cars may go 3 point!!!!(ex. 77 speed)
     private Line getStartingLine(Road road) throws Exception {
         for (Line line : road.getLines()) {
             if (line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint))
@@ -62,8 +62,64 @@ class Car extends TrafficParticipant {
     }
 
     void correctSpeed() {
-        if(speed < maxSpeed) accelerate();
-        else slowDown();
+        try {
+            if(speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight())
+                accelerate();
+            else
+                slowDown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean isStoppingOnRedLight() {
+        if(line.getStreetLights() != null) {
+            if (line.getStreetLights().getLight() == StreetLights.RED || line.getStreetLights().getLight() == StreetLights.YELLOW) {
+                return (checkDistanceToCrossRoad() < 35 && checkDistanceToCrossRoad() > 22)
+                        || (checkDistanceToCrossRoad() < 10 && checkDistanceToCrossRoad() > 0);
+            }
+        }
+        return false;
+    }
+
+    private boolean isTooCloseToCar() throws Exception {
+        switch (line.getTrafficMovement()){
+            case "N":
+            case "S":
+                return isCarInRange(true);
+            case "E":
+            case "W":
+                return isCarInRange(false);
+        }
+        throw new Exception("Wrong direction");
+    }
+
+    private boolean isCarInRange(boolean isVertical) throws Exception {
+        for (Car car : line.getCars()) {
+            if(!car.equals(this)) {
+                if (isCarInFront(car))
+                    if (isVertical) {
+                        if (isInRange(car.position.y, isVertical))
+                            return true;
+                    } else if (isInRange(car.position.x, isVertical))
+                        return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isCarInFront(Car car) throws Exception {
+        switch (line.getTrafficMovement()){
+            case "N":
+                return car.position.y < this.position.y;
+            case "E":
+                return car.position.x > this.position.x;
+            case "S":
+                return car.position.y > this.position.y;
+            case "W":
+                return car.position.x < this.position.x;
+        }
+        throw new Exception("Wrong direction");
     }
 
     private void accelerate(){ // 0-20 -> x3, 20-40 -> x2, 40+ -> x1
@@ -144,7 +200,9 @@ class Car extends TrafficParticipant {
 
     private void change() {
         boolean isVertical = this.position.x == line.getEnd().x;
+        line.removeCar(this);
         line = (road.getLines().get(0).equals(line)) ? road.getLines().get(1) : road.getLines().get(0);
+        line.addCar(this);
         if(isVertical){
             position.x = line.getEnd().x;
         }else{
@@ -162,17 +220,25 @@ class Car extends TrafficParticipant {
 
     }
 
-    private int chcekDistanceToCrossRoad(){
+    private int checkDistanceToCrossRoad(){
         if(line.getNextCrossroad() != null) {
             if (line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S")) {
                 int start = position.y;
-                return Math.abs(start - (line.getTrafficMovement().equals("N") ? road.getStart().y : road.getEnd().y));
+                int ret = start - (line.getTrafficMovement().equals("N") ? road.getStart().y : road.getEnd().y);
+                if(line.getTrafficMovement().equals("N"))
+                    return ret;
+                else
+                    return -ret;
             } else {
                 int start = position.x;
-                return Math.abs(start - (line.getTrafficMovement().equals("W") ? road.getStart().x : road.getEnd().x));
+                int ret = start - (line.getTrafficMovement().equals("W") ? road.getStart().x : road.getEnd().x);
+                if(line.getTrafficMovement().equals("W"))
+                    return ret;
+                else
+                    return -ret;
             }
         }
-        return -1;
+        return -1000;
     }
 
     private void onRoadChange() {
@@ -217,8 +283,13 @@ class Car extends TrafficParticipant {
     }
 
     private void setRoadAndLine(Road road, Line line){
+        if(line != null){
+            this.line.removeCar(this);
+        }
         this.road = road;
         this.line = line;
+        assert this.line != null;
+        this.line.addCar(this);
         onRoadChange();
     }
 
@@ -240,6 +311,37 @@ class Car extends TrafficParticipant {
             }else{
                 turningPoint = new Point(line.getNextCrossroad().getPosition().x, line.getEnd().y);
             }
+        }
+    }
+
+    boolean canEnterRoad() {
+        if(line.getCars().size() != 0) {
+            boolean canEnterRoad = true;
+            for(Car car : line.getCars()) {
+                if(canEnterRoad) {
+                    if (line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S")) {
+                        if(isInRange(car.getPosition().y, true))
+                            canEnterRoad = false;
+                    } else {
+                        if(isInRange(car.position.x, false))
+                            canEnterRoad = false;
+                    }
+                }
+            }
+            if(canEnterRoad) {
+                line.addCar(this);
+            }
+            return canEnterRoad;
+        }
+        line.addCar(this);
+        return true;
+    }
+
+    private boolean isInRange(int position, boolean isVertical) {
+        if(isVertical) {
+            return Math.abs(this.position.y - position) < 20;
+        } else {
+            return Math.abs(this.position.x - position) < 20;
         }
     }
 }

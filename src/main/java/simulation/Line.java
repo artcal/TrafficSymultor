@@ -135,5 +135,13 @@ class Line {
         cars.remove(car);
     }
 
+    int getLineLenght() {
+        if(trafficMovementDirection.equals("N") || trafficMovementDirection.equals("S")){
+            return Math.abs(start.y - end.y);
+        }else{
+            return Math.abs(start.x - end.x);
+        }
+
+    }
 }
 

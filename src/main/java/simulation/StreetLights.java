@@ -96,11 +96,13 @@ class StreetLights implements Runnable {
     }
 
     void setRunningFalse() throws Exception {
-        synchronized (thread) {
-            isRunning = false;
-            light = startingLight;
-            thread.notify();
-            setImage();
+        if(thread != null) {
+            synchronized (thread) {
+                isRunning = false;
+                light = startingLight;
+                thread.notify();
+                setImage();
+            }
         }
     }
     Image getImage() {

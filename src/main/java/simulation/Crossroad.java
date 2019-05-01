@@ -12,6 +12,7 @@ public class Crossroad {
     private Map<Line,Line[]> howToGo;
     private List<Line> entrances, exits;
     private int size;
+    private List<Car> cars;
 
     Crossroad(List<Road> roads, List<StreetLights> streetLights, Point position, int size) {
         this.roads = roads;
@@ -21,6 +22,7 @@ public class Crossroad {
         this.entrances = new ArrayList<>();
         this.exits = new ArrayList<>();
         this.howToGo = new HashMap<>();
+        this.cars = new ArrayList<>();
     }
 
     void addHowToGo(Line from, Line[] to){
@@ -53,5 +55,17 @@ public class Crossroad {
 
     public int getSize() {
         return size;
+    }
+
+    void addCar(Car car){
+        cars.add(car);
+    }
+
+    void removeCar(Car car){
+        cars.remove(car);
+    }
+
+    public List<Car> getCars() {
+        return cars;
     }
 }

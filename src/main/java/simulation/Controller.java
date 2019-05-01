@@ -247,7 +247,8 @@ public class Controller implements Initializable {
             List<Car> carsToRemove = new ArrayList<>();
             synchronized (this) {
                 for (Car car : cars) {
-                    if (car.canEnterRoad()) {
+                    if (car.canEnterLine(car.getLine())) {
+                        car.getLine().addCar(car);
                         carsOnRoad.add(car);
                         carsToRemove.add(car);
                         addCarToMap(car);

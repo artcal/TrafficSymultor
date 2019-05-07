@@ -2,6 +2,7 @@ package simulation;
 
 import java.awt.*;
 import java.util.Random;
+import java.util.List;
 import java.util.stream.Collectors;
 
 class Car extends TrafficParticipant {
@@ -161,8 +162,9 @@ class Car extends TrafficParticipant {
             if (checkDistanceToCrossRoad() < 0 && !crossroad.getCars().contains(this))
                 crossroad.addCar(this);
         }
-        {
+        if(road.getType().equals("1way")){
             boolean isVertical = line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S");
+            Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
             line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
                     .filter(car -> {
                         try {
@@ -174,24 +176,41 @@ class Car extends TrafficParticipant {
         }
         if(checkDistanceFromCrossroad() > 30 && isChangingLine){
             Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
-            if(canEnterLine(line))
+            if(canEnterLine(line)) {
+                line.getCars().stream().filter(car -> {
+                    if(car.getCarToGoFirst() != null)
+                        return car.getCarToGoFirst().equals(this);
+                    return false;
+                }).forEach(car -> car.setCarToGoFirst(null));
                 change();
+            }
             else{
                 boolean isVertical = line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S");
-                line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
-                        .filter(car -> getCarToGoFirst().equals(this)).limit(1).forEach(car -> {
-                            setCarToGoFirst(null);
-                            this.change();
-                });
+                List<Car> carList = line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
+                        .filter(car ->{
+                            if(car.getCarToGoFirst() != null)
+                                return car.getCarToGoFirst().equals(this);
+                            return false;
+                        }).collect(Collectors.toList());
+                if(carList.size() > 0) {
+                    line.getCars().stream().filter(car -> {
+                        if(car.getCarToGoFirst() != null)
+                            return car.getCarToGoFirst().equals(this);
+                        return false;
+                    }).forEach(car -> car.setCarToGoFirst(null));
+                    change();
+                }
             }
         }
-        if(route.size() > 0 && !isChangingLine) {
-            if (isPointReached(turningPoint)) {
-                Road road = route.get(0).getRoad();
-                route.remove(0);
-                setRoadAndLine(road, nextLine);
-                imageOrientation();
-                correctPositionPoint();
+        if(route.size() > 0) {
+            if(!isChangingLine) {
+                if (isPointReached(turningPoint)) {
+                    Road road = route.get(0).getRoad();
+                    route.remove(0);
+                    setRoadAndLine(road, nextLine);
+                    imageOrientation();
+                    correctPositionPoint();
+                }
             }
         } else if(isPointReached(endingPoint)) {
             isEndReached = true;
@@ -208,21 +227,18 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isPointReached(Point point) {
-        if(position.equals(point))
-            return true;
-        else
-            switch (line.getTrafficMovement()){
-                case "N":
-                    return position.y == point.y - 1;
-                case "E":
-                    return position.x == point.x + 1;
-                case "S":
-                    return position.y == point.y + 1;
-                case "W":
-                    return position.x == point.x - 1;
-                default:
-                    return false;
-            }
+        switch (line.getTrafficMovement()) {
+            case "N":
+                return position.y - point.y <= 0;
+            case "E":
+                return point.x - position.x <= 0;
+            case "S":
+                return point.y - position.y <= 0;
+            case "W":
+                return position.x - point.x <= 0;
+            default:
+                return false;
+        }
     }
 
     private void changeLine(){

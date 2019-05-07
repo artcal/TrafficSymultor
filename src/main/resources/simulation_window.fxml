@@ -103,7 +103,7 @@
           <children>
             <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Statystyki" textAlignment="CENTER" textFill="$x2" wrapText="false" />
                   <Label layoutX="14.0" layoutY="52.0" text="Logi" />
-                  <TextArea fx:id="logs" layoutX="11.0" layoutY="70.0" prefHeight="394.0" prefWidth="200.0" />
+                  <TextArea fx:id="logs" layoutX="11.0" layoutY="70.0" prefHeight="394.0" prefWidth="200.0" editable="false"/>
                   <Button layoutX="5.0" layoutY="494.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="213.0" text="Pokaż raport" />
           </children>
         </AnchorPane>

@@ -6,6 +6,7 @@ class Pedestrian extends TrafficParticipant {
 
     private String currentDirection;
     private int distance;
+    private PedestrianCrossing pedestrianCrossing;
 
     Pedestrian(String name, Road road, boolean isSafe) throws Exception {
         super(name, isSafe, "pedestrian.png");
@@ -20,24 +21,34 @@ class Pedestrian extends TrafficParticipant {
     void walk() {
         int SPEED = 20;
         distance += SPEED;
-        switch (currentDirection) {
-            case "N":
-                position = new Point(position.x, position.y - distance/50);
-                break;
-            case "E":
-                position = new Point(position.x + distance/50, position.y);
-                break;
-            case "S":
-                position = new Point(position.x, position.y + distance/50);
-                break;
-            case "W":
-                position = new Point(position.x - distance/50, position.y);
-                break;
-        }
+        //TODO check if car is on pedestrian crossing, this.road is not actual road
+        //if(isCarOnPedestrianCrossing())
+            switch (currentDirection) {
+                case "N":
+                    position = new Point(position.x, position.y - distance / 50);
+                    break;
+                case "E":
+                    position = new Point(position.x + distance / 50, position.y);
+                    break;
+                case "S":
+                    position = new Point(position.x, position.y + distance / 50);
+                    break;
+                case "W":
+                    position = new Point(position.x - distance / 50, position.y);
+                    break;
+            }
         distance %= 50;
         if(route.size() > 0) {
             if (isPointReached(route.get(0).getRoad().getStart())) {
+                if(pedestrianCrossing != null){
+                    pedestrianCrossing.removePedestrian(this);
+                    pedestrianCrossing = null;
+                }
                 currentDirection = route.get(0).getDirection();
+                if(route.get(0).getRoad().getPedestrianCrossings() != null) {
+                    pedestrianCrossing = route.get(0).getRoad().getPedestrianCrossings().get(0);
+                    pedestrianCrossing.addPedestrian(this);
+                }
                 route.remove(0);
             }
         } else if(isPointReached(endingPoint)) {
@@ -46,7 +57,18 @@ class Pedestrian extends TrafficParticipant {
     }
 
     private boolean isPointReached(Point point) {
-        return position.equals(point);
+        switch (currentDirection) {
+            case "N":
+                return position.y - point.y <= 0;
+            case "E":
+                return point.x - position.x <= 0;
+            case "S":
+                return point.y - position.y <= 0;
+            case "W":
+                return position.x - point.x <= 0;
+            default:
+                return false;
+        }
     }
 
     void setImagePosition() {

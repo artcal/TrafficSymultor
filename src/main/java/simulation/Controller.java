@@ -32,6 +32,7 @@ public class Controller implements Initializable {
     private static List<Pedestrian> pedestrians;
     private static boolean isSimulationStopped;
     private boolean isCycleFinished, isNextCycleReady;
+    private int pedestriansQuantity;
 
     @FXML
     private ImageView imageView;
@@ -175,7 +176,7 @@ public class Controller implements Initializable {
         isCycleFinished = false;
         isNextCycleReady = true;
         int carsQuantity = 1;
-        int pedestriansQuantity = 0;
+        pedestriansQuantity = 0;
         try {
             if (!tCarsQuantity.getText().equals(""))
                 carsQuantity = Integer.parseInt(tCarsQuantity.getText());
@@ -200,7 +201,6 @@ public class Controller implements Initializable {
     }
 
     private void initializePedestrians(int quantity) throws Exception {
-        logs.setText(logs.getText() + "\nInitializing pedestrians...");
         Random random = new Random();
         for (int i = 0; i < quantity; i++)
             pedestrians.add(new Pedestrian("Pedestrian" + i, Initialize.getRoads().
@@ -223,8 +223,10 @@ public class Controller implements Initializable {
     }
 
     private void addPedestriansToMap() {
-        for (Pedestrian pedestrian : pedestrians)
-            content.getChildren().add(pedestrian.getTrafficParticipantImageView());
+        for (Pedestrian pedestrian : pedestrians){
+            if(!content.getChildren().contains(pedestrian.getTrafficParticipantImageView()))
+                content.getChildren().add(pedestrian.getTrafficParticipantImageView());
+        }
     }
 
     private void addCarToMap(Car car) {
@@ -249,11 +251,15 @@ public class Controller implements Initializable {
     }
 
     private void runSimulation() throws Exception {
-        if(cars.size() == 0 && carsOnRoad.size() == 0 && pedestrians.size() == 0)
+        if(cars.size() == 0 && carsOnRoad.size() == 0)
             stopSimulation();
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
             cycle();
+            while(pedestrians.size() < pedestriansQuantity){
+                initializePedestrians(pedestriansQuantity - pedestrians.size());
+                addPedestriansToMap();
+            }
             List<Car> carsToRemove = new ArrayList<>();
             synchronized (this) {
                 for (Car car : cars) {

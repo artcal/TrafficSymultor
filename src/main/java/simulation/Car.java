@@ -15,7 +15,7 @@ class Car extends TrafficParticipant {
     private int distance = 0;
     private Point turningPoint;
     private Crossroad crossroad;
-    private boolean isChangingLine = false;
+    private boolean isChangingLine = false, isOnCrossroad;
     private Car carToGoFirst;
 
     Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration) throws Exception {
@@ -37,7 +37,7 @@ class Car extends TrafficParticipant {
         imageOrientation();
         setImagePosition();
     }
-//FIXME cars may go 3 point!!!!(ex. 77 speed)
+
     private Line getStartingLine(Road road) throws Exception {
         for (Line line : road.getLines()) {
             if (line.getStart().equals(startingPoint) || line.getEnd().equals(startingPoint))
@@ -69,13 +69,56 @@ class Car extends TrafficParticipant {
 
     void correctSpeed() {
         try {
-            if(speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight() && carToGoFirst == null)
+            if(speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight() && carToGoFirst == null && !   isPedestrianOnCrossing())
                 accelerate();
             else
                 slowDown();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isPedestrianOnCrossing() {
+        if(road.getPedestrianCrossings() != null)
+            for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
+                if (isPedestrianCrossingInFront(pedestrianCrossing)) {
+                    if(pedestrianCrossing.getPedestrians().size() > 0){
+                        for (Pedestrian pedestrian : pedestrianCrossing.getPedestrians()) {
+                            switch (line.getTrafficMovement()){
+                                case "N":
+                                case "S":
+                                    if(Math.abs(pedestrian.getPosition().x - position.x) < 15)
+                                        return true;
+                                    break;
+                                case "W":
+                                case "E":
+                                    if(Math.abs(pedestrian.getPosition().y - position.y) < 15)
+                                        return true;
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                        return false;
+                }
+            }
+        return false;
+    }
+
+    private boolean isPedestrianCrossingInFront(PedestrianCrossing pedestrianCrossing) {
+        switch (line.getTrafficMovement()) {
+            case "N":
+                return position.y - pedestrianCrossing.getPosition().y <= 25 && position.y - pedestrianCrossing.getPosition().y > 0 ;
+            case "E":
+                return pedestrianCrossing.getPosition().x - position.x <= 25 && pedestrianCrossing.getPosition().x - position.x > 0;
+            case "S":
+                return pedestrianCrossing.getPosition().y - position.y <= 25 && pedestrianCrossing.getPosition().y - position.y > 0;
+            case "W":
+                return position.x - pedestrianCrossing.getPosition().x <= 25 && position.x - pedestrianCrossing.getPosition().x > 0;
+            default:
+                return false;
+        }
+
     }
 
     private boolean isStoppingOnRedLight() {
@@ -159,9 +202,12 @@ class Car extends TrafficParticipant {
         }
         distance %= 50;
         if(crossroad != null) {
-            if (checkDistanceToCrossRoad() < 0 && !crossroad.getCars().contains(this))
+            if (checkDistanceToCrossRoad() < 0 && !crossroad.getCars().contains(this)) {
                 crossroad.addCar(this);
+                setOnCrossroad(true);
+            }
         }
+
         if(road.getType().equals("1way")){
             boolean isVertical = line.getTrafficMovement().equals("N") || line.getTrafficMovement().equals("S");
             Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
@@ -346,6 +392,7 @@ class Car extends TrafficParticipant {
     }
 
     private void setRoadAndLine(Road road, Line line){
+        setOnCrossroad(false);
         if(line != null){
             this.line.removeCar(this);
         }
@@ -414,5 +461,15 @@ class Car extends TrafficParticipant {
 
     public boolean isChangingLine() {
         return isChangingLine;
+    }
+
+    public void setOnCrossroad(boolean onCrossroad) {
+        isOnCrossroad = onCrossroad;
+        if(onCrossroad){
+            if(line.getTrafficMovement().equals(route.get(0).getDirection()))
+                maxSpeed = (int) (maxSpeed * 0.8);
+            else
+                maxSpeed = (int) (maxSpeed * 0.5);
+        }
     }
 }

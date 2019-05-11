@@ -143,5 +143,9 @@ class Line {
         }
 
     }
+    boolean isVertical(){
+        return trafficMovementDirection.equals("N") || trafficMovementDirection.equals("S");
+
+    }
 }
 

@@ -262,14 +262,17 @@ public class Controller implements Initializable {
             }
             List<Car> carsToRemove = new ArrayList<>();
             synchronized (this) {
-                for (Car car : cars) {
-                    if (car.canEnterLine(car.getLine())) {
-                        car.getLine().addCar(car);
-                        carsOnRoad.add(car);
-                        carsToRemove.add(car);
-                        addCarToMap(car);
+                if(carsOnRoad.size() < 50)
+                    for (Car car : cars) {
+                        if (car.canEnterLine(car.getLine())) {
+                            if(carsOnRoad.size() < 50) {
+                                car.getLine().addCar(car);
+                                carsOnRoad.add(car);
+                                carsToRemove.add(car);
+                                addCarToMap(car);
+                            }
+                        }
                     }
-                }
             }
             carsToRemove.forEach(car -> cars.remove(car));
             carsOnRoad.forEach(Car::correctSpeed);

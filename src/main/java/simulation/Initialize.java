@@ -37,6 +37,20 @@ class Initialize {
     private static StreetLights streetLights1wayHWL2;
     private static StreetLights streetLights2wayV2;
 
+    private StreetLights streetLightsP2wayV;
+    private StreetLights streetLightsP2wayH;
+    private StreetLights streetLightsP1wayHE;
+    private StreetLights streetLightsP1wayHW;
+    private StreetLights streetLightsP1wayVN;
+    private StreetLights streetLightsP1wayVS;
+    private StreetLights streetLightsP1wayHTo2way;
+    private StreetLights streetLightsP2wayHTo1way;
+    private StreetLights streetLightsP2wayVTo1way;
+    private StreetLights streetLightsP1wayVEW;
+    private StreetLights streetLightsP1wayH2;
+    private StreetLights streetLightsP2wayVN2;
+    private StreetLights streetLightsP2wayVS2;
+
     private static Line lineV1;
     private static Line lineV2;
     private static Line lineV3;
@@ -209,6 +223,7 @@ class Initialize {
     private static List<Road> roads;
     private static List<StreetLights> streetLights;
     private static List<Line> lines;
+    private static List<PedestrianCrossing> pedestrianCrossings;
 
     static void main(String[] args) throws Exception {
         Initialize initialize = new Initialize();
@@ -221,9 +236,62 @@ class Initialize {
         initialize.connectLinesOnCrossroads();
         initialize.addNextCrossroadsToLines();
 
+        initialize.pedestrianCrossingsToList();
         initialize.roadsToList();
         initialize.streetLightsToList();
         initialize.linesToList();
+    }
+
+    private void pedestrianCrossingsToList() {
+        pedestrianCrossings = new ArrayList<>();
+
+        pedestrianCrossings.add(pedestrianCrossingH1);
+        pedestrianCrossings.add(pedestrianCrossingH2);
+        pedestrianCrossings.add(pedestrianCrossingH3);
+        pedestrianCrossings.add(pedestrianCrossingH4);
+        pedestrianCrossings.add(pedestrianCrossingH5);
+        pedestrianCrossings.add(pedestrianCrossingH6);
+        pedestrianCrossings.add(pedestrianCrossingH7);
+        pedestrianCrossings.add(pedestrianCrossingH8);
+        pedestrianCrossings.add(pedestrianCrossingH9);
+        pedestrianCrossings.add(pedestrianCrossingH10);
+        pedestrianCrossings.add(pedestrianCrossingH11);
+        pedestrianCrossings.add(pedestrianCrossingH12);
+        pedestrianCrossings.add(pedestrianCrossingH13);
+        pedestrianCrossings.add(pedestrianCrossingH14);
+        pedestrianCrossings.add(pedestrianCrossingH15);
+        pedestrianCrossings.add(pedestrianCrossingH16);
+        pedestrianCrossings.add(pedestrianCrossingH17);
+        pedestrianCrossings.add(pedestrianCrossingH18);
+        pedestrianCrossings.add(pedestrianCrossingH19);
+        pedestrianCrossings.add(pedestrianCrossingH20);
+        pedestrianCrossings.add(pedestrianCrossingV1);
+        pedestrianCrossings.add(pedestrianCrossingV2);
+        pedestrianCrossings.add(pedestrianCrossingV3);
+        pedestrianCrossings.add(pedestrianCrossingV4);
+        pedestrianCrossings.add(pedestrianCrossingV5);
+        pedestrianCrossings.add(pedestrianCrossingV6);
+        pedestrianCrossings.add(pedestrianCrossingV7);
+        pedestrianCrossings.add(pedestrianCrossingV8);
+        pedestrianCrossings.add(pedestrianCrossingV9);
+        pedestrianCrossings.add(pedestrianCrossingV10);
+        pedestrianCrossings.add(pedestrianCrossingV11);
+        pedestrianCrossings.add(pedestrianCrossingV12);
+        pedestrianCrossings.add(pedestrianCrossingV13);
+        pedestrianCrossings.add(pedestrianCrossingV14);
+        pedestrianCrossings.add(pedestrianCrossingV15);
+        pedestrianCrossings.add(pedestrianCrossingV16);
+        pedestrianCrossings.add(pedestrianCrossingV17);
+        pedestrianCrossings.add(pedestrianCrossingV18);
+        pedestrianCrossings.add(pedestrianCrossingV19);
+        pedestrianCrossings.add(pedestrianCrossingV20);
+        pedestrianCrossings.add(pedestrianCrossingV21);
+        pedestrianCrossings.add(pedestrianCrossingV22);
+        pedestrianCrossings.add(pedestrianCrossingV23);
+        pedestrianCrossings.add(pedestrianCrossingV24);
+        pedestrianCrossings.add(pedestrianCrossingV25);
+        pedestrianCrossings.add(pedestrianCrossingV26);
+
     }
 
     private void linesToList() {
@@ -321,6 +389,18 @@ class Initialize {
         streetLights.add(streetLights1wayHEL2);
         streetLights.add(streetLights1wayHWL2);
         streetLights.add(streetLights2wayV2);
+
+        streetLights.add(streetLightsP2wayV);
+        streetLights.add(streetLightsP2wayH);
+        streetLights.add(streetLightsP1wayHE);
+        streetLights.add(streetLightsP1wayHW);
+        streetLights.add(streetLightsP1wayVN);
+        streetLights.add(streetLightsP1wayVS);
+        streetLights.add(streetLightsP1wayHTo2way);
+        streetLights.add(streetLightsP2wayVTo1way);
+        streetLights.add(streetLightsP1wayH2);
+        streetLights.add(streetLightsP2wayVN2);
+        streetLights.add(streetLightsP2wayVS2);
     }
 
     private void roadsToList() {
@@ -935,53 +1015,53 @@ class Initialize {
     }
 
     private void initializePedestrianCrossings(){
-        pedestrianCrossingH1 = new PedestrianCrossing(new Point(210,187), null, 20);
+        pedestrianCrossingH1 = new PedestrianCrossing(new Point(210,187), streetLightsP2wayV, 20);
         pedestrianCrossingH2 = new PedestrianCrossing(new Point(650,187), null,20);
         pedestrianCrossingH3 = new PedestrianCrossing(new Point(870,187), null,20);
-        pedestrianCrossingH4 = new PedestrianCrossing(new Point(210,233), null,20);
-        pedestrianCrossingH5 = new PedestrianCrossing(new Point(430,233), null,20);
-        pedestrianCrossingH6 = new PedestrianCrossing(new Point(1090,233), null,20);
-        pedestrianCrossingH7 = new PedestrianCrossing(new Point(210,407), null,20);
+        pedestrianCrossingH4 = new PedestrianCrossing(new Point(210,233), streetLightsP2wayV,20);
+        pedestrianCrossingH5 = new PedestrianCrossing(new Point(430,233), streetLightsP2wayV,20);
+        pedestrianCrossingH6 = new PedestrianCrossing(new Point(1090,233), streetLightsP2wayV,20);
+        pedestrianCrossingH7 = new PedestrianCrossing(new Point(210,407), streetLightsP2wayV,20);
         pedestrianCrossingH8 = new PedestrianCrossing(new Point(430,407), null,20);
         pedestrianCrossingH9 = new PedestrianCrossing(new Point(1090,407), null,20);
-        pedestrianCrossingH10 = new PedestrianCrossing(new Point(210,453), null,20);
-        pedestrianCrossingH11 = new PedestrianCrossing(new Point(650,466), null,44);
+        pedestrianCrossingH10 = new PedestrianCrossing(new Point(210,453), streetLightsP2wayV,20);
+        pedestrianCrossingH11 = new PedestrianCrossing(new Point(650,466), streetLightsP1wayVEW,44);
         pedestrianCrossingH12 = new PedestrianCrossing(new Point(870,453), null,20);
-        pedestrianCrossingH13 = new PedestrianCrossing(new Point(210,627), null,20);
-        pedestrianCrossingH14 = new PedestrianCrossing(new Point(650,615), null,44);
-        pedestrianCrossingH15 = new PedestrianCrossing(new Point(870,615), null,20);
-        pedestrianCrossingH16 = new PedestrianCrossing(new Point(1090,615), null,20);
-        pedestrianCrossingH17 = new PedestrianCrossing(new Point(210,673), null,20);
-        pedestrianCrossingH18 = new PedestrianCrossing(new Point(430,685), null,20);
-        pedestrianCrossingH19 = new PedestrianCrossing(new Point(650,685), null,44);
-        pedestrianCrossingH20 = new PedestrianCrossing(new Point(1090,685), null,20);
+        pedestrianCrossingH13 = new PedestrianCrossing(new Point(210,627), streetLightsP2wayV,20);
+        pedestrianCrossingH14 = new PedestrianCrossing(new Point(650,615), streetLightsP1wayVN,44);
+        pedestrianCrossingH15 = new PedestrianCrossing(new Point(870,615), streetLightsP2wayVN2,20);
+        pedestrianCrossingH16 = new PedestrianCrossing(new Point(1090,615), streetLightsP2wayVN2,20);
+        pedestrianCrossingH17 = new PedestrianCrossing(new Point(210,673), streetLightsP2wayV,20);
+        pedestrianCrossingH18 = new PedestrianCrossing(new Point(430,685), streetLightsP2wayVTo1way,20);
+        pedestrianCrossingH19 = new PedestrianCrossing(new Point(650,685), streetLightsP1wayVS,44);
+        pedestrianCrossingH20 = new PedestrianCrossing(new Point(1090,685), streetLightsP2wayVS2,20);
 
-        pedestrianCrossingV1 = new PedestrianCrossing(new Point(187,210), null,20);
-        pedestrianCrossingV2 = new PedestrianCrossing(new Point(233,210), null,20);
-        pedestrianCrossingV3 = new PedestrianCrossing(new Point(407,210), null,20);
-        pedestrianCrossingV4 = new PedestrianCrossing(new Point(453,210), null,20);
+        pedestrianCrossingV1 = new PedestrianCrossing(new Point(187,210), streetLightsP2wayH,20);
+        pedestrianCrossingV2 = new PedestrianCrossing(new Point(233,210), streetLightsP2wayH,20);
+        pedestrianCrossingV3 = new PedestrianCrossing(new Point(407,210), streetLightsP2wayH,20);
+        pedestrianCrossingV4 = new PedestrianCrossing(new Point(453,210), streetLightsP2wayH,20);
         pedestrianCrossingV5 = new PedestrianCrossing(new Point(627,210), null,20);
         pedestrianCrossingV6 = new PedestrianCrossing(new Point(673,210), null,20);
         pedestrianCrossingV7 = new PedestrianCrossing(new Point(847,210), null,20);
         pedestrianCrossingV8 = new PedestrianCrossing(new Point(893,210), null,20);
-        pedestrianCrossingV9 = new PedestrianCrossing(new Point(1067,210), null,20);
-        pedestrianCrossingV10 = new PedestrianCrossing(new Point(1113,210), null,20);
-        pedestrianCrossingV11 = new PedestrianCrossing(new Point(233,430), null,20);
+        pedestrianCrossingV9 = new PedestrianCrossing(new Point(1067,210), streetLightsP2wayH,20);
+        pedestrianCrossingV10 = new PedestrianCrossing(new Point(1113,210), streetLightsP2wayH,20);
+        pedestrianCrossingV11 = new PedestrianCrossing(new Point(233,430), streetLightsP2wayH,20);
         pedestrianCrossingV12 = new PedestrianCrossing(new Point(407,430), null,20);
         pedestrianCrossingV13 = new PedestrianCrossing(new Point(453,430), null,20);
-        pedestrianCrossingV14 = new PedestrianCrossing(new Point(615,430), null,20);
-        pedestrianCrossingV15 = new PedestrianCrossing(new Point(685,430), null,20);
+        pedestrianCrossingV14 = new PedestrianCrossing(new Point(615,430), streetLightsP2wayH,20);
+        pedestrianCrossingV15 = new PedestrianCrossing(new Point(685,430), streetLightsP2wayH,20);
         pedestrianCrossingV16 = new PedestrianCrossing(new Point(847,430), null,20);
-        pedestrianCrossingV17 = new PedestrianCrossing(new Point(187,650), null,20);
-        pedestrianCrossingV18 = new PedestrianCrossing(new Point(233,650), null,20);
-        pedestrianCrossingV19 = new PedestrianCrossing(new Point(395,650), null,20);
-        pedestrianCrossingV20 = new PedestrianCrossing(new Point(465,650), null,44);
-        pedestrianCrossingV21 = new PedestrianCrossing(new Point(615,650), null,44);
-        pedestrianCrossingV22 = new PedestrianCrossing(new Point(685,650), null,44);
-        pedestrianCrossingV23 = new PedestrianCrossing(new Point(835,650), null,44);
-        pedestrianCrossingV24 = new PedestrianCrossing(new Point(905,650), null,44);
-        pedestrianCrossingV25 = new PedestrianCrossing(new Point(1055,650), null,44);
-        pedestrianCrossingV26 = new PedestrianCrossing(new Point(1125,650), null,44);
+        pedestrianCrossingV17 = new PedestrianCrossing(new Point(187,650), streetLightsP2wayH,20);
+        pedestrianCrossingV18 = new PedestrianCrossing(new Point(233,650), streetLightsP2wayH,20);
+        pedestrianCrossingV19 = new PedestrianCrossing(new Point(395,650), streetLightsP2wayHTo1way,20);
+        pedestrianCrossingV20 = new PedestrianCrossing(new Point(465,650), streetLightsP1wayHTo2way,44);
+        pedestrianCrossingV21 = new PedestrianCrossing(new Point(615,650), streetLightsP1wayHW,44);
+        pedestrianCrossingV22 = new PedestrianCrossing(new Point(685,650), streetLightsP1wayHE,44);
+        pedestrianCrossingV23 = new PedestrianCrossing(new Point(835,650), streetLightsP1wayH2,44);
+        pedestrianCrossingV24 = new PedestrianCrossing(new Point(905,650), streetLightsP1wayH2,44);
+        pedestrianCrossingV25 = new PedestrianCrossing(new Point(1055,650), streetLightsP1wayH2,44);
+        pedestrianCrossingV26 = new PedestrianCrossing(new Point(1125,650), streetLightsP1wayH2,44);
     }
 
     private void initializeLines(){
@@ -1071,9 +1151,9 @@ class Initialize {
         streetLights1wayVS = new StreetLights(44000,16000,false, StreetLights.RED_YELLOW, 0);
         streetLights1wayVNL = new StreetLights(52000,8000,true, StreetLights.RED, 18000);
         streetLights1wayVSL = new StreetLights(52000,8000,true, StreetLights.RED_YELLOW, 0);
-        streetLights2wayHTo1way = new StreetLights(21000,10000,false, StreetLights.RED, 12000);
         streetLights1wayHTo2wayW = new StreetLights(13000,18000,true, StreetLights.RED, 12000);
         streetLights1wayHTo2wayS = new StreetLights(26000,5000,true, StreetLights.RED, 25000);
+        streetLights2wayHTo1way = new StreetLights(21000, 10000, false, StreetLights.RED, 12000);
         streetLights2wayVTo1way = new StreetLights(21000,10000, false, StreetLights.RED_YELLOW,0);
         streetLights1wayVEW = streetLights2wayV;
         streetLights1wayHE2 = new StreetLights(28000,16000,false, StreetLights.RED, 14000);
@@ -1081,6 +1161,20 @@ class Initialize {
         streetLights1wayHEL2 = new StreetLights(36000,8000,true, StreetLights.RED, 14000);
         streetLights1wayHWL2 = new StreetLights(36000,8000,true, StreetLights.RED, 33000);
         streetLights2wayV2 = new StreetLights(34000,10000,false, StreetLights.RED_YELLOW, 0);
+
+        streetLightsP2wayV = new StreetLights(16000,10000,StreetLights.GREEN, 0);
+        streetLightsP2wayH = new StreetLights(16000, 10000, StreetLights.RED, 2000);
+        streetLightsP1wayHW = new StreetLights(46000, 16000,StreetLights.RED, 0);
+        streetLightsP1wayHE = new StreetLights(46000, 16000,StreetLights.RED,11000);
+        streetLightsP1wayVS = new StreetLights(46000, 16000, StreetLights.RED, 31000);
+        streetLightsP1wayVN = new StreetLights(46000, 16000, StreetLights.RED, 42000);
+        streetLightsP1wayHTo2way = new StreetLights(23000, 10000, StreetLights.RED, 0);
+        streetLightsP2wayHTo1way = streetLightsP1wayHTo2way;
+        streetLightsP2wayVTo1way = new StreetLights(23000, 10000, StreetLights.RED, 13000);
+        streetLightsP1wayVEW = streetLightsP2wayH;
+        streetLightsP1wayH2 = new StreetLights(36000, 10000, StreetLights.RED, 0);
+        streetLightsP2wayVS2 = new StreetLights(30000, 16000, StreetLights.RED, 15000);
+        streetLightsP2wayVN2 = new StreetLights(30000, 16000, StreetLights.RED, 26000);
     }
 
     private void initializeRoadSigns(){
@@ -1088,7 +1182,11 @@ class Initialize {
     }
 
     static void changeStreetLightsImageView(StreetLights streetLights){
-        lines.stream().filter(line -> line.getStreetLights() != null)
+        if(streetLights.isPedestrianLight())
+            pedestrianCrossings.stream().filter(pedestrianCrossing -> pedestrianCrossing.getStreetLights() != null)
+                .filter(pedestrianCrossing -> pedestrianCrossing.getStreetLights().equals(streetLights)).forEach(PedestrianCrossing::setImageView);
+        else
+            lines.stream().filter(line -> line.getStreetLights() != null)
                 .filter(line -> line.getStreetLights().equals(streetLights)).forEach(Line::setImageView);
     }
 
@@ -1102,5 +1200,9 @@ class Initialize {
 
     static List<Line> getLines() {
         return lines;
+    }
+
+    public static List<PedestrianCrossing> getPedestrianCrossings() {
+        return pedestrianCrossings;
     }
 }

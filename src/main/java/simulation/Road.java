@@ -24,6 +24,8 @@ class Road {
         this.type = type;
         this.isClosed = isClosed;
         this.exitSpawnPoint = exitSpawnPoint;
+        if(pedestrianCrossings != null)
+            this.pedestrianCrossings.forEach(pedestrianCrossing -> pedestrianCrossing.setVertical(!this.lines.get(0).isVertical()));
     }
 
     Road(Point point){

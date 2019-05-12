@@ -23,6 +23,7 @@ class Pedestrian extends TrafficParticipant {
         distance += SPEED;
         //TODO check if car is on pedestrian crossing, this.road is not actual road
         //if(isCarOnPedestrianCrossing())
+        if(setIsWalkig())
             switch (currentDirection) {
                 case "N":
                     position = new Point(position.x, position.y - distance / 50);
@@ -53,6 +54,32 @@ class Pedestrian extends TrafficParticipant {
             }
         } else if(isPointReached(endingPoint)) {
             isEndReached = true;
+        }
+    }
+
+    private boolean setIsWalkig() {
+        if(pedestrianCrossing != null && pedestrianCrossing.getStreetLights() != null) {
+            return isOnPedestrianCrossing() || pedestrianCrossing.getStreetLights().getLight() != StreetLights.RED;
+        }
+        return true;
+    }
+
+    private boolean isOnPedestrianCrossing() {
+        return distanceToMiddleOfPedestrianCrossing() < pedestrianCrossing.getWidth() / 2;
+    }
+
+    private int distanceToMiddleOfPedestrianCrossing() {
+        switch(currentDirection){
+            case "N":
+                return position.y - pedestrianCrossing.getPosition().y;
+            case "E":
+                return pedestrianCrossing.getPosition().x - position.x;
+            case "S":
+                return pedestrianCrossing.getPosition().y - position.y;
+            case "W":
+                return position.x - pedestrianCrossing.getPosition().x;
+            default:
+                return 0;
         }
     }
 

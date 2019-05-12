@@ -13,6 +13,7 @@ class Car extends TrafficParticipant {
     private int speed = 0;
     private int driverBehavior; // od -10% do 10%
     private int distance = 0;
+    private Point previousTurningPoint; //TODO statistics
     private Point turningPoint;
     private Crossroad crossroad;
     private boolean isChangingLine = false, isOnCrossroad;

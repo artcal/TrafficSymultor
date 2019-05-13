@@ -6,6 +6,7 @@ import java.util.List;
 
 class Road {
 
+    private String name;
     private int maxSpeed;
     private List<PedestrianCrossing> pedestrianCrossings;
     private List<Line> lines;
@@ -36,6 +37,11 @@ class Road {
         this.start = point;
         this.pedestrianCrossings = new ArrayList<>();
         this.pedestrianCrossings.add(pedestrianCrossing);
+    }
+
+    Road setName(String name){
+        this.name = name;
+        return this;
     }
 
     int getMaxSpeed() {
@@ -72,5 +78,9 @@ class Road {
 
     Point getExitSpawnPoint() {
         return exitSpawnPoint;
+    }
+
+    public String getName() {
+        return name;
     }
 }

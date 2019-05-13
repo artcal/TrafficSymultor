@@ -1,6 +1,7 @@
 package simulation;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,10 @@ class Car extends TrafficParticipant {
     private Crossroad crossroad;
     private boolean isChangingLine = false, isOnCrossroad;
     private Car carToGoFirst;
+    private int cycleCount;
+    private List<Integer> carsOnRoad = new ArrayList<>();
+    private int waitingTime = 0;
+
 
     Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration) throws Exception {
         super(name, isSafe,"car.png");
@@ -71,13 +76,116 @@ class Car extends TrafficParticipant {
     void correctSpeed() {
         try {
             if(speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight() && carToGoFirst == null
-                    && !isPedestrianOnCrossing() && !isCarOnCourseOnCrossroad())
+                    && !isPedestrianOnCrossing() && !isCarOnCourseOnCrossroad() /*&& !isLettingCarsOnCrossroad()*/)
                 accelerate();
             else
                 slowDown();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isLettingCarsOnCrossroad() throws Exception {
+        if(road.getType().equals("2way")) {
+            if (isOnCrossroad) {
+                if (crossroad.getCars().size() > 1) {
+                    switch (numberOfRoadsWithPriority()) {
+                        case 0:
+                            return false;
+                        case 1:
+                            return isLettingCars(directionToCheck(1));
+                        case 2:
+                            if (isLettingCars(directionToCheck(1)))
+                                return true;
+                            else
+                                return isLettingCars(directionToCheck(2));
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isLettingCars(String direction){
+        for (Car car : crossroad.getCars()) {
+            if(!car.equals(this))
+            if(car.getLine().getTrafficMovement().equals(direction))
+                if(car.getLine().getStreetLights() != null) {
+                    if (car.getLine().getStreetLights().getLight() != StreetLights.RED)
+                        return true;
+                }
+                else
+                    return true;
+        }
+        return false;
+    }
+
+    private String directionToCheck(int i) throws Exception {
+        int currentDirection = getDirectionInt();
+        return getDirectionString((currentDirection - i) % 4);
+
+    }
+
+    private String getDirectionString(int i) throws Exception {
+        switch(i){
+            case -3:
+                return "N";
+            case -2:
+                return "E";
+            case -1:
+                return "S";
+            case 0:
+                return "W";
+        }
+        throw new Exception("Wrong direction int!");
+    }
+
+    private int getDirectionInt() throws Exception {
+        switch(line.getTrafficMovement()){
+            case "N":
+                return -3;
+            case "E":
+                return -2;
+            case "S":
+                return -1;
+            case "W":
+                return 0;
+        }
+        throw new Exception("Wrong direction!");
+    }
+
+    private int numberOfRoadsWithPriority() {
+        switch(line.getTrafficMovement()){
+            case "N":
+                if(route.get(0).getDirection().equals("E"))
+                    return 0;
+                else if(route.get(0).getDirection().equals("N"))
+                    return 1;
+                else
+                    return 2;
+            case "E":
+                if(route.get(0).getDirection().equals("S"))
+                    return 0;
+                else if(route.get(0).getDirection().equals("E"))
+                    return 1;
+                else
+                    return 2;
+            case "S":
+                if(route.get(0).getDirection().equals("W"))
+                    return 0;
+                else if(route.get(0).getDirection().equals("S"))
+                    return 1;
+                else
+                    return 2;
+            case "W":
+                if(route.get(0).getDirection().equals("N"))
+                    return 0;
+                else if(route.get(0).getDirection().equals("W"))
+                    return 1;
+                else
+                    return 2;
+        }
+        return -1;
     }
 
     private boolean isCarOnCourseOnCrossroad() {
@@ -227,50 +335,57 @@ class Car extends TrafficParticipant {
     private void slowDown(){
         if(speed != 0) {
             speed -= downturn;
-            if (speed < 0) speed = 0;
+            if (speed < 0) {
+                speed = 0;
+                waitingTime++;
+            }
         }
     }
 
     void move(){
-        distance += speed;
-        switch(line.getTrafficMovement()) {
-            case "N":
-                position = new Point(position.x, position.y - distance/50);
-                break;
-            case "E":
-                position = new Point(position.x + distance/50, position.y);
-                break;
-            case "S":
-                position = new Point(position.x, position.y + distance/50);
-                break;
-            case "W":
-                position = new Point(position.x - distance/50, position.y);
-                break;
+        if(Controller.getCycleCounter() % 20 == 0){
+            if(road.getType().equals("1way")){
+                carsOnRoad.add(road.getLines().get(0).getCars().size() + road.getLines().get(1).getCars().size());
+            }else
+                carsOnRoad.add(line.getCars().size());
         }
-        distance %= 50;
-        if(crossroad != null) {
-            if (checkDistanceToCrossRoad() < 20 && !crossroad.getCars().contains(this)) {
-                crossroad.addCar(this);
-                setOnCrossroad(true);
+        changePosition();
+        tryAddingCarToCrossroad();
+        setChangingLineCarToGoFirst();
+        tryRemovingCarFromCrossroad();
+        tryChangingLine();
+        tryRemovingCarToGoFirst();
+        checkIfTurningOrEndingPointIsReached();
+    }
+
+    private void checkIfTurningOrEndingPointIsReached() {
+        if(route.size() > 0) {
+            if(!isChangingLine) {
+                if (isPointReached(turningPoint)) {
+                    Road road = route.get(0).getRoad();
+                    route.remove(0);
+                    setRoadAndLine(road, nextLine);
+                    imageOrientation();
+                    correctPositionPoint();
+                }
+            }
+        } else if(isPointReached(endingPoint)) {
+            isEndReached = true;
+        }
+    }
+
+    private void tryRemovingCarToGoFirst() {
+        if(carToGoFirst != null){
+            try {
+                if(!carToGoFirst.isChangingLine || isCarInFrontInRange(carToGoFirst))
+                    carToGoFirst = null;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        if(road.getType().equals("1way")){
-            boolean isVertical = line.isVertical();
-            Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
-            line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
-                    .filter(car -> {
-                        try {
-                            return this.isCarInFront(car);
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    }).filter(Car::isChangingLine).limit(1).forEach(this::setCarToGoFirst);
-        }
-        if(checkDistanceFromCrossroad() > 5 && checkDistanceFromCrossroad() < 30 && checkDistanceFromCrossroad() < line.getLineLenght() - 5
-                && crossroad != null) {
-            if(crossroad.getCars().contains(this))
-                crossroad.removeCar(this);
-        }
+    }
+
+    private void tryChangingLine() {
         if(checkDistanceFromCrossroad() > 30 && isChangingLine){
             Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
             if(canEnterLine(line)) {
@@ -299,27 +414,57 @@ class Car extends TrafficParticipant {
                 }
             }
         }
-        if(carToGoFirst != null){
-            try {
-                if(!carToGoFirst.isChangingLine || isCarInFrontInRange(carToGoFirst))
-                    carToGoFirst = null;
-            } catch (Exception e) {
-                e.printStackTrace();
+    }
+
+    private void tryRemovingCarFromCrossroad() {
+        if(checkDistanceFromCrossroad() > 5 && checkDistanceFromCrossroad() < 30 && checkDistanceFromCrossroad() < line.getLineLenght() - 5
+                && crossroad != null) {
+            if(crossroad.getCars().contains(this))
+                crossroad.removeCar(this);
+        }
+    }
+
+    private void setChangingLineCarToGoFirst() {
+        if(road.getType().equals("1way")){
+            boolean isVertical = line.isVertical();
+            Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
+            line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
+                    .filter(car -> {
+                        try {
+                            return this.isCarInFront(car);
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    }).filter(Car::isChangingLine).limit(1).forEach(this::setCarToGoFirst);
+        }
+    }
+
+    private void tryAddingCarToCrossroad() {
+        if(crossroad != null) {
+            if (checkDistanceToCrossRoad() < 20 && !crossroad.getCars().contains(this)) {
+                crossroad.addCar(this);
+                setOnCrossroad(true);
             }
         }
-        if(route.size() > 0) {
-            if(!isChangingLine) {
-                if (isPointReached(turningPoint)) {
-                    Road road = route.get(0).getRoad();
-                    route.remove(0);
-                    setRoadAndLine(road, nextLine);
-                    imageOrientation();
-                    correctPositionPoint();
-                }
-            }
-        } else if(isPointReached(endingPoint)) {
-            isEndReached = true;
+    }
+
+    private void changePosition() {
+        distance += speed;
+        switch(line.getTrafficMovement()) {
+            case "N":
+                position = new Point(position.x, position.y - distance/50);
+                break;
+            case "E":
+                position = new Point(position.x + distance/50, position.y);
+                break;
+            case "S":
+                position = new Point(position.x, position.y + distance/50);
+                break;
+            case "W":
+                position = new Point(position.x - distance/50, position.y);
+                break;
         }
+        distance %= 50;
     }
 
     private void correctPositionPoint() {
@@ -451,6 +596,29 @@ class Car extends TrafficParticipant {
     }
 
     private void setRoadAndLine(Road road, Line line){
+        if(!road.getName().equals("roadES")){
+            int averageQuantityOfCars = countAverageQuantityOfCars();
+            if(previousTurningPoint != null){
+                if(route.size() > 0){
+                    StatisticsSaver statisticsSaver = new StatisticsSaver(new StatisticsElement(road,
+                            Controller.getCycleCounter() - cycleCount, waitingTime, averageQuantityOfCars,
+                            countDistance(turningPoint)));
+                }else{
+                    if(endingPoint.equals(road.getStart()) || endingPoint.equals(road.getEnd())){
+                        StatisticsSaver statisticsSaver = new StatisticsSaver(new StatisticsElement(road,
+                                Controller.getCycleCounter() - cycleCount, waitingTime, averageQuantityOfCars,
+                                countDistance(endingPoint)));
+                    }
+                }
+            }else{
+                if(startingPoint.equals(road.getStart()) || startingPoint.equals(road.getEnd())){
+                    StatisticsSaver statisticsSaver = new StatisticsSaver(new StatisticsElement(road,
+                            Controller.getCycleCounter() - cycleCount, waitingTime, averageQuantityOfCars,
+                            countDistance(startingPoint)));
+                }
+            }
+        }
+        updateStatisticsData();
         setOnCrossroad(false);
         if(line != null){
             this.line.removeCar(this);
@@ -460,6 +628,27 @@ class Car extends TrafficParticipant {
         assert this.line != null;
         this.line.addCar(this);
         onRoadChange();
+    }
+
+    private void updateStatisticsData() {
+        carsOnRoad.removeAll(carsOnRoad);
+        cycleCount = Controller.getCycleCounter();
+        waitingTime = 0;
+    }
+
+    private int countDistance(Point previousPoint) {
+        if(line.isVertical())
+            return Math.abs(turningPoint.y - previousPoint.y);
+        else
+            return Math.abs(turningPoint.x - previousPoint.x);
+    }
+
+    private int countAverageQuantityOfCars() {
+        int sum = 0;
+        for (int i : carsOnRoad) {
+            sum += i;
+        }
+        return sum / carsOnRoad.size();
     }
 
     private void setNextLine(Line nextLine) {
@@ -532,5 +721,9 @@ class Car extends TrafficParticipant {
             else
                 maxSpeed = (int) (maxSpeed * 0.7);
         }
+    }
+
+    public void setCycleCount(int cycleCount) {
+        this.cycleCount = cycleCount;
     }
 }

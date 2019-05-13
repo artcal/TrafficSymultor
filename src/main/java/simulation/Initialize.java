@@ -717,7 +717,8 @@ class Initialize {
         linesV1.add(lineV1);
         linesV1.add(lineV2);
         roadV1 = new Road(50, pedestrianCrossingsV1, linesV1,
-                new Point(210,0), new Point(210,200), "2way", false, new Point(210,0));
+                new Point(210,0), new Point(210,200), "2way", false, new Point(210,0))
+                .setName("roadV1");
 
         List<PedestrianCrossing> pedestrianCrossingsV2 = new ArrayList<>();
         pedestrianCrossingsV2.add(pedestrianCrossingH2);
@@ -725,7 +726,8 @@ class Initialize {
         linesV2.add(lineV3);
         linesV2.add(lineV4);
         roadV2 = new Road(50,pedestrianCrossingsV2, linesV2,
-                new Point(650,0),new Point(650, 200),"2way", false, new Point(650,0));
+                new Point(650,0),new Point(650, 200),"2way", false, new Point(650,0))
+                .setName("roadV2");
 
         List<PedestrianCrossing> pedestrianCrossingsV3 = new ArrayList<>();
         pedestrianCrossingsV3.add(pedestrianCrossingH3);
@@ -733,7 +735,8 @@ class Initialize {
         linesV3.add(lineV5);
         linesV3.add(lineV6);
         roadV3 = new Road(50, pedestrianCrossingsV3, linesV3,
-                new Point(870,0), new Point(870,200), "2way", false, new Point(870,0));
+                new Point(870,0), new Point(870,200), "2way", false, new Point(870,0))
+                .setName("roadV3");
 
         List<PedestrianCrossing> pedestrianCrossingsV4 = new ArrayList<>();
         pedestrianCrossingsV4.add(pedestrianCrossingH4);
@@ -742,7 +745,8 @@ class Initialize {
         linesV4.add(lineV7);
         linesV4.add(lineV8);
         roadV4 = new Road(50, pedestrianCrossingsV4, linesV4,
-                new Point(210,220), new Point(210,420), "2way", false, null);
+                new Point(210,220), new Point(210,420), "2way", false, null)
+                .setName("roadV4");
 
         List<PedestrianCrossing> pedestrianCrossingsV5 = new ArrayList<>();
         pedestrianCrossingsV5.add(pedestrianCrossingH5);
@@ -751,7 +755,8 @@ class Initialize {
         linesV5.add(lineV9);
         linesV5.add(lineV10);
         roadV5 = new Road(50, pedestrianCrossingsV5, linesV5,
-                new Point(430,220), new Point(430,420), "2way", false, new Point(440,320));
+                new Point(430,220), new Point(430,420), "2way", false, new Point(440,320))
+                .setName("roadV5");
 
         List<PedestrianCrossing> pedestrianCrossingsV6 = new ArrayList<>();
         pedestrianCrossingsV6.add(pedestrianCrossingH6);
@@ -761,7 +766,8 @@ class Initialize {
         linesV6.add(lineV11);
         linesV6.add(lineV12);
         roadV6 = new Road(50, pedestrianCrossingsV6, linesV6,
-                new Point(1090,220), new Point(1090,628), "2way", false, new Point(1080,430));
+                new Point(1090,220), new Point(1090,628), "2way", false, new Point(1080,430))
+                .setName("roadV6");
 
         List<PedestrianCrossing> pedestrianCrossingsV7 = new ArrayList<>();
         pedestrianCrossingsV7.add(pedestrianCrossingH10);
@@ -770,7 +776,8 @@ class Initialize {
         linesV7.add(lineV13);
         linesV7.add(lineV14);
         roadV7 = new Road(50, pedestrianCrossingsV7, linesV7,
-                new Point(210,440), new Point(210,640), "2way", false, null);
+                new Point(210,440), new Point(210,640), "2way", false, null)
+                .setName("roadV7");
 
         List<PedestrianCrossing> pedestrianCrossingsV8 = new ArrayList<>();
         pedestrianCrossingsV8.add(pedestrianCrossingH11);
@@ -779,7 +786,8 @@ class Initialize {
         linesV8.add(lineV15);
         linesV8.add(lineV16);
         roadV8 = new Road(50, pedestrianCrossingsV8, linesV8,
-                new Point(638,452), new Point(638,628), "1way", false, null);
+                new Point(638,452), new Point(638,628), "1way", false, null)
+                .setName("roadV8");
 
         List<PedestrianCrossing> pedestrianCrossingsV9 = new ArrayList<>();
         pedestrianCrossingsV9.add(pedestrianCrossingH11);
@@ -788,7 +796,8 @@ class Initialize {
         linesV9.add(lineV17);
         linesV9.add(lineV18);
         roadV9 = new Road(50, pedestrianCrossingsV9, linesV9,
-                new Point(662,452), new Point(662,628), "1way", false, null);
+                new Point(662,452), new Point(662,628), "1way", false, null)
+                .setName("roadV9");
 
         List<PedestrianCrossing> pedestrianCrossingsV10 = new ArrayList<>();
         pedestrianCrossingsV10.add(pedestrianCrossingH12);
@@ -797,7 +806,8 @@ class Initialize {
         linesV10.add(lineV19);
         linesV10.add(lineV20);
         roadV10 = new Road(50, pedestrianCrossingsV10, linesV10,
-                new Point(870,440), new Point(870,628), "2way", false, null);
+                new Point(870,440), new Point(870,628), "2way", false, null)
+                .setName("roadV10");
 
         List<PedestrianCrossing> pedestrianCrossingsV11 = new ArrayList<>();
         pedestrianCrossingsV11.add(pedestrianCrossingH17);
@@ -805,7 +815,8 @@ class Initialize {
         linesV11.add(lineV21);
         linesV11.add(lineV22);
         roadV11 = new Road(50, pedestrianCrossingsV11, linesV11,
-                new Point(210,660), new Point(210,800), "2way", false, new Point(210,800));
+                new Point(210,660), new Point(210,800), "2way", false, new Point(210,800))
+                .setName("roadV11");
 
         List<PedestrianCrossing> pedestrianCrossingsV12 = new ArrayList<>();
         pedestrianCrossingsV12.add(pedestrianCrossingH18);
@@ -813,7 +824,8 @@ class Initialize {
         linesV12.add(lineV23);
         linesV12.add(lineV24);
         roadV12 = new Road(50, pedestrianCrossingsV12, linesV12,
-                new Point(430,672), new Point(430,800), "2way", false, new Point(430,800));
+                new Point(430,672), new Point(430,800), "2way", false, new Point(430,800))
+                .setName("roadV12");
 
         List<PedestrianCrossing> pedestrianCrossingsV13 = new ArrayList<>();
         pedestrianCrossingsV13.add(pedestrianCrossingH19);
@@ -821,7 +833,8 @@ class Initialize {
         linesV13.add(lineV25);
         linesV13.add(lineV26);
         roadV13 = new Road(50, pedestrianCrossingsV13, linesV13,
-                new Point(638,672), new Point(638,800), "1way", false, new Point(638,800));
+                new Point(638,672), new Point(638,800), "1way", false, new Point(638,800))
+                .setName("roadV13");
 
         List<PedestrianCrossing> pedestrianCrossingsV14 = new ArrayList<>();
         pedestrianCrossingsV14.add(pedestrianCrossingH19);
@@ -829,7 +842,8 @@ class Initialize {
         linesV14.add(lineV27);
         linesV14.add(lineV28);
         roadV14 = new Road(50, pedestrianCrossingsV14, linesV14,
-                new Point(662,672), new Point(662,800), "1way", false, new Point(662,800));
+                new Point(662,672), new Point(662,800), "1way", false, new Point(662,800))
+                .setName("roadV14");
 
         List<PedestrianCrossing> pedestrianCrossingsV15 = new ArrayList<>();
         pedestrianCrossingsV15.add(pedestrianCrossingH20);
@@ -837,7 +851,8 @@ class Initialize {
         linesV15.add(lineV29);
         linesV15.add(lineV30);
         roadV15 = new Road(50, pedestrianCrossingsV15, linesV15,
-                new Point(1090,672), new Point(1090,800), "2way", false, new Point(1090,800));
+                new Point(1090,672), new Point(1090,800), "2way", false, new Point(1090,800))
+                .setName("roadV15");
 
 //Horizontal
 
@@ -847,7 +862,8 @@ class Initialize {
         linesH1.add(lineH1);
         linesH1.add(lineH2);
         roadH1 = new Road(50, pedestrianCrossingsH1, linesH1,
-                new Point(0,210), new Point(200,210), "2way", false, new Point(0,210));
+                new Point(0,210), new Point(200,210), "2way", false, new Point(0,210))
+                .setName("roadH1");
 
         List<PedestrianCrossing> pedestrianCrossingsH2 = new ArrayList<>();
         pedestrianCrossingsH2.add(pedestrianCrossingV2);
@@ -856,7 +872,8 @@ class Initialize {
         linesH2.add(lineH3);
         linesH2.add(lineH4);
         roadH2 = new Road(50, pedestrianCrossingsH2, linesH2,
-                new Point(220,210), new Point(420,210), "2way", false, null);
+                new Point(220,210), new Point(420,210), "2way", false, null)
+                .setName("roadH2");
 
         List<PedestrianCrossing> pedestrianCrossingsH3 = new ArrayList<>();
         pedestrianCrossingsH3.add(pedestrianCrossingV4);
@@ -865,7 +882,8 @@ class Initialize {
         linesH3.add(lineH5);
         linesH3.add(lineH6);
         roadH3 = new Road(50, pedestrianCrossingsH3, linesH3,
-                new Point(440,210), new Point(640,210), "2way", false, null);
+                new Point(440,210), new Point(640,210), "2way", false, null)
+                .setName("roadH3");
 
         List<PedestrianCrossing> pedestrianCrossingsH4 = new ArrayList<>();
         pedestrianCrossingsH4.add(pedestrianCrossingV6);
@@ -874,7 +892,8 @@ class Initialize {
         linesH4.add(lineH7);
         linesH4.add(lineH8);
         roadH4 = new Road(50, pedestrianCrossingsH4, linesH4,
-                new Point(660,210), new Point(860,210), "2way", false, null);
+                new Point(660,210), new Point(860,210), "2way", false, null)
+                .setName("roadH4");
 
         List<PedestrianCrossing> pedestrianCrossingsH5 = new ArrayList<>();
         pedestrianCrossingsH5.add(pedestrianCrossingV8);
@@ -883,7 +902,8 @@ class Initialize {
         linesH5.add(lineH9);
         linesH5.add(lineH10);
         roadH5 = new Road(50, pedestrianCrossingsH5, linesH5,
-                new Point(880,210), new Point(1080,210), "2way", false, null);
+                new Point(880,210), new Point(1080,210), "2way", false, null)
+                .setName("roadH5");
 
         List<PedestrianCrossing> pedestrianCrossingsH6 = new ArrayList<>();
         pedestrianCrossingsH6.add(pedestrianCrossingV10);
@@ -891,7 +911,8 @@ class Initialize {
         linesH6.add(lineH11);
         linesH6.add(lineH12);
         roadH6 = new Road(50, pedestrianCrossingsH6, linesH6,
-                new Point(1100,210), new Point(1300,210), "2way", false, new Point(1300,210));
+                new Point(1100,210), new Point(1300,210), "2way", false, new Point(1300,210))
+                .setName("roadH6");
 
         List<PedestrianCrossing> pedestrianCrossingsH7 = new ArrayList<>();
         pedestrianCrossingsH7.add(pedestrianCrossingV11);
@@ -900,7 +921,8 @@ class Initialize {
         linesH7.add(lineH13);
         linesH7.add(lineH14);
         roadH7 = new Road(50, pedestrianCrossingsH7, linesH7,
-                new Point(220,430), new Point(420,430), "2way", false, null);
+                new Point(220,430), new Point(420,430), "2way", false, null)
+                .setName("roadH7");
 
         List<PedestrianCrossing> pedestrianCrossingsH8 = new ArrayList<>();
         pedestrianCrossingsH8.add(pedestrianCrossingV13);
@@ -909,7 +931,8 @@ class Initialize {
         linesH8.add(lineH15);
         linesH8.add(lineH16);
         roadH8 = new Road(50, pedestrianCrossingsH8, linesH8,
-                new Point(440,430), new Point(638,430), "2way", false, null);
+                new Point(440,430), new Point(638,430), "2way", false, null)
+                .setName("roadH8");
 
         List<PedestrianCrossing> pedestrianCrossingsH9 = new ArrayList<>();
         pedestrianCrossingsH9.add(pedestrianCrossingV15);
@@ -918,7 +941,8 @@ class Initialize {
         linesH9.add(lineH17);
         linesH9.add(lineH18);
         roadH9 = new Road(50, pedestrianCrossingsH9, linesH9,
-                new Point(672,430), new Point(860,430), "2way", false, null);
+                new Point(672,430), new Point(860,430), "2way", false, null)
+                .setName("roadH9");
 
         List<PedestrianCrossing> pedestrianCrossingsH10 = new ArrayList<>();
         pedestrianCrossingsH10.add(pedestrianCrossingV17);
@@ -926,7 +950,8 @@ class Initialize {
         linesH10.add(lineH19);
         linesH10.add(lineH20);
         roadH10 = new Road(50, pedestrianCrossingsH10, linesH10,
-                new Point(0,650), new Point(200,650), "2way", false, new Point(0,650));
+                new Point(0,650), new Point(200,650), "2way", false, new Point(0,650))
+                .setName("roadH10");
 
         List<PedestrianCrossing> pedestrianCrossingsH11 = new ArrayList<>();
         pedestrianCrossingsH11.add(pedestrianCrossingV18);
@@ -935,7 +960,8 @@ class Initialize {
         linesH11.add(lineH21);
         linesH11.add(lineH22);
         roadH11 = new Road(50, pedestrianCrossingsH11, linesH11,
-                new Point(220,650), new Point(408,650), "2way", false, null);
+                new Point(220,650), new Point(408,650), "2way", false, null)
+                .setName("roadH11");
 
         List<PedestrianCrossing> pedestrianCrossingsH12 = new ArrayList<>();
         pedestrianCrossingsH12.add(pedestrianCrossingV20);
@@ -944,7 +970,8 @@ class Initialize {
         linesH12.add(lineH23);
         linesH12.add(lineH24);
         roadH12 = new Road(70, pedestrianCrossingsH12, linesH12,
-                new Point(452,638), new Point(628,638), "1way", false, new Point(540,628));
+                new Point(452,638), new Point(628,638), "1way", false, new Point(540,628))
+                .setName("roadH12");
 
         List<PedestrianCrossing> pedestrianCrossingsH13 = new ArrayList<>();
         pedestrianCrossingsH13.add(pedestrianCrossingV20);
@@ -953,7 +980,8 @@ class Initialize {
         linesH13.add(lineH25);
         linesH13.add(lineH26);
         roadH13 = new Road(70, pedestrianCrossingsH13, linesH13,
-                new Point(452,662), new Point(628,662), "1way", false, null);
+                new Point(452,662), new Point(628,662), "1way", false, null)
+                .setName("roadH13");
 
         List<PedestrianCrossing> pedestrianCrossingsH14 = new ArrayList<>();
         pedestrianCrossingsH14.add(pedestrianCrossingV22);
@@ -962,7 +990,8 @@ class Initialize {
         linesH14.add(lineH27);
         linesH14.add(lineH28);
         roadH14 = new Road(70, pedestrianCrossingsH14, linesH14,
-                new Point(672,638), new Point(848,638), "1way", false, null);
+                new Point(672,638), new Point(848,638), "1way", false, null)
+                .setName("roadH14");
 
         List<PedestrianCrossing> pedestrianCrossingsH15 = new ArrayList<>();
         pedestrianCrossingsH15.add(pedestrianCrossingV22);
@@ -971,7 +1000,8 @@ class Initialize {
         linesH15.add(lineH29);
         linesH15.add(lineH30);
         roadH15 = new Road(70, pedestrianCrossingsH15, linesH15,
-                new Point(672,662), new Point(848,662), "1way", false, null);
+                new Point(672,662), new Point(848,662), "1way", false, null)
+                .setName("roadH15");
 
         List<PedestrianCrossing> pedestrianCrossingsH16 = new ArrayList<>();
         pedestrianCrossingsH16.add(pedestrianCrossingV24);
@@ -980,7 +1010,8 @@ class Initialize {
         linesH16.add(lineH31);
         linesH16.add(lineH32);
         roadH16 = new Road(70, pedestrianCrossingsH16, linesH16,
-                new Point(892,638), new Point(1068,638), "1way", false, null);
+                new Point(892,638), new Point(1068,638), "1way", false, null)
+                .setName("roadH16");
 
         List<PedestrianCrossing> pedestrianCrossingsH17 = new ArrayList<>();
         pedestrianCrossingsH17.add(pedestrianCrossingV24);
@@ -989,7 +1020,8 @@ class Initialize {
         linesH17.add(lineH33);
         linesH17.add(lineH34);
         roadH17 = new Road(70, pedestrianCrossingsH17, linesH17,
-                new Point(892,662), new Point(1068,662), "1way", false, null);
+                new Point(892,662), new Point(1068,662), "1way", false, null)
+                .setName("roadH17");
 
         List<PedestrianCrossing> pedestrianCrossingsH18 = new ArrayList<>();
         pedestrianCrossingsH18.add(pedestrianCrossingV26);
@@ -997,7 +1029,8 @@ class Initialize {
         linesH18.add(lineH35);
         linesH18.add(lineH36);
         roadH18 = new Road(70, pedestrianCrossingsH18, linesH18,
-                new Point(1112,638), new Point(1300,638), "1way", false, new Point(1300,638));
+                new Point(1112,638), new Point(1300,638), "1way", false, new Point(1300,638))
+                .setName("roadH18");
 
         List<PedestrianCrossing> pedestrianCrossingsH19 = new ArrayList<>();
         pedestrianCrossingsH19.add(pedestrianCrossingV26);
@@ -1005,13 +1038,15 @@ class Initialize {
         linesH19.add(lineH37);
         linesH19.add(lineH38);
         roadH19 = new Road(70, pedestrianCrossingsH19, linesH19,
-                new Point(1112,662), new Point(1300,662), "1way", false, new Point(1300,662));
+                new Point(1112,662), new Point(1300,662), "1way", false, new Point(1300,662))
+                .setName("roadH19");
 
         List<Line> linesES = new ArrayList<>();
         linesES.add(lineES1);
         linesES.add(lineES2);
         roadES = new Road(20, null, linesES,
-                new Point(880,430), new Point(885,430), "2way", false, new Point(885,430));
+                new Point(880,430), new Point(885,430), "2way", false, new Point(885,430))
+                .setName("roadES");
     }
 
     private void initializePedestrianCrossings(){

@@ -33,6 +33,7 @@ public class Controller implements Initializable {
     private static boolean isSimulationStopped;
     private boolean isCycleFinished, isNextCycleReady;
     private int pedestriansQuantity;
+    private static int cycleCounter = 0;
 
     @FXML
     private ImageView imageView;
@@ -258,6 +259,7 @@ public class Controller implements Initializable {
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
             cycle();
+            cycleCounter++;
             while(pedestrians.size() < pedestriansQuantity){
                 initializePedestrians(pedestriansQuantity - pedestrians.size());
                 addPedestriansToMap();
@@ -272,6 +274,7 @@ public class Controller implements Initializable {
                                 carsOnRoad.add(car);
                                 carsToRemove.add(car);
                                 addCarToMap(car);
+                                car.setCycleCount(cycleCounter);
                             }
                         }
                     }
@@ -308,5 +311,9 @@ public class Controller implements Initializable {
         }));
         timeline.setCycleCount(1);
         timeline.play();
+    }
+
+    public static int getCycleCounter() {
+        return cycleCounter;
     }
 }

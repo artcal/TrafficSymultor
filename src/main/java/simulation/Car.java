@@ -599,33 +599,12 @@ class Car extends TrafficParticipant {
         if(!road.getName().equals("roadES")){
             int averageQuantityOfCars = countAverageQuantityOfCars();
             if(previousTurningPoint != null){
-                if(route.size() > 0){
+                if(route.size() > 0) {
                     StatisticsElement statisticsElement = new StatisticsElement(road.getName(),
-                            line.getTrafficMovement(),Controller.getCycleCounter() - cycleCount, waitingTime,
-                            averageQuantityOfCars, countDistance(turningPoint));
-                    if(line.getStreetLights() != null)
-                        statisticsElement.setStreetLightsTime(line.getStreetLights().getRedLightTime(),
-                                line.getStreetLights().getGreenLightTime());
-                    StatisticsSaver statisticsSaver = new StatisticsSaver(statisticsElement);
-                }else{
-                    if(endingPoint.equals(road.getStart()) || endingPoint.equals(road.getEnd())){
-                        StatisticsElement statisticsElement = new StatisticsElement(road.getName(),
-                                line.getTrafficMovement(), Controller.getCycleCounter() - cycleCount,
-                                waitingTime, averageQuantityOfCars, countDistance(endingPoint));
-                        if(line.getStreetLights() != null)
-                            statisticsElement.setStreetLightsTime(line.getStreetLights().getRedLightTime(),
-                                    line.getStreetLights().getGreenLightTime());
-                        StatisticsSaver statisticsSaver = new StatisticsSaver(statisticsElement);
-                    }
-                }
-            }else{
-                if(startingPoint.equals(road.getStart()) || startingPoint.equals(road.getEnd())){
-                    StatisticsElement statisticsElement = new StatisticsElement(road.getName(),
-                            line.getTrafficMovement(),Controller.getCycleCounter() - cycleCount, waitingTime,
-                            averageQuantityOfCars, countDistance(startingPoint));
-                    if(line.getStreetLights() != null)
-                        statisticsElement.setStreetLightsTime(line.getStreetLights().getRedLightTime(),
-                                line.getStreetLights().getGreenLightTime());
+                            line.getTrafficMovement(), Controller.getCycleCounter() - cycleCount, waitingTime,
+                            averageQuantityOfCars, countDistance());
+                    if (line.getStreetLights() != null)
+                        statisticsElement.setLightsLength(Initialize.getLightsLength());
                     StatisticsSaver statisticsSaver = new StatisticsSaver(statisticsElement);
                 }
             }
@@ -648,11 +627,11 @@ class Car extends TrafficParticipant {
         waitingTime = 0;
     }
 
-    private int countDistance(Point previousPoint) {
+    private int countDistance() {
         if(line.isVertical())
-            return Math.abs(turningPoint.y - previousPoint.y);
+            return Math.abs(turningPoint.y - previousTurningPoint.y);
         else
-            return Math.abs(turningPoint.x - previousPoint.x);
+            return Math.abs(turningPoint.x - previousTurningPoint.x);
     }
 
     private int countAverageQuantityOfCars() {

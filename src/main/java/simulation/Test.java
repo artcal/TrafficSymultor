@@ -3,8 +3,6 @@ package simulation;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static simulation.StreetLights.RED;
-
 // do terstowania co nam potrzeba
 public class Test implements Runnable{
 
@@ -15,7 +13,7 @@ public class Test implements Runnable{
     public Test() {
         StatisticsElement statisticsElement = new StatisticsElement("r1", "N", 100,
                 40, 15, 8, 200);
-        statisticsElement.setStreetLightsTime(10,0);
+        //statisticsElement.setLightsLength(10);
         System.out.println(statisticsElement.toString());
     }
 

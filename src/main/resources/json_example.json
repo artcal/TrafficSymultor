@@ -1,0 +1,42 @@
+{
+"road_1": {
+  "length": "<value>",
+  "<direction>":{
+    "None" : {
+      "number" : "<value>",
+      "avereageSpeed": "<value>",
+      "avereageCarsQuantity" : "<value>",
+      "fullTime" : "<value>",
+      "waitingTime" : "<value>"
+    }
+  },
+  "<direction>":{
+    "<lightsLength_1>" : {
+      "number" : "<value>",
+      "avereageSpeed": "<value>",
+      "avereageCarsQuantity" : "<value>",
+      "fullTime" : "<value>",
+      "waitingTime" : "<value>"
+    },
+    "<lightsLength_2>" : {
+      "number" : "<value>",
+      "avereageSpeed": "<value>",
+      "avereageCarsQuantity" : "<value>",
+      "fullTime" : "<value>",
+      "waitingTime" : "<value>"
+    }
+  }
+},
+"road_2": {
+  "length": "<value>",
+  "<direction>":{
+    "None" : {
+      "number" : "<value>",
+      "avereageSpeed": "<value>",
+      "avereageCarsQuantity" : "<value>",
+      "fullTime" : "<value>",
+      "waitingTime" : "<value>"
+    }
+  }
+}
+}

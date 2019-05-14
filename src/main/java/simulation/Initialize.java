@@ -6,6 +6,8 @@ import java.util.List;
 
 class Initialize {
 
+    private static int lightsLength;
+
 //    private static RoadSign roadSign1;
 //    private static RoadSign roadSign2;
 //    private static RoadSign roadSign3;
@@ -1239,5 +1241,13 @@ class Initialize {
 
     static List<PedestrianCrossing> getPedestrianCrossings() {
         return pedestrianCrossings;
+    }
+
+    public static int getLightsLength() {
+        return lightsLength;
+    }
+
+    public static void setLightsLength(int lightsLength) {
+        Initialize.lightsLength = lightsLength;
     }
 }

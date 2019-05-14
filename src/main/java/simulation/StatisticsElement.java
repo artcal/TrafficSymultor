@@ -10,8 +10,8 @@ class StatisticsElement {
     private int averageCarsQuantity;
     private int averageSpeed;
     private int distance;
-    private int redLightTime;
-    private int greenLightTime;
+    private int lightsLength;
+    private boolean areThereLights = false;
 
     StatisticsElement(String roadName, String direction, int fullTime, int waitingTime, int waitingTimeOnCollision,
                       int averageCarsQuantity, int distance) {
@@ -36,9 +36,9 @@ class StatisticsElement {
         calculateAverageSpeed();
     }
 
-    void setStreetLightsTime(int redLightTime, int greenLightTime){
-        this.redLightTime = redLightTime;
-        this.greenLightTime = greenLightTime;
+    public void setLightsLength(int lightsLength) {
+        this.lightsLength = lightsLength;
+        areThereLights = true;
     }
 
     private void calculateAverageSpeed() {
@@ -49,7 +49,7 @@ class StatisticsElement {
     public String toString() {
         return roadName + "," + direction + "," + fullTime + "," + waitingTime + ","
                 + (waitingTimeOnCollision == 0 ? "null" : waitingTimeOnCollision)
-                + "," + averageCarsQuantity + "," + averageSpeed + "," + distance + ","
-                + (redLightTime == 0 && greenLightTime == 0 ? "null,null" : redLightTime + "," + greenLightTime);
+                + "," + averageCarsQuantity + "," + averageSpeed + ","
+                + (areThereLights ? lightsLength : "null");
     }
 }

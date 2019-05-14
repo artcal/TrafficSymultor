@@ -9,19 +9,18 @@ import static simulation.StreetLights.RED;
 public class Test implements Runnable{
 
     boolean isRunning;
-    final Thread thread;
+    Thread thread;
     private Timer timer;
 
     public Test() {
-
-        thread = new Thread(this);
-        isRunning = true;
+        StatisticsElement statisticsElement = new StatisticsElement("r1", "N", 100,
+                40, 15, 8, 200);
+        statisticsElement.setStreetLightsTime(10,0);
+        System.out.println(statisticsElement.toString());
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Test test = new Test();
-        test.start();
-
     }
     void start(){
         thread.start();

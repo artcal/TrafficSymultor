@@ -1237,7 +1237,7 @@ class Initialize {
         return lines;
     }
 
-    public static List<PedestrianCrossing> getPedestrianCrossings() {
+    static List<PedestrianCrossing> getPedestrianCrossings() {
         return pedestrianCrossings;
     }
 }

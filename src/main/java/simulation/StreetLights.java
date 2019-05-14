@@ -163,7 +163,15 @@ class StreetLights implements Runnable {
         }
     }
 
-    public boolean isPedestrianLight() {
+    boolean isPedestrianLight() {
         return isPedestrianLight;
+    }
+
+    int getGreenLightTime() {
+        return greenLightTime;
+    }
+
+    int getRedLightTime() {
+        return redLightTime;
     }
 }

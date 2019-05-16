@@ -390,31 +390,37 @@ class Car extends TrafficParticipant {
     }
 
     private void tryChangingLine() {
-        if (checkDistanceFromCrossroad() > 30 && isChangingLine) {
-            Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
-            if (canEnterLine(line)) {
-                line.getCars().stream().filter(car -> {
-                    if (car.getCarToGoFirst() != null)
-                        return car.getCarToGoFirst().equals(this);
-                    return false;
-                }).forEach(car -> car.setCarToGoFirst(null));
-                change();
-            } else {
-                boolean isVertical = line.isVertical();
-                List<Car> carList = line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
-                        .filter(car -> {
-                            if (car.getCarToGoFirst() != null)
-                                return car.getCarToGoFirst().equals(this);
-                            return false;
-                        }).collect(Collectors.toList());
-                if (carList.size() > 0) {
+        if (checkDistanceFromCrossroad() > 30) {
+            if(isChangingLine) {
+                Line line = road.getLines().get(0).equals(this.line) ? road.getLines().get(1) : road.getLines().get(0);
+                if (canEnterLine(line)) {
                     line.getCars().stream().filter(car -> {
                         if (car.getCarToGoFirst() != null)
                             return car.getCarToGoFirst().equals(this);
                         return false;
                     }).forEach(car -> car.setCarToGoFirst(null));
                     change();
+                } else {
+                    boolean isVertical = line.isVertical();
+                    List<Car> carList = line.getCars().stream().filter(car -> isInRange(isVertical ? position.y : position.x, isVertical))
+                            .filter(car -> {
+                                if (car.getCarToGoFirst() != null)
+                                    return car.getCarToGoFirst().equals(this);
+                                return false;
+                            }).collect(Collectors.toList());
+                    if (carList.size() > 0) {
+                        line.getCars().stream().filter(car -> {
+                            if (car.getCarToGoFirst() != null)
+                                return car.getCarToGoFirst().equals(this);
+                            return false;
+                        }).forEach(car -> car.setCarToGoFirst(null));
+                        change();
+                    }
                 }
+            } else {
+                if (route.size() > 0)
+                    if (!crossroad.equals(line.getNextCrossroad()))
+                        crossroad = line.getNextCrossroad();
             }
         }
     }
@@ -506,11 +512,8 @@ class Car extends TrafficParticipant {
             isChangingLine = false;
             line.removeCar(this);
             line = lineToChange;
-            if (route.size() > 0) {
+            if (route.size() > 0)
                 isLineOk();
-                crossroad = line.getNextCrossroad();
-            } else
-                crossroad = null;
             line.addCar(this);
             if (isVertical) {
                 position.x = line.getEnd().x;

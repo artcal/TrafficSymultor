@@ -587,8 +587,8 @@ class Initialize {
         crossroad32.setEntrances(new Line[] {lineH22, lineH23, lineH24,lineV24});
         crossroad32.setExits(new Line[] {lineH21, lineH25, lineH26, lineV23});
         crossroad32.addHowToGo(lineH22, new Line[] {lineH25, lineV23});
-        crossroad32.addHowToGo(lineH23, new Line[] {lineH21, lineV23});
-        crossroad32.addHowToGo(lineH24, new Line[] {lineH21, lineV23});
+        crossroad32.addHowToGo(lineH23, new Line[] {lineH21});
+        crossroad32.addHowToGo(lineH24, new Line[] {lineV23});
         crossroad32.addHowToGo(lineV24, new Line[] {lineH21, lineH26});
 
         crossroad33.setEntrances(new Line[] {lineH25, lineH26, lineH27, lineH28, lineV15, lineV16, lineV27, lineV28});

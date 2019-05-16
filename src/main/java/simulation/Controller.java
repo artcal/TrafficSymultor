@@ -3,6 +3,7 @@ package simulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -34,6 +35,7 @@ public class Controller implements Initializable {
     private boolean isCycleFinished, isNextCycleReady;
     private int pedestriansQuantity;
     private static int cycleCounter = 0;
+    private static boolean isSafeMode;
 
     @FXML
     private ImageView imageView;
@@ -49,6 +51,8 @@ public class Controller implements Initializable {
     private TextField tCarsQuantity;
     @FXML
     private TextField tPedestriansQuantity;
+    @FXML
+    private CheckBox cSafeMode;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -173,6 +177,7 @@ public class Controller implements Initializable {
 
     public void startSimulation() {
         logs.setText(logs.getText() + "\n\n" + "Starting simulation...");
+        setIsSafeMode(cSafeMode.isSelected());
         isSimulationStopped = false;
         isCycleFinished = false;
         isNextCycleReady = true;
@@ -313,7 +318,15 @@ public class Controller implements Initializable {
         timeline.play();
     }
 
-    public static int getCycleCounter() {
+    static int getCycleCounter() {
         return cycleCounter;
+    }
+
+    static boolean isIsSafeMode() {
+        return isSafeMode;
+    }
+
+    private static void setIsSafeMode(boolean isSafeMode) {
+        Controller.isSafeMode = isSafeMode;
     }
 }

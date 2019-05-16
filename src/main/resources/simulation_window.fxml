@@ -75,7 +75,7 @@
                 <Color blue="0.624" green="0.624" red="0.624" fx:id="x2" />
               </textFill>
             </Label>
-                  <CheckBox layoutX="25.0" layoutY="60.0" mnemonicParsing="false" text="Tryb bezpieczny" />
+                  <CheckBox fx:id="cSafeMode" layoutX="25.0" layoutY="60.0" mnemonicParsing="false" text="Tryb bezpieczny" />
                   <Label layoutX="25.0" layoutY="155.0" text="Ilość pojazdów" />
                   <Label layoutX="25.0" layoutY="208.0" text="Ilość pieszych" />
                   <Label layoutX="25.0" layoutY="257.0" text="Czas symulacji" />

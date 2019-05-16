@@ -53,7 +53,7 @@ public class Crossroad {
         return position;
     }
 
-    public int getSize() {
+    int getSize() {
         return size;
     }
 
@@ -65,7 +65,7 @@ public class Crossroad {
         cars.remove(car);
     }
 
-    public List<Car> getCars() {
+    List<Car> getCars() {
         return cars;
     }
 }

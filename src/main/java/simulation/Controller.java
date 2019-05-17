@@ -2,9 +2,12 @@ package simulation;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Button;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
@@ -43,10 +46,10 @@ public class Controller implements Initializable {
     private TextArea logs;
     @FXML
     private AnchorPane content;
-//    @FXML
-//    private Button bStart;
-//    @FXML
-//    private Button bStop;
+    @FXML
+    private Button bStart;
+    @FXML
+    private Button bStop;
     @FXML
     private TextField tCarsQuantity;
     @FXML
@@ -57,6 +60,7 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logs.setText("Welcome to our simulator!");
+        bStop.setDisable(true);
         try {
             generateExitSpawnPoints();
         } catch (Exception e) {
@@ -82,6 +86,12 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
         }
+        logs.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+                logs.setScrollTop(Double.MAX_VALUE);
+            }
+        });
     }
 
     private void generateExitSpawnPoints() throws Exception {
@@ -176,7 +186,9 @@ public class Controller implements Initializable {
     }
 
     public void startSimulation() {
-        logs.setText(logs.getText() + "\n\n" + "Starting simulation...");
+        logs.appendText("\n\n" + "Starting simulation...");
+        bStart.setDisable(true);
+        bStop.setDisable(false);
         setIsSafeMode(cSafeMode.isSelected());
         isSimulationStopped = false;
         isCycleFinished = false;
@@ -193,7 +205,7 @@ public class Controller implements Initializable {
             addPedestriansToMap();
             addStreetLightsToMap();
             Initialize.getStreetLights().forEach(StreetLights::start);
-            logs.setText(logs.getText() + "\nDone!");
+            logs.appendText("\nDone!");
             runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,7 +228,7 @@ public class Controller implements Initializable {
     }
 
     private void initializeCars(int quantity) throws Exception {
-        logs.setText(logs.getText() + "\nInitializing cars...");
+        logs.appendText("\nInitializing cars...");
         Random random = new Random();
         for (int i = 0; i < quantity; i++) {
             int startingPointIndex = random.nextInt(startingPlaces.size());
@@ -242,7 +254,9 @@ public class Controller implements Initializable {
     }
 
     public void stopSimulation() throws Exception {
-        logs.setText(logs.getText() + "\nStopping simulation...\nClearing map...");
+        logs.appendText("\nStopping simulation...\nClearing map...");
+        bStop.setDisable(true);
+        bStart.setDisable(false);
         isSimulationStopped = true;
         List<Node> nodes = new ArrayList<>();
         nodes.add(content.getChildren().get(0));
@@ -255,7 +269,7 @@ public class Controller implements Initializable {
         for (StreetLights streetLights : Initialize.getStreetLights()) {
             streetLights.setRunningFalse();
         }
-        logs.setText(logs.getText() + "\nDone!");
+        logs.appendText("\nDone!");
     }
 
     private void runSimulation() throws Exception {

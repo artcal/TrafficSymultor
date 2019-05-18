@@ -17,7 +17,7 @@ class Car extends TrafficParticipant {
     private Point previousTurningPoint; //TODO statistics
     private Point turningPoint;
     private Crossroad crossroad;
-    private boolean isChangingLine = false, isOnCrossroad, isLettingCarOnCrossroad = false;
+    private boolean isChangingLine = false, isOnCrossroad, isLettingCarOnCrossroad = false, isInTrafficAccident = false;
     private Car carToGoFirst;
     private int cycleCount;
     private List<Integer> carsOnRoad = new ArrayList<>();
@@ -77,7 +77,7 @@ class Car extends TrafficParticipant {
         try {
             if (speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight() && carToGoFirst == null
                     && !isPedestrianOnCrossing() && !isCarOnCourseOnCrossroad()
-                    && !(isLettingCarOnCrossroad = isLettingCarsOnCrossroad()))
+                    && !(isLettingCarOnCrossroad = isLettingCarsOnCrossroad()) && !isInTrafficAccident)
                 accelerate();
             else
                 slowDown();
@@ -88,7 +88,8 @@ class Car extends TrafficParticipant {
 
     private boolean isLettingCarsOnCrossroad() throws Exception {
         if (road.getType().equals("2way") && route.size() > 0) {
-            if (isOnCrossroad && distanceFromPoint(turningPoint, this) > 0) {
+            if (isOnCrossroad && distanceFromPoint(turningPoint, this) > 0
+                    && distanceFromPoint(turningPoint, this) < 30) {
                 if (crossroad.getCars().size() > 1) {
                     switch (numberOfRoadsWithPriority()) {
                         case 0:
@@ -110,7 +111,8 @@ class Car extends TrafficParticipant {
     private boolean isLettingCars(String direction) throws Exception {
         for (Car car : crossroad.getCars()) {
             if (!car.equals(this))
-                if (car.distanceFromPoint(car.turningPoint, car) < 20 && !car.isLettingCarOnCrossroad()) {
+                if (car.distanceFromPoint(car.turningPoint, car) < 30 && car.distanceFromPoint(car.turningPoint, car) > 0
+                        && !car.isLettingCarOnCrossroad()) {
                     if (car.getLine().getTrafficMovement().equals(direction))
                         if (car.getLine().getStreetLights() != null) {
                             if (car.getLine().getStreetLights().getLight() != StreetLights.RED)
@@ -205,7 +207,13 @@ class Car extends TrafficParticipant {
     private boolean isCarOnCourse(Car car) {
         if (isCarOnCollisionCourse(car, line.isVertical())) {
             try {
-                return isCarInFrontInRange(car);
+                if(isCarInFrontInRange(car)){
+                    if(isBumpingIntoCar(car)){
+                        setInTrafficAccident(true);
+                        car.setInTrafficAccident(true);
+                    }
+                    return true;
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -304,13 +312,34 @@ class Car extends TrafficParticipant {
             if (!car.equals(this)) {
                 if (isCarInFront(car))
                     if (isVertical) {
-                        if (isInRange(car.position.y, isVertical))
+                        if (isInRange(car.position.y, isVertical)) {
+                            if(isBumpingIntoCar(car)) {
+                                setInTrafficAccident(true);
+                                car.setInTrafficAccident(true);
+                            }
                             return true;
+                        }
                     } else if (isInRange(car.position.x, isVertical))
                         return true;
             }
         }
         return false;
+    }
+
+    private boolean isBumpingIntoCar(Car car) throws Exception{
+        int distanceToBump = getDistanceToBump(car);
+        if(line.isVertical()){
+            return Math.abs(position.y - car.getPosition().y) < distanceToBump;
+        }else{
+            return Math.abs(position.x - car.getPosition().x) < distanceToBump;
+        }
+    }
+
+    private int getDistanceToBump(Car car) throws Exception {
+        if ((getDirectionInt(this.getLine().getTrafficMovement()) + getDirectionInt(car.getLine().getTrafficMovement()) % 2 == 0))
+            return 10;
+        else
+            return 8;
     }
 
     private boolean isCarInFront(Car car) throws Exception {
@@ -732,5 +761,13 @@ class Car extends TrafficParticipant {
 
     public void setLettingCarOnCrossroad(boolean lettingCarOnCrossroad) {
         isLettingCarOnCrossroad = lettingCarOnCrossroad;
+    }
+
+    public boolean isInTrafficAccident() {
+        return isInTrafficAccident;
+    }
+
+    public void setInTrafficAccident(boolean inTrafficAccident) {
+        isInTrafficAccident = inTrafficAccident;
     }
 }

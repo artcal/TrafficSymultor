@@ -309,6 +309,7 @@ public class Controller implements Initializable {
             carsOnRoad.forEach(Car::correctSpeed);
             carsOnRoad.forEach(car -> car.setLettingCarOnCrossroad(false));
             carsOnRoad.forEach(Car::move);
+            carsOnRoad.stream().filter(Car::isInTrafficAccident).forEach(car -> logs.appendText(car.getName() + " is in accident\n"));
             pedestrians.forEach(Pedestrian::walk);
             content.getChildren().removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached)
                     .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));

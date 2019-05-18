@@ -1229,7 +1229,7 @@ class Initialize {
         streetLightsP1wayHTo2way = new StreetLights(23000, 10000, StreetLights.RED, 0);
         streetLightsP2wayHTo1way = streetLightsP1wayHTo2way;
         streetLightsP2wayVTo1way = new StreetLights(23000, 10000, StreetLights.RED, 13000);
-        streetLightsP1wayVEW = streetLightsP2wayH;
+        streetLightsP1wayVEW = streetLightsP2wayV;
         streetLightsP1wayH2 = new StreetLights(36000, 10000, StreetLights.RED, 0);
         streetLightsP2wayVS2 = new StreetLights(30000, 16000, StreetLights.RED, 15000);
         streetLightsP2wayVN2 = new StreetLights(30000, 16000, StreetLights.RED, 26000);

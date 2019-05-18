@@ -13,6 +13,11 @@ public class StatisticsSaver implements Runnable{
     private static List<StatisticsElement> statisticsElements = new ArrayList<>();
     private List<StatisticsElement> statisticsElementsToSave;
 
+    StatisticsSaver(){
+        thread = new Thread(this);
+        start();
+    }
+
     StatisticsSaver(StatisticsElement statisticsElement) {
         statisticsElements.add(statisticsElement);
         if(statisticsElements.size() >= 100){

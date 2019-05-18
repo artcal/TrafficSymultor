@@ -255,6 +255,7 @@ public class Controller implements Initializable {
 
     public void stopSimulation() throws Exception {
         logs.appendText("\nStopping simulation...\nClearing map...");
+        //StatisticsSaver statisticsSaver = new StatisticsSaver();
         bStop.setDisable(true);
         bStart.setDisable(false);
         isSimulationStopped = true;
@@ -264,8 +265,14 @@ public class Controller implements Initializable {
         content.getChildren().add(nodes.get(0));
         List<Car> carsToDelete = cars;
         cars.removeAll(carsToDelete);
+        carsToDelete = carsOnRoad;
+        carsOnRoad.removeAll(carsToDelete);
+        Initialize.getLines().forEach(line -> line.getCars().removeAll(line.getCars()));
+        Initialize.getCrossroads().forEach(crossroad ->  crossroad.getCars().removeAll(crossroad.getCars()));
         List<Pedestrian> pedestriansToDelete = pedestrians;
         pedestrians.removeAll(pedestriansToDelete);
+        Initialize.getPedestrianCrossings().forEach(pedestrianCrossing -> pedestrianCrossing.getPedestrians()
+                .removeAll(pedestrianCrossing.getPedestrians()));
         for (StreetLights streetLights : Initialize.getStreetLights()) {
             streetLights.setRunningFalse();
         }
@@ -273,7 +280,7 @@ public class Controller implements Initializable {
     }
 
     private void runSimulation() throws Exception {
-        if(cars.size() == 0 && carsOnRoad.size() == 0)
+        if(cars.size() == 0 && carsOnRoad.size() == 0 && !isSimulationStopped)
             stopSimulation();
         while(isNextCycleReady && !isSimulationStopped){
             isNextCycleReady = false;
@@ -300,6 +307,7 @@ public class Controller implements Initializable {
             }
             carsToRemove.forEach(car -> cars.remove(car));
             carsOnRoad.forEach(Car::correctSpeed);
+            carsOnRoad.forEach(car -> car.setLettingCarOnCrossroad(false));
             carsOnRoad.forEach(Car::move);
             pedestrians.forEach(Pedestrian::walk);
             content.getChildren().removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached)

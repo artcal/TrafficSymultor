@@ -226,6 +226,7 @@ class Initialize {
     private static List<StreetLights> streetLights;
     private static List<Line> lines;
     private static List<PedestrianCrossing> pedestrianCrossings;
+    private static List<Crossroad> crossroads;
 
     static void main(String[] args) throws Exception {
         Initialize initialize = new Initialize();
@@ -242,6 +243,26 @@ class Initialize {
         initialize.roadsToList();
         initialize.streetLightsToList();
         initialize.linesToList();
+        initialize.crossroadsToList();
+    }
+
+    private void crossroadsToList() {
+        crossroads = new ArrayList<>();
+
+        crossroads.add(crossroad11);
+        crossroads.add(crossroad12);
+        crossroads.add(crossroad13);
+        crossroads.add(crossroad14);
+        crossroads.add(crossroad15);
+        crossroads.add(crossroad21);
+        crossroads.add(crossroad22);
+        crossroads.add(crossroad23);
+        crossroads.add(crossroad24);
+        crossroads.add(crossroad31);
+        crossroads.add(crossroad32);
+        crossroads.add(crossroad33);
+        crossroads.add(crossroad34);
+        crossroads.add(crossroad35);
     }
 
     private void pedestrianCrossingsToList() {
@@ -1249,5 +1270,9 @@ class Initialize {
 
     public static void setLightsLength(int lightsLength) {
         Initialize.lightsLength = lightsLength;
+    }
+
+    public static List<Crossroad> getCrossroads() {
+        return crossroads;
     }
 }

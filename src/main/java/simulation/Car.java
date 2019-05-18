@@ -17,7 +17,7 @@ class Car extends TrafficParticipant {
     private Point previousTurningPoint; //TODO statistics
     private Point turningPoint;
     private Crossroad crossroad;
-    private boolean isChangingLine = false, isOnCrossroad;
+    private boolean isChangingLine = false, isOnCrossroad, isLettingCarOnCrossroad = false;
     private Car carToGoFirst;
     private int cycleCount;
     private List<Integer> carsOnRoad = new ArrayList<>();
@@ -76,7 +76,8 @@ class Car extends TrafficParticipant {
     void correctSpeed() {
         try {
             if (speed < maxSpeed && !isTooCloseToCar() && !isStoppingOnRedLight() && carToGoFirst == null
-                    && !isPedestrianOnCrossing() && !isCarOnCourseOnCrossroad() && !isLettingCarsOnCrossroad())
+                    && !isPedestrianOnCrossing() && !isCarOnCourseOnCrossroad()
+                    && !(isLettingCarOnCrossroad = isLettingCarsOnCrossroad()))
                 accelerate();
             else
                 slowDown();
@@ -87,7 +88,7 @@ class Car extends TrafficParticipant {
 
     private boolean isLettingCarsOnCrossroad() throws Exception {
         if (road.getType().equals("2way") && route.size() > 0) {
-            if (isOnCrossroad) {
+            if (isOnCrossroad && distanceFromPoint(turningPoint, this) > 0) {
                 if (crossroad.getCars().size() > 1) {
                     switch (numberOfRoadsWithPriority()) {
                         case 0:
@@ -109,7 +110,7 @@ class Car extends TrafficParticipant {
     private boolean isLettingCars(String direction) throws Exception {
         for (Car car : crossroad.getCars()) {
             if (!car.equals(this))
-                if (car.distanceFromPoint(car.turningPoint, car) < 20) {
+                if (car.distanceFromPoint(car.turningPoint, car) < 20 && !car.isLettingCarOnCrossroad()) {
                     if (car.getLine().getTrafficMovement().equals(direction))
                         if (car.getLine().getStreetLights() != null) {
                             if (car.getLine().getStreetLights().getLight() != StreetLights.RED)
@@ -418,9 +419,14 @@ class Car extends TrafficParticipant {
                     }
                 }
             } else {
-                if (route.size() > 0)
-                    if (!crossroad.equals(line.getNextCrossroad()))
+                if (route.size() > 0) {
+                    if (!crossroad.equals(line.getNextCrossroad())) {
+                        crossroad.getCars().remove(this);
                         crossroad = line.getNextCrossroad();
+                    }
+                }else {
+                    crossroad.getCars().remove(this);
+                }
             }
         }
     }
@@ -718,5 +724,13 @@ class Car extends TrafficParticipant {
 
     public void setCycleCount(int cycleCount) {
         this.cycleCount = cycleCount;
+    }
+
+    public boolean isLettingCarOnCrossroad() {
+        return isLettingCarOnCrossroad;
+    }
+
+    public void setLettingCarOnCrossroad(boolean lettingCarOnCrossroad) {
+        isLettingCarOnCrossroad = lettingCarOnCrossroad;
     }
 }

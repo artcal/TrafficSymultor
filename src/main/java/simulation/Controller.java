@@ -34,7 +34,7 @@ public class Controller implements Initializable {
     private List<Car> cars;
     private List<Car> carsOnRoad;
     private static List<Pedestrian> pedestrians;
-    private static boolean isSimulationStopped;
+    private static boolean isSimulationStopped, isAccident = false;
     private boolean isCycleFinished, isNextCycleReady;
     private int pedestriansQuantity;
     private static int cycleCounter = 0;
@@ -255,7 +255,7 @@ public class Controller implements Initializable {
 
     public void stopSimulation() throws Exception {
         logs.appendText("\nStopping simulation...\nClearing map...");
-        //StatisticsSaver statisticsSaver = new StatisticsSaver();
+        StatisticsSaver statisticsSaver = new StatisticsSaver();
         bStop.setDisable(true);
         bStart.setDisable(false);
         isSimulationStopped = true;
@@ -306,6 +306,22 @@ public class Controller implements Initializable {
                     }
             }
             carsToRemove.forEach(car -> cars.remove(car));
+            if(isAccident){
+                carsOnRoad.forEach(car -> {
+                    for (int i = 0; i < 3; i++ ) {
+                        RouteElement routeElement = car.getRoute().get(i);
+                        if(routeElement.getRoad().getLines().get(0).isClosed()){
+                           if(routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection()))
+                               car.changeRoute();
+                        }
+                        if(routeElement.getRoad().getLines().get(1).isClosed()){
+                            if(routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection()))
+                                car.changeRoute();
+                        }
+                    }
+                });
+                isAccident = false;
+            }
             carsOnRoad.forEach(Car::correctSpeed);
             carsOnRoad.forEach(car -> car.setLettingCarOnCrossroad(false));
             carsOnRoad.forEach(Car::move);
@@ -351,5 +367,9 @@ public class Controller implements Initializable {
 
     private static void setIsSafeMode(boolean isSafeMode) {
         Controller.isSafeMode = isSafeMode;
+    }
+
+    public static void setIsAccident(boolean isAccident) {
+        Controller.isAccident = isAccident;
     }
 }

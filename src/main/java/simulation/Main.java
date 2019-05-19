@@ -32,6 +32,7 @@ public class Main extends Application {
         for (StreetLights streetLights : Initialize.getStreetLights()) {
             streetLights.setRunningFalse();
         }
+        StatisticsSaver statisticsSaver = new StatisticsSaver();
         super.stop();
     }
 }

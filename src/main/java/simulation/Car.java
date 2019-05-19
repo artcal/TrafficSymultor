@@ -1,5 +1,9 @@
 package simulation;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -238,9 +242,9 @@ class Car extends TrafficParticipant {
 
     private boolean isCarOnCollisionCourse(Car car, boolean isVertical) {
         if (isVertical)
-            return Math.abs(position.x - car.getPosition().x) < 7;
+            return Math.abs(position.x - car.getPosition().x) < 9;
         else
-            return Math.abs(position.y - car.getPosition().y) < 7;
+            return Math.abs(position.y - car.getPosition().y) < 9;
     }
 
     private boolean isPedestrianOnCrossing() {
@@ -632,7 +636,7 @@ class Car extends TrafficParticipant {
         return false;
     }
 
-    private void setRoadAndLine(Road road, Line line) {
+    private void setRoadAndLine(Road road, Line line) throws InterruptedException {
         if (!road.getName().equals("roadES")) {
             int averageQuantityOfCars = countAverageQuantityOfCars();
             if (previousTurningPoint != null) {
@@ -686,6 +690,8 @@ class Car extends TrafficParticipant {
 
     private void setTurningPoint() {
         if (line.isVertical()) {
+            if(turningPoint != null)
+                previousTurningPoint = new Point(turningPoint.x, turningPoint.y);
             if (route.get(0).getDirection().equals("W") || route.get(0).getDirection().equals("E")) {
                 turningPoint = new Point(line.getEnd().x, nextLine.getEnd().y);
             } else {
@@ -725,6 +731,18 @@ class Car extends TrafficParticipant {
         } else {
             return Math.abs(this.position.x - position) < 25;
         }
+    }
+
+    private void trafficAccidentHandler() {
+        int time = 10000;
+        line.setClosed(true);
+        Controller.setIsAccident(true);
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> {
+            line.setClosed(false);
+            isEndReached = true;
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     Car getCarToGoFirst() {
@@ -769,5 +787,8 @@ class Car extends TrafficParticipant {
 
     public void setInTrafficAccident(boolean inTrafficAccident) {
         isInTrafficAccident = inTrafficAccident;
+        speed = 0;
+        maxSpeed = 0;
+        //trafficAccidentHandler();
     }
 }

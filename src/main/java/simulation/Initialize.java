@@ -6,7 +6,7 @@ import java.util.List;
 
 class Initialize {
 
-    private static int lightsLength;
+    private static int lightsLength = 5000;
 
 //    private static RoadSign roadSign1;
 //    private static RoadSign roadSign2;
@@ -1185,7 +1185,7 @@ class Initialize {
         lineH29 = new Line(streetLights1wayHEL2,null, new Point(672, 657), new Point(848, 657), "E", false);
         lineH30 = new Line(streetLights1wayHE2, null, new Point(672, 667), new Point(848, 667), "E", false);
         lineH31 = new Line(streetLights1wayHW2, null, new Point(892, 633), new Point(1068, 633), "W", false);
-        lineH32 = new Line(streetLights1wayHWL2, null, new Point(892, 643), new Point(1068, 643), "W", false);
+        lineH32 = new Line(streetLights1wayHW2, null, new Point(892, 643), new Point(1068, 643), "W", false);
         lineH33 = new Line(streetLights1wayHEL2,null, new Point(892, 657), new Point(1068, 657), "E", false);
         lineH34 = new Line(streetLights1wayHE2, null, new Point(892, 667), new Point(1068, 667), "E", false);
         lineH35 = new Line(streetLights1wayHW2,null, new Point(1112, 633), new Point(1300, 633), "W", false);
@@ -1199,40 +1199,40 @@ class Initialize {
     }
 
     private void initializeStreetLights() throws Exception {
-        streetLights2wayV = new StreetLights(14000,10000,false, StreetLights.RED, 1000 );
-        streetLights2wayH = new StreetLights(14000,10000,false, StreetLights.YELLOW, 0);
-        streetLights1wayHE = new StreetLights(44000,16000,false, StreetLights.RED, 30000);
-        streetLights1wayHW = new StreetLights(44000,16000,false, StreetLights.RED, 41000);
-        streetLights1wayHEL = new StreetLights(52000,8000,true, StreetLights.RED, 30000);
-        streetLights1wayHWL = new StreetLights(52000,8000,true, StreetLights.RED, 49000);
-        streetLights1wayVN = new StreetLights(44000,16000,false, StreetLights.RED, 10000);
-        streetLights1wayVS = new StreetLights(44000,16000,false, StreetLights.RED_YELLOW, 0);
-        streetLights1wayVNL = new StreetLights(52000,8000,true, StreetLights.RED, 18000);
-        streetLights1wayVSL = new StreetLights(52000,8000,true, StreetLights.RED_YELLOW, 0);
-        streetLights1wayHTo2wayW = new StreetLights(13000,18000,true, StreetLights.RED, 12000);
-        streetLights1wayHTo2wayS = new StreetLights(26000,5000,true, StreetLights.RED, 25000);
-        streetLights2wayHTo1way = new StreetLights(21000, 10000, false, StreetLights.RED, 12000);
-        streetLights2wayVTo1way = new StreetLights(21000,10000, false, StreetLights.RED_YELLOW,0);
+        streetLights2wayV = new StreetLights(lightsLength + 9000,lightsLength + 5000,false, StreetLights.RED, 1000 );
+        streetLights2wayH = new StreetLights(lightsLength + 9000,lightsLength + 5000,false, StreetLights.YELLOW, 0);
+        streetLights1wayHE = new StreetLights(42000 + (lightsLength -5000) * 3,lightsLength + 11000,false, StreetLights.RED, 29000 + (lightsLength -5000) * 2);
+        streetLights1wayHW = new StreetLights(42000 + (lightsLength -5000) * 3,lightsLength + 11000,false, StreetLights.RED, 40000 + (lightsLength -5000) * 3);
+        streetLights1wayHEL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED, 29000 + (lightsLength -5000) * 2);
+        streetLights1wayHWL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED, 48000 + (lightsLength -5000) * 3);
+        streetLights1wayVN = new StreetLights(42000 + (lightsLength -5000) * 3,lightsLength + 11000,false, StreetLights.RED, 10000 + (lightsLength -5000));
+        streetLights1wayVS = new StreetLights(42000 + (lightsLength -5000) * 3,lightsLength + 11000,false, StreetLights.RED_YELLOW, 0);
+        streetLights1wayVNL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED, 18000 + (lightsLength -5000));
+        streetLights1wayVSL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED_YELLOW, 0);
+        streetLights1wayHTo2wayW = new StreetLights(14000 + (lightsLength -5000),lightsLength + 13000,true, StreetLights.RED, 12000 + (lightsLength -5000));
+        streetLights1wayHTo2wayS = new StreetLights(27000 + (lightsLength -5000) * 2,5000,true, StreetLights.RED, 25000 + (lightsLength -5000) * 2);
+        streetLights2wayHTo1way = new StreetLights(22000 + (lightsLength -5000), lightsLength + 5000, false, StreetLights.RED, 12000 + (lightsLength -5000));
+        streetLights2wayVTo1way = new StreetLights(22000 + (lightsLength -5000),lightsLength + 5000, false, StreetLights.RED_YELLOW,0);
         streetLights1wayVEW = streetLights2wayV;
-        streetLights1wayHE2 = new StreetLights(28000,16000,false, StreetLights.RED, 14000);
-        streetLights1wayHW2 = new StreetLights(28000,16000,false, StreetLights.RED, 25000);
-        streetLights1wayHEL2 = new StreetLights(36000,8000,true, StreetLights.RED, 14000);
-        streetLights1wayHWL2 = new StreetLights(36000,8000,true, StreetLights.RED, 33000);
-        streetLights2wayV2 = new StreetLights(34000,10000,false, StreetLights.RED_YELLOW, 0);
+        streetLights1wayHE2 = new StreetLights(25000 +(int) ((lightsLength -5000) * 1.5), (int) ((lightsLength -5000) * 0.5) + 16000,false, StreetLights.RED, 12000 + (lightsLength -5000));
+        streetLights1wayHW2 = new StreetLights(25000 +(int) ((lightsLength -5000) * 1.5),(int) ((lightsLength -5000) * 0.5)  + 16000,false, StreetLights.RED, 23000 +(int) ((lightsLength -5000) * 1.5));
+        streetLights1wayHEL2 = new StreetLights(33000 +(int) ((lightsLength -5000) * 1.5),(int) ((lightsLength -5000) * 0.5)  + 8000,true, StreetLights.RED, 12000 + (lightsLength -5000));
+        streetLights1wayHWL2 = new StreetLights(33000 +(int) ((lightsLength -5000) * 1.5),(int) ((lightsLength -5000) * 0.5)  + 8000,true, StreetLights.RED, 31000 +(int) ((lightsLength -5000) * 1.5));
+        streetLights2wayV2 = new StreetLights(31000 + (lightsLength -5000),lightsLength + 5000,false, StreetLights.RED_YELLOW, 0);
 
-        streetLightsP2wayV = new StreetLights(16000,10000,StreetLights.GREEN, 0);
-        streetLightsP2wayH = new StreetLights(16000, 10000, StreetLights.RED, 2000);
-        streetLightsP1wayHW = new StreetLights(46000, 16000,StreetLights.RED, 0);
-        streetLightsP1wayHE = new StreetLights(46000, 16000,StreetLights.RED,11000);
-        streetLightsP1wayVS = new StreetLights(46000, 16000, StreetLights.RED, 31000);
-        streetLightsP1wayVN = new StreetLights(46000, 16000, StreetLights.RED, 42000);
-        streetLightsP1wayHTo2way = new StreetLights(23000, 10000, StreetLights.RED, 0);
+        streetLightsP2wayV = new StreetLights(lightsLength + 11000,lightsLength + 5000,StreetLights.GREEN, 0);
+        streetLightsP2wayH = new StreetLights(lightsLength + 11000, lightsLength + 5000, StreetLights.RED, 2000);
+        streetLightsP1wayHW = new StreetLights(44000 + (lightsLength -5000) * 3, lightsLength + 11000,StreetLights.RED, 0);
+        streetLightsP1wayHE = new StreetLights(44000 + (lightsLength -5000) * 3, lightsLength + 11000,StreetLights.RED,11000 + (lightsLength -5000));
+        streetLightsP1wayVS = new StreetLights(44000 + (lightsLength -5000) * 3, lightsLength + 11000, StreetLights.RED, 30000 + (lightsLength -5000) * 2);
+        streetLightsP1wayVN = new StreetLights(44000 + (lightsLength -5000) * 3, lightsLength + 11000, StreetLights.RED, 41000 + (lightsLength -5000) * 3);
+        streetLightsP1wayHTo2way = new StreetLights(24000 + (lightsLength -5000), lightsLength + 5000, StreetLights.RED, 0);
         streetLightsP2wayHTo1way = streetLightsP1wayHTo2way;
-        streetLightsP2wayVTo1way = new StreetLights(23000, 10000, StreetLights.RED, 13000);
+        streetLightsP2wayVTo1way = new StreetLights(24000 + (lightsLength -5000), lightsLength + 5000, StreetLights.RED, 13000 + (lightsLength -5000));
         streetLightsP1wayVEW = streetLightsP2wayV;
-        streetLightsP1wayH2 = new StreetLights(36000, 10000, StreetLights.RED, 0);
-        streetLightsP2wayVS2 = new StreetLights(30000, 16000, StreetLights.RED, 15000);
-        streetLightsP2wayVN2 = new StreetLights(30000, 16000, StreetLights.RED, 26000);
+        streetLightsP1wayH2 = new StreetLights(33000 + (lightsLength -5000), lightsLength + 5000, StreetLights.RED, 0);
+        streetLightsP2wayVS2 = new StreetLights(27000 +(int) ((lightsLength -5000) * 1.5), (int) ((lightsLength -5000) * 0.5) + 16000, StreetLights.RED, 13000 + (lightsLength -5000));
+        streetLightsP2wayVN2 = new StreetLights(27000 +(int) ((lightsLength -5000) * 1.5), (int) ((lightsLength -5000) * 0.5) + 16000, StreetLights.RED, 24000 +(int) ((lightsLength -5000) * 1.5));
     }
 
     private void initializeRoadSigns(){

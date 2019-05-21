@@ -1209,7 +1209,7 @@ class Initialize {
         streetLights1wayVS = new StreetLights(42000 + (lightsLength -5000) * 3,lightsLength + 11000,false, StreetLights.RED_YELLOW, 0);
         streetLights1wayVNL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED, 18000 + (lightsLength -5000));
         streetLights1wayVSL = new StreetLights(50000 + (lightsLength -5000) * 3,lightsLength + 3000,true, StreetLights.RED_YELLOW, 0);
-        streetLights1wayHTo2wayW = new StreetLights(14000 + (lightsLength -5000),lightsLength + 13000,true, StreetLights.RED, 12000 + (lightsLength -5000));
+        streetLights1wayHTo2wayW = new StreetLights(22000 + (lightsLength -5000),lightsLength + 5000,true, StreetLights.RED, 12000 + (lightsLength -5000));
         streetLights1wayHTo2wayS = new StreetLights(27000 + (lightsLength -5000) * 2,5000,true, StreetLights.RED, 25000 + (lightsLength -5000) * 2);
         streetLights2wayHTo1way = new StreetLights(22000 + (lightsLength -5000), lightsLength + 5000, false, StreetLights.RED, 12000 + (lightsLength -5000));
         streetLights2wayVTo1way = new StreetLights(22000 + (lightsLength -5000),lightsLength + 5000, false, StreetLights.RED_YELLOW,0);

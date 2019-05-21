@@ -26,7 +26,7 @@ class Route {
 
     private void generateRoute(String priority, Road currentRoad) throws Exception {
         findRoutes(currentRoad);
-        if(trafficParticipant.getClass().equals(Car.class))
+        if(trafficParticipant.getClass().equals(Car.class) && routes.size() > 0)
             chooseRoute(priority);
     }
 
@@ -57,8 +57,14 @@ class Route {
     }
 
     private void addFirstRouteElement(Road startingRoad) throws Exception {
+        if(trafficParticipant.getLine() != null){
+            List<RouteElement> newRoute = new ArrayList<>();
+            newRoute.add(new RouteElement(startingRoad, trafficParticipant.getLine().getTrafficMovement()));
+            unfinishedRoutes.add(newRoute);
+            return;
+        }
         for (Line line : startingRoad.getLines()) {
-            if (line.getNextCrossroad() != null) {
+            if (line.getNextCrossroad() != null & !line.isClosed()) {
                 List<RouteElement> newRoute = new ArrayList<>();
                 newRoute.add(new RouteElement(startingRoad, line.getTrafficMovement()));
                 unfinishedRoutes.add(newRoute);
@@ -73,7 +79,7 @@ class Route {
         tempRoute = unfinishedRoutes.get(0);
         boolean isOneWay = false;
         for (Line line : getLastRouteElement(tempRoute).getRoad().getLines()) {
-            if (isLineAndRouteDirectionEqual(line, getLastRouteElement(tempRoute)) && !isOneWay) {
+            if (isLineAndRouteDirectionEqual(line, getLastRouteElement(tempRoute)) && !isOneWay && !line.isClosed()) {
                 addNextRoad(line.getNextCrossroad(), tempRoute);
                 isOneWay = getLastRouteElement(tempRoute).getRoad().getType().equals("1way");
             }
@@ -143,7 +149,7 @@ class Route {
                 boolean isCorrectRoad = false;
                 String direction = "";
                 for (Line line : road.getLines())
-                    if (line.getNextCrossroad() != null)
+                    if (line.getNextCrossroad() != null && !line.isClosed())
                         if (!line.getNextCrossroad().equals(currentCrossroad)) {
                             isCorrectRoad = true;
                             direction = line.getTrafficMovement();

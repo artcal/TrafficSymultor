@@ -18,7 +18,14 @@ public class Test implements Runnable{
     }
 
     public static void main(String[] args) {
-        Test test = new Test();
+        Car car = null;
+        if(car == null)
+            System.out.println("Car null");
+        Car car2 = car;
+        if(car2 == null){
+            System.out.println("Car2 null");
+        }
+
     }
     void start(){
         thread.start();

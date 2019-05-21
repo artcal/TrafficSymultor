@@ -53,7 +53,7 @@ class Pedestrian extends TrafficParticipant {
                 route.remove(0);
             }
         } else if(isPointReached(endingPoint)) {
-            isEndReached = true;
+            setEndReached(true);
         }
     }
 
@@ -113,5 +113,11 @@ class Pedestrian extends TrafficParticipant {
 
     private void waitBeforeCrossingTheRoad() {
 
+    }
+
+    void setEndReached(boolean isEndReached){
+        this.isEndReached = isEndReached;
+        if(pedestrianCrossing != null)
+            pedestrianCrossing.removePedestrian(this);
     }
 }

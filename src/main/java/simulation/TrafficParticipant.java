@@ -65,7 +65,13 @@ public class TrafficParticipant {
         }
     }
 
-    void changeRoute(){}
+    void changeRoute() throws Exception {
+        Route route = new Route(position,endingPoint,this,null, road);
+        if(route.getRoute().size() > 0){
+            this.route = route.getRoute();
+        }
+
+    }
 
     //TODO check if traffic participant is on same road/line and distance in front
     void checkTraffic(List<TrafficParticipant> trafficParticipants){

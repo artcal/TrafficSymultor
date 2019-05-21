@@ -309,14 +309,26 @@ public class Controller implements Initializable {
             if(isAccident){
                 carsOnRoad.forEach(car -> {
                     for (int i = 0; i < 3; i++ ) {
-                        RouteElement routeElement = car.getRoute().get(i);
-                        if(routeElement.getRoad().getLines().get(0).isClosed()){
-                           if(routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection()))
-                               car.changeRoute();
-                        }
-                        if(routeElement.getRoad().getLines().get(1).isClosed()){
-                            if(routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection()))
-                                car.changeRoute();
+                        if (car.getRoute().size() > i) {
+                            RouteElement routeElement = car.getRoute().get(i);
+                            if (routeElement.getRoad().getLines().get(0).isClosed()) {
+                                if (routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection())) {
+                                    try {
+                                        car.changeRoute();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (routeElement.getRoad().getLines().get(1).isClosed()) {
+                                if (routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection())) {
+                                    try {
+                                        car.changeRoute();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
                         }
                     }
                 });

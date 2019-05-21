@@ -91,7 +91,7 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isLettingCarsOnCrossroad() throws Exception {
-        if (road.getType().equals("2way") && route.size() > 0) {
+        if (road.getType().equals("2way") && route.size() > 0 && checkDistanceToCrossRoad() < 0) {
             if (isOnCrossroad && distanceFromPoint(turningPoint, this) > 0
                     && distanceFromPoint(turningPoint, this) < 30) {
                 if (crossroad.getCars().size() > 1) {
@@ -405,7 +405,7 @@ class Car extends TrafficParticipant {
                     }
                 }
             } else if (distanceFromPoint(endingPoint, this) <= 0) {
-                isEndReached = true;
+                setEndReached(true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -490,7 +490,7 @@ class Car extends TrafficParticipant {
 
     private void tryAddingCarToCrossroad() {
         if (crossroad != null) {
-            if (checkDistanceToCrossRoad() < 10 && !crossroad.getCars().contains(this)) {
+            if (checkDistanceToCrossRoad() < 10 && !crossroad.getCars().contains(this) && !isEndReached) {
                 crossroad.addCar(this);
                 setOnCrossroad(true);
             }
@@ -680,7 +680,10 @@ class Car extends TrafficParticipant {
         for (int i : carsOnRoad) {
             sum += i;
         }
-        return sum / carsOnRoad.size();
+        if(carsOnRoad.size() > 0)
+            return sum / carsOnRoad.size();
+
+        return 0;
     }
 
     private void setNextLine(Line nextLine) {
@@ -739,7 +742,7 @@ class Car extends TrafficParticipant {
         Controller.setIsAccident(true);
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> {
             line.setClosed(false);
-            isEndReached = true;
+            setEndReached(true);
         }));
         timeline.setCycleCount(1);
         timeline.play();
@@ -789,6 +792,14 @@ class Car extends TrafficParticipant {
         isInTrafficAccident = inTrafficAccident;
         speed = 0;
         maxSpeed = 0;
-        //trafficAccidentHandler();
+        trafficAccidentHandler();
+    }
+
+    void setEndReached(boolean isEndReached){
+        this.isEndReached = isEndReached;
+        if(crossroad != null)
+            crossroad.getCars().remove(this);
+        line.getCars().remove(this);
+
     }
 }

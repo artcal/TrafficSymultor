@@ -27,12 +27,14 @@ class Car extends TrafficParticipant {
     private List<Integer> carsOnRoad = new ArrayList<>();
     private int waitingTime = 0;
 
+    private Random random = new Random();
+
+
 
     Car(String name, Point startingPoint, Point endingPoint, boolean isSafe, int acceleration) throws Exception {
-        super(name, isSafe, "car.png");
+        super(name, isSafe, isSafe ? "car.png" : "car_not_safe.png");
         this.acceleration = acceleration;
         this.downturn = 2 * acceleration;
-        Random random = new Random();
         this.driverBehavior = random.nextInt(20) - 10;
         this.startingPoint = startingPoint;
         this.endingPoint = endingPoint;
@@ -91,7 +93,7 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isLettingCarsOnCrossroad() throws Exception {
-        if (road.getType().equals("2way") && route.size() > 0 && checkDistanceToCrossRoad() < 0) {
+        if (road.getType().equals("2way") && route.size() > 0 && checkDistanceToCrossRoad() < 0 && ignoreTraffic != IGNORE_PRIORITY) {
             if (isOnCrossroad && distanceFromPoint(turningPoint, this) > 0
                     && distanceFromPoint(turningPoint, this) < 30) {
                 if (crossroad.getCars().size() > 1) {
@@ -248,7 +250,7 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isPedestrianOnCrossing() {
-        if (road.getPedestrianCrossings() != null)
+        if (road.getPedestrianCrossings() != null && ignoreTraffic != IGNORE_PEDESTRIANS)
             for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
                 if (isPedestrianCrossingInFront(pedestrianCrossing)) {
                     if (pedestrianCrossing.getPedestrians().size() > 0) {
@@ -290,7 +292,7 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isStoppingOnRedLight() {
-        if (line.getStreetLights() != null) {
+        if (line.getStreetLights() != null && ignoreTraffic != IGNORE_LIGHTS) {
             if (line.getStreetLights().getLight() == StreetLights.RED || line.getStreetLights().getLight() == StreetLights.YELLOW) {
                 return (checkDistanceToCrossRoad() < 35 && checkDistanceToCrossRoad() > 22)
                         || (checkDistanceToCrossRoad() < 10 && checkDistanceToCrossRoad() > 3);
@@ -597,7 +599,10 @@ class Car extends TrafficParticipant {
     }
 
     private void onRoadChange() {
-        maxSpeed = road.getMaxSpeed() + (road.getMaxSpeed() * driverBehavior / 100);
+        if(ignoreTraffic != IGNORE_SPEED)
+            maxSpeed = road.getMaxSpeed() + (road.getMaxSpeed() * driverBehavior / 100);
+        else
+            maxSpeed = road.getMaxSpeed() + random.nextInt(20) + 10;
         if (route.size() > 0) {
             if (!isLineOk()) {
                 changeLine();

@@ -5,11 +5,12 @@ import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +57,10 @@ public class Controller implements Initializable {
     private TextField tPedestriansQuantity;
     @FXML
     private CheckBox cSafeMode;
+    @FXML
+    private Slider slider;
+    @FXML
+    private Label sliderValue;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,6 +74,15 @@ public class Controller implements Initializable {
         cars = new ArrayList<>();
         carsOnRoad = new ArrayList<>();
         pedestrians = new ArrayList<>();
+        slider.setMin(0);
+        slider.setMax(100);
+        slider.setBlockIncrement(1);
+        int valueOfSlider = (int) slider.getValue();
+        sliderValue.setText(valueOfSlider + "%");
+        slider.valueProperty().addListener((observableValue, number, t1) -> {
+            int valueOfSlider1 = (int) slider.getValue();
+            sliderValue.setText(valueOfSlider1 + "%");
+        });
         URI simulationMapURI;
         URL url = getClass().getClassLoader().getResource("SimulatorMap.png");
         if (url != null) {
@@ -231,13 +245,16 @@ public class Controller implements Initializable {
         logs.appendText("\nInitializing cars...");
         Random random = new Random();
         for (int i = 0; i < quantity; i++) {
+            boolean isSafe = true;
             int startingPointIndex = random.nextInt(startingPlaces.size());
             int exitPointIndex;
             //noinspection StatementWithEmptyBody
             while ((exitPointIndex = random.nextInt(exitPlaces.size())) == startingPointIndex)
                 ;
+            if(random.nextInt(100) < (int)slider.getValue() && !isSafeMode)
+                isSafe = false;
             cars.add(new Car("Car" + i, startingPlaces.get(startingPointIndex).getPosition(),
-                    exitPlaces.get(exitPointIndex).getPosition(), true,
+                    exitPlaces.get(exitPointIndex).getPosition(), isSafe,
                     random.nextInt(4) + 2));
         }
     }

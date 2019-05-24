@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
+import java.util.Random;
 
 
 public class TrafficParticipant {
@@ -22,10 +23,15 @@ public class TrafficParticipant {
     Line line, nextLine;
     protected int ignoreTraffic;
     ImageView trafficParticipantImageView;
+    public static final int IGNORE_LIGHTS = 1, IGNORE_SPEED = 2, IGNORE_PRIORITY = 3, IGNORE_PEDESTRIANS = 4;
 
     TrafficParticipant(String name, boolean isSafe, String imageString) throws Exception {
         this.name = name;
         this.isSafe = isSafe;
+        if(!isSafe && this.getClass().equals(Car.class)){
+            Random random = new Random();
+            ignoreTraffic = random.nextInt(4) + 1;
+        }
         this.isEndReached = false;
         URL url = getClass().getClassLoader().getResource(imageString);
         if(url != null) {

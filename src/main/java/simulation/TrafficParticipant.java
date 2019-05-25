@@ -1,7 +1,9 @@
 package simulation;
 
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 import java.awt.Point;
 import java.net.URI;
@@ -38,6 +40,9 @@ public class TrafficParticipant {
             URI uri = url.toURI();
             Image image = new Image(uri.toString());
             this.trafficParticipantImageView = new ImageView(image);
+            trafficParticipantImageView.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+                System.out.println(this.getName());
+            });
         } else
             throw new Exception("Wrong Traffic Participant image name");
     }

@@ -36,7 +36,11 @@ public class StatisticsSaver implements Runnable{
     @Override
     public void run() {
         try {
-            File file = new File("newStatistics.txt");
+            File file;
+            if(Controller.isSafeMode())
+                file = new File("newStatisticsSafe.txt");
+            else
+                file = new File("newStatisticsNotSafe.txt");
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
             for (StatisticsElement statisticsElement : statisticsElementsToSave) {
                 bufferedWriter.append(statisticsElement.toString()).append("\n");

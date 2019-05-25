@@ -11,10 +11,11 @@ class StatisticsElement {
     private int averageSpeed;
     private int distance;
     private int lightsLength;
-    private boolean areThereLights = false;
+    private boolean areThereLights = false, isNewAccident = false;
+
 
     StatisticsElement(String roadName, String direction, int fullTime, int waitingTime, int waitingTimeOnCollision,
-                      int averageCarsQuantity, int distance) {
+                      int averageCarsQuantity, int distance) throws Exception {
         this.roadName = roadName;
         this.direction = direction;
         this.fullTime = fullTime;
@@ -25,31 +26,31 @@ class StatisticsElement {
         calculateAverageSpeed();
     }
 
-    StatisticsElement(String roadName, String  direction, int fullTime, int waitingTime, int averageCarsQuantity,
-                      int distance) {
+    public StatisticsElement(String roadName, String direction) {
         this.roadName = roadName;
         this.direction = direction;
-        this.fullTime = fullTime;
-        this.waitingTime = waitingTime;
-        this.averageCarsQuantity = averageCarsQuantity;
-        this.distance = distance;
-        calculateAverageSpeed();
+        isNewAccident = true;
     }
 
-    public void setLightsLength(int lightsLength) {
+    void setLightsLength(int lightsLength) {
         this.lightsLength = lightsLength;
         areThereLights = true;
     }
 
-    private void calculateAverageSpeed() {
-        averageSpeed = distance / fullTime * 50;
+    private void calculateAverageSpeed() throws Exception {
+        if(fullTime != 0)
+            averageSpeed = distance / fullTime * 50;
+        else
+            throw new Exception("fullTime = 0 !");
     }
 
     @Override
     public String toString() {
-        return roadName + "," + direction + "," + fullTime + "," + waitingTime + ","
-                + (waitingTimeOnCollision == 0 ? "null" : waitingTimeOnCollision)
-                + "," + averageCarsQuantity + "," + averageSpeed + ","
-                + (areThereLights ? lightsLength : "null");
+        if(!isNewAccident)
+            return roadName + "," + direction + "," + fullTime + "," + waitingTime + ","
+                + waitingTimeOnCollision + "," + averageCarsQuantity + ","
+                + averageSpeed + "," + (areThereLights ? lightsLength : "null");
+        else
+            return roadName + "," + direction + "," + "true";
     }
 }

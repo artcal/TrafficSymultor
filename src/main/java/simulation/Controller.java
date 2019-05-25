@@ -100,12 +100,7 @@ public class Controller implements Initializable {
                 e.printStackTrace();
             }
         }
-        logs.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                logs.setScrollTop(Double.MAX_VALUE);
-            }
-        });
+        logs.textProperty().addListener((observableValue, s, t1) -> logs.setScrollTop(Double.MAX_VALUE));
     }
 
     private void generateExitSpawnPoints() throws Exception {
@@ -323,34 +318,34 @@ public class Controller implements Initializable {
                     }
             }
             carsToRemove.forEach(car -> cars.remove(car));
-            if(isAccident){
-                carsOnRoad.forEach(car -> {
-                    for (int i = 0; i < 3; i++ ) {
-                        if (car.getRoute().size() > i) {
-                            RouteElement routeElement = car.getRoute().get(i);
-                            if (routeElement.getRoad().getLines().get(0).isClosed()) {
-                                if (routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection())) {
-                                    try {
-                                        car.changeRoute();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                            if (routeElement.getRoad().getLines().get(1).isClosed()) {
-                                if (routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection())) {
-                                    try {
-                                        car.changeRoute();
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-                isAccident = false;
-            }
+//            if(isAccident){
+//                carsOnRoad.forEach(car -> {
+//                    for (int i = 0; i < 3; i++ ) {
+//                        if (car.getRoute().size() > i) {
+//                            RouteElement routeElement = car.getRoute().get(i);
+//                            if (routeElement.getRoad().getLines().get(0).isClosed()) {
+//                                if (routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection())) {
+//                                    try {
+//                                        car.changeRoute();
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                            if (routeElement.getRoad().getLines().get(1).isClosed()) {
+//                                if (routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection())) {
+//                                    try {
+//                                        car.changeRoute();
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//                isAccident = false;
+//            }
             carsOnRoad.forEach(Car::correctSpeed);
             carsOnRoad.forEach(car -> car.setLettingCarOnCrossroad(false));
             carsOnRoad.forEach(Car::move);
@@ -390,7 +385,7 @@ public class Controller implements Initializable {
         return cycleCounter;
     }
 
-    static boolean isIsSafeMode() {
+    static boolean isSafeMode() {
         return isSafeMode;
     }
 

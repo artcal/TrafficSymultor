@@ -10,21 +10,11 @@ public class Test implements Runnable{
     Thread thread;
     private Timer timer;
 
-    public Test() {
-        StatisticsElement statisticsElement = new StatisticsElement("r1", "N", 100,
-                40, 15, 8, 200);
-        //statisticsElement.setLightsLength(10);
-        System.out.println(statisticsElement.toString());
+    public Test(){
+
     }
 
-    public static void main(String[] args) {
-        Car car = null;
-        if(car == null)
-            System.out.println("Car null");
-        Car car2 = car;
-        if(car2 == null){
-            System.out.println("Car2 null");
-        }
+    public static void main(String[] args) throws Exception {
 
     }
     void start(){

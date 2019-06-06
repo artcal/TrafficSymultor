@@ -10,8 +10,7 @@ class StatisticsElement {
     private int averageCarsQuantity;
     private int averageSpeed;
     private int distance;
-    private int lightsLength;
-    private boolean areThereLights = false, isNewAccident = false;
+    private boolean isNewAccident = false;
 
 
     StatisticsElement(String roadName, String direction, int fullTime, int waitingTime, int waitingTimeOnCollision,
@@ -32,11 +31,6 @@ class StatisticsElement {
         isNewAccident = true;
     }
 
-    void setLightsLength(int lightsLength) {
-        this.lightsLength = lightsLength;
-        areThereLights = true;
-    }
-
     private void calculateAverageSpeed() throws Exception {
         if(fullTime != 0)
             averageSpeed = distance / fullTime * 50;
@@ -49,7 +43,7 @@ class StatisticsElement {
         if(!isNewAccident)
             return roadName + "," + direction + "," + fullTime + "," + waitingTime + ","
                 + waitingTimeOnCollision + "," + averageCarsQuantity + ","
-                + averageSpeed + "," + (areThereLights ? lightsLength : "null");
+                + averageSpeed + "," + Initialize.getLightsLength();
         else
             return roadName + "," + direction + "," + "true";
     }

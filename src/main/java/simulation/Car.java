@@ -655,8 +655,6 @@ class Car extends TrafficParticipant {
                     StatisticsElement statisticsElement = new StatisticsElement(road.getName(),
                             line.getTrafficMovement(), Controller.getCycleCounter() - cycleCount, waitingTime,
                             waitingTimeOnCollision, averageQuantityOfCars, countDistance());
-                    if (line.getStreetLights() != null)
-                        statisticsElement.setLightsLength(Initialize.getLightsLength());
                     StatisticsSaver statisticsSaver = new StatisticsSaver(statisticsElement);
                 }
             }

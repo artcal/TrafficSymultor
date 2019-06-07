@@ -1,5 +1,9 @@
 package simulation;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 import java.awt.*;
 
 class Pedestrian extends TrafficParticipant {
@@ -7,7 +11,7 @@ class Pedestrian extends TrafficParticipant {
     private String currentDirection;
     private int distance;
     private PedestrianCrossing pedestrianCrossing;
-
+    private int speed = 20;
     Pedestrian(String name, Road road, boolean isSafe) throws Exception {
         super(name, isSafe, "pedestrian.png");
         this.road = road;
@@ -19,8 +23,7 @@ class Pedestrian extends TrafficParticipant {
     }
 
     void walk() {
-        int SPEED = 20;
-        distance += SPEED;
+        distance += speed;
         //TODO check if car is on pedestrian crossing, this.road is not actual road
         //if(isCarOnPedestrianCrossing())
         if(setIsWalkig())
@@ -96,6 +99,19 @@ class Pedestrian extends TrafficParticipant {
             default:
                 return false;
         }
+    }
+    void setIsInAccident(){
+        speed = 0;
+        trafficAccidentHandler();
+    }
+
+    private void trafficAccidentHandler() {
+        int time = 10000;
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(time), event -> {
+            setEndReached(true);
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     void setImagePosition() {

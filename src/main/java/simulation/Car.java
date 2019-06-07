@@ -252,41 +252,69 @@ class Car extends TrafficParticipant {
     }
 
     private boolean isPedestrianOnCrossing() {
-        if (road.getPedestrianCrossings() != null && ignoreTraffic != IGNORE_PEDESTRIANS)
-            for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
-                if (isPedestrianCrossingInFront(pedestrianCrossing)) {
-                    if (pedestrianCrossing.getPedestrians().size() > 0) {
-                        for (Pedestrian pedestrian : pedestrianCrossing.getPedestrians()) {
-                            switch (line.getTrafficMovement()) {
-                                case "N":
-                                case "S":
-                                    if (Math.abs(pedestrian.getPosition().x - position.x) < 15)
-                                        return true;
-                                    break;
-                                case "W":
-                                case "E":
-                                    if (Math.abs(pedestrian.getPosition().y - position.y) < 15)
-                                        return true;
-                                    break;
+        if(road.getPedestrianCrossings() != null) {
+            if (ignoreTraffic != IGNORE_PEDESTRIANS) {
+                for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
+                    if (isPedestrianCrossingInFront(pedestrianCrossing,25, 0)) {
+                        if (pedestrianCrossing.getPedestrians().size() > 0) {
+                            for (Pedestrian pedestrian : pedestrianCrossing.getPedestrians()) {
+                                switch (line.getTrafficMovement()) {
+                                    case "N":
+                                    case "S":
+                                        if (Math.abs(pedestrian.getPosition().x - position.x) < 15)
+                                            return true;
+                                        break;
+                                    case "W":
+                                    case "E":
+                                        if (Math.abs(pedestrian.getPosition().y - position.y) < 15)
+                                            return true;
+                                        break;
+                                }
+                            }
+                        } else
+                            return false;
+                    }
+                }
+            } else {
+                for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
+                    if (isPedestrianCrossingInFront(pedestrianCrossing, 10, -10)) {
+                        if (pedestrianCrossing.getPedestrians().size() > 0) {
+                            for (Pedestrian pedestrian : pedestrianCrossing.getPedestrians()) {
+                                isCarBumpingIntoPedestrian(pedestrian);
                             }
                         }
-                    } else
-                        return false;
+                    }
                 }
+                return false;
             }
+        }
         return false;
     }
 
-    private boolean isPedestrianCrossingInFront(PedestrianCrossing pedestrianCrossing) {
+    private void isCarBumpingIntoPedestrian(Pedestrian pedestrian) {
+        if(line.isVertical()){
+            if(Math.abs(pedestrian.getPosition().y - this.position.y) < 7 && Math.abs(pedestrian.getPosition().x -this.position.x) < 5){
+                setInTrafficAccident(true);
+                pedestrian.setIsInAccident();
+            }
+        }else{
+            if(Math.abs(pedestrian.getPosition().y - this.position.y) < 5 && Math.abs(pedestrian.getPosition().x -this.position.x) < 7){
+                setInTrafficAccident(true);
+                pedestrian.setIsInAccident();
+            }
+        }
+    }
+
+    private boolean isPedestrianCrossingInFront(PedestrianCrossing pedestrianCrossing, int from, int to) {
         switch (line.getTrafficMovement()) {
             case "N":
-                return position.y - pedestrianCrossing.getPosition().y <= 25 && position.y - pedestrianCrossing.getPosition().y > 0;
+                return position.y - pedestrianCrossing.getPosition().y <= from && position.y - pedestrianCrossing.getPosition().y > to;
             case "E":
-                return pedestrianCrossing.getPosition().x - position.x <= 25 && pedestrianCrossing.getPosition().x - position.x > 0;
+                return pedestrianCrossing.getPosition().x - position.x <= from && pedestrianCrossing.getPosition().x - position.x > to;
             case "S":
-                return pedestrianCrossing.getPosition().y - position.y <= 25 && pedestrianCrossing.getPosition().y - position.y > 0;
+                return pedestrianCrossing.getPosition().y - position.y <= from && pedestrianCrossing.getPosition().y - position.y > to;
             case "W":
-                return position.x - pedestrianCrossing.getPosition().x <= 25 && position.x - pedestrianCrossing.getPosition().x > 0;
+                return position.x - pedestrianCrossing.getPosition().x <= from && position.x - pedestrianCrossing.getPosition().x > to;
             default:
                 return false;
         }
@@ -397,6 +425,7 @@ class Car extends TrafficParticipant {
         tryRemovingCarFromCrossroad();
         tryChangingLine();
         tryRemovingCarToGoFirst();
+
         checkIfTurningOrEndingPointIsReached();
     }
 

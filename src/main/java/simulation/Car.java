@@ -258,17 +258,19 @@ class Car extends TrafficParticipant {
                     if (isPedestrianCrossingInFront(pedestrianCrossing,25, 0)) {
                         if (pedestrianCrossing.getPedestrians().size() > 0) {
                             for (Pedestrian pedestrian : pedestrianCrossing.getPedestrians()) {
-                                switch (line.getTrafficMovement()) {
-                                    case "N":
-                                    case "S":
-                                        if (Math.abs(pedestrian.getPosition().x - position.x) < 15)
-                                            return true;
-                                        break;
-                                    case "W":
-                                    case "E":
-                                        if (Math.abs(pedestrian.getPosition().y - position.y) < 15)
-                                            return true;
-                                        break;
+                                if(pedestrian.isOnCrossing) {
+                                    switch (line.getTrafficMovement()) {
+                                        case "N":
+                                        case "S":
+                                            if (Math.abs(pedestrian.getPosition().x - position.x) < 15)
+                                                return true;
+                                            break;
+                                        case "W":
+                                        case "E":
+                                            if (Math.abs(pedestrian.getPosition().y - position.y) < 15)
+                                                return true;
+                                            break;
+                                    }
                                 }
                             }
                         } else
@@ -409,6 +411,10 @@ class Car extends TrafficParticipant {
                 if(line.isClosed())
                     waitingTimeOnCollision++;
             }
+        }else{
+            waitingTime++;
+            if(line.isClosed())
+                waitingTimeOnCollision++;
         }
     }
 

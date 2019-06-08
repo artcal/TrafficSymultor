@@ -21,5 +21,6 @@
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-controls:13-ea+1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-graphics:13-ea+1" level="project" />
     <orderEntry type="library" name="Gradle: org.openjfx:javafx-base:13-ea+1" level="project" />
+    <orderEntry type="library" name="Gradle: org.json:json:20180813" level="project" />
   </component>
 </module>

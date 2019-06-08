@@ -33,7 +33,7 @@ class StatisticsElement {
 
     private void calculateAverageSpeed() throws Exception {
         if(fullTime != 0)
-            averageSpeed = distance / fullTime * 50;
+            averageSpeed = (int)((float) distance / fullTime * 50);
         else
             throw new Exception("fullTime = 0 !");
     }
@@ -45,6 +45,6 @@ class StatisticsElement {
                 + waitingTimeOnCollision + "," + averageCarsQuantity + ","
                 + averageSpeed + "," + Initialize.getLightsLength();
         else
-            return roadName + "," + direction + "," + "true";
+            return roadName + "," + direction + "," + "true" + "," + Initialize.getLightsLength();
     }
 }

@@ -2,8 +2,6 @@ package simulation;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.fxml.Initializable;
@@ -101,6 +99,7 @@ public class Controller implements Initializable {
             }
         }
         logs.textProperty().addListener((observableValue, s, t1) -> logs.setScrollTop(Double.MAX_VALUE));
+        JsonHandler statisticsToJson = new JsonHandler();
     }
 
     private void generateExitSpawnPoints() throws Exception {
@@ -289,6 +288,12 @@ public class Controller implements Initializable {
             streetLights.setRunningFalse();
         }
         logs.appendText("\nDone!");
+        updateStatistics();
+    }
+
+    private void updateStatistics() {
+        StatisticsProcessing statisticsProcessing = new StatisticsProcessing();
+        statisticsProcessing.updateStatisticsJson();
     }
 
     private void runSimulation() throws Exception {

@@ -12,6 +12,8 @@ class Pedestrian extends TrafficParticipant {
     private int distance;
     private PedestrianCrossing pedestrianCrossing;
     private int speed = 20;
+    boolean isOnCrossing = false;
+
     Pedestrian(String name, Road road, boolean isSafe) throws Exception {
         super(name, isSafe, "pedestrian.png");
         this.road = road;
@@ -45,6 +47,7 @@ class Pedestrian extends TrafficParticipant {
         if(route.size() > 0) {
             if (isPointReached(route.get(0).getRoad().getStart())) {
                 if(pedestrianCrossing != null){
+                    isOnCrossing = false;
                     pedestrianCrossing.removePedestrian(this);
                     pedestrianCrossing = null;
                 }
@@ -62,7 +65,7 @@ class Pedestrian extends TrafficParticipant {
 
     private boolean setIsWalkig() {
         if(pedestrianCrossing != null && pedestrianCrossing.getStreetLights() != null) {
-            return isOnPedestrianCrossing() || pedestrianCrossing.getStreetLights().getLight() != StreetLights.RED;
+            return (isOnCrossing = isOnPedestrianCrossing()) || pedestrianCrossing.getStreetLights().getLight() != StreetLights.RED;
         }
         return true;
     }
@@ -127,13 +130,13 @@ class Pedestrian extends TrafficParticipant {
 
     }
 
-    private void waitBeforeCrossingTheRoad() {
-
-    }
-
     void setEndReached(boolean isEndReached){
         this.isEndReached = isEndReached;
         if(pedestrianCrossing != null)
             pedestrianCrossing.removePedestrian(this);
+    }
+
+    public boolean isOnCrossing() {
+        return isOnCrossing;
     }
 }

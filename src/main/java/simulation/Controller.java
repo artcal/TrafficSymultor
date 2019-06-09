@@ -1,5 +1,6 @@
 package simulation;
 
+import com.sun.org.apache.xml.internal.security.Init;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -59,10 +60,13 @@ public class Controller implements Initializable {
     private Slider slider;
     @FXML
     private Label sliderValue;
+    @FXML
+    private TextField tLightsLength;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logs.setText("Welcome to our simulator!");
+        tLightsLength.setText(Initialize.getLightsLength() / 1000 + "");
         bStop.setDisable(true);
         try {
             generateExitSpawnPoints();
@@ -195,6 +199,7 @@ public class Controller implements Initializable {
 
     public void startSimulation() {
         logs.appendText("\n\n" + "Starting simulation...");
+        Initialize.setLightsLength(Integer.parseInt(tLightsLength.getText()) * 1000);
         bStart.setDisable(true);
         bStop.setDisable(false);
         setIsSafeMode(cSafeMode.isSelected());

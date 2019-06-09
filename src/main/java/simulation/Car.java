@@ -215,10 +215,11 @@ class Car extends TrafficParticipant {
             try {
                 if(isCarInFrontInRange(car)){
                     if(isBumpingIntoCar(car)){
-                        StatisticsSaver statisticsSaver = new StatisticsSaver(new StatisticsElement(road.getName(),
-                                line.getTrafficMovement()));
                         setInTrafficAccident(true);
                         car.setInTrafficAccident(true);
+                        if((road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                            new StatisticsSaver(new StatisticsElement(road.getName(),
+                                line.getTrafficMovement()));
                     }
                     return true;
                 }
@@ -352,10 +353,11 @@ class Car extends TrafficParticipant {
                     if (isVertical) {
                         if (isInRange(car.position.y, isVertical)) {
                             if(isBumpingIntoCar(car)) {
-                                StatisticsSaver statisticsSaver = new StatisticsSaver(new StatisticsElement(road.getName(),
-                                        line.getTrafficMovement()));
                                 setInTrafficAccident(true);
                                 car.setInTrafficAccident(true);
+
+                                if((road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                                    new StatisticsSaver(new StatisticsElement(road.getName(),line.getTrafficMovement()));
                             }
                             return true;
                         }
@@ -710,6 +712,7 @@ class Car extends TrafficParticipant {
         carsOnRoad.removeAll(carsOnRoad);
         cycleCount = Controller.getCycleCounter();
         waitingTime = 0;
+        waitingTimeOnCollision = 0;
     }
 
     private int countDistance() {

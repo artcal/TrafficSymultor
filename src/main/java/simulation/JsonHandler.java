@@ -67,31 +67,33 @@ public class JsonHandler {
         }
     }
 
-    void addStatistics(String statistics){
+    void addStatistics(String statistics) {
         List<String> list = new ArrayList<>(Arrays.asList(statistics.split(",")));
-        JSONObject jsonLineObject = jsonObject.getJSONObject(list.get(0)).getJSONObject(list.get(1));
-        if(!jsonLineObject.has(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000))){
-            JSONObject jsonTimeObject = new JSONObject();
-            jsonTimeObject.put("number", 0);
-            jsonTimeObject.put("averageSpeed", 0);
-            jsonTimeObject.put("averageCarsQuantity", 0);
-            jsonTimeObject.put("fullTime", 0);
-            jsonTimeObject.put("waitingTime", 0);
-            jsonTimeObject.put("collisionTime", 0);
-            jsonTimeObject.put("collisionsNumber",0);
+        if (jsonObject.has(list.get(0))) {
+            JSONObject jsonLineObject = jsonObject.getJSONObject(list.get(0)).getJSONObject(list.get(1));
+            if (!jsonLineObject.has(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000))) {
+                JSONObject jsonTimeObject = new JSONObject();
+                jsonTimeObject.put("number", 0);
+                jsonTimeObject.put("averageSpeed", 0);
+                jsonTimeObject.put("averageCarsQuantity", 0);
+                jsonTimeObject.put("fullTime", 0);
+                jsonTimeObject.put("waitingTime", 0);
+                jsonTimeObject.put("collisionTime", 0);
+                jsonTimeObject.put("collisionsNumber", 0);
 
-            jsonLineObject.put(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000), jsonTimeObject);
-        }
-        JSONObject jsonTimeObject = jsonLineObject.getJSONObject(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000));
-        if(list.size() == 4){
-            jsonTimeObject.put("collisionsNumber",jsonTimeObject.getInt("collisionsNumber") + 1);
-        } else {
-            jsonTimeObject.put("number", jsonTimeObject.getInt("number") + 1);
-            jsonTimeObject.put("averageSpeed", jsonTimeObject.getInt("averageSpeed") + Integer.parseInt(list.get(6)));
-            jsonTimeObject.put("averageCarsQuantity", jsonTimeObject.getInt("averageCarsQuantity") + Integer.parseInt(list.get(5)));
-            jsonTimeObject.put("fullTime", jsonTimeObject.getInt("fullTime") + Integer.parseInt(list.get(2)));
-            jsonTimeObject.put("waitingTime", jsonTimeObject.getInt("waitingTime") + Integer.parseInt(list.get(3)));
-            jsonTimeObject.put("collisionTime", jsonTimeObject.getInt("collisionTime") + Integer.parseInt(list.get(4)));
+                jsonLineObject.put(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000), jsonTimeObject);
+            }
+            JSONObject jsonTimeObject = jsonLineObject.getJSONObject(String.valueOf(Integer.parseInt(list.get(list.size() - 1)) / 1000));
+            if (list.size() == 4) {
+                jsonTimeObject.put("collisionsNumber", jsonTimeObject.getInt("collisionsNumber") + 1);
+            } else {
+                jsonTimeObject.put("number", jsonTimeObject.getInt("number") + 1);
+                jsonTimeObject.put("averageSpeed", jsonTimeObject.getInt("averageSpeed") + Integer.parseInt(list.get(6)));
+                jsonTimeObject.put("averageCarsQuantity", jsonTimeObject.getInt("averageCarsQuantity") + Integer.parseInt(list.get(5)));
+                jsonTimeObject.put("fullTime", jsonTimeObject.getInt("fullTime") + Integer.parseInt(list.get(2)));
+                jsonTimeObject.put("waitingTime", jsonTimeObject.getInt("waitingTime") + Integer.parseInt(list.get(3)));
+                jsonTimeObject.put("collisionTime", jsonTimeObject.getInt("collisionTime") + Integer.parseInt(list.get(4)));
+            }
         }
     }
 }

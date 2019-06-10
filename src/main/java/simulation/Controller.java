@@ -21,10 +21,9 @@ import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
@@ -198,7 +197,7 @@ public class Controller implements Initializable {
     }
 
     public void startSimulation() {
-        logs.appendText("\n\n" + "Starting simulation...");
+        logs.appendText("\n\n" + "Starting simulation..." + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
         Initialize.setLightsLength(Integer.parseInt(tLightsLength.getText()) * 1000);
         bStart.setDisable(true);
         bStop.setDisable(false);
@@ -292,7 +291,7 @@ public class Controller implements Initializable {
         for (StreetLights streetLights : Initialize.getStreetLights()) {
             streetLights.setRunningFalse();
         }
-        logs.appendText("\nDone!");
+        logs.appendText("\nDone!" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
         updateStatistics();
     }
 

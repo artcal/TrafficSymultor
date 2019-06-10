@@ -217,7 +217,7 @@ class Car extends TrafficParticipant {
                     if(isBumpingIntoCar(car)){
                         setInTrafficAccident(true);
                         car.setInTrafficAccident(true);
-                        if((road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                        if(!(road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
                             new StatisticsSaver(new StatisticsElement(road.getName(),
                                 line.getTrafficMovement()));
                     }
@@ -252,7 +252,7 @@ class Car extends TrafficParticipant {
             return Math.abs(position.y - car.getPosition().y) < 9;
     }
 
-    private boolean isPedestrianOnCrossing() {
+    private boolean isPedestrianOnCrossing() throws InterruptedException {
         if(road.getPedestrianCrossings() != null) {
             if (ignoreTraffic != IGNORE_PEDESTRIANS) {
                 for (PedestrianCrossing pedestrianCrossing : road.getPedestrianCrossings()) {
@@ -294,16 +294,20 @@ class Car extends TrafficParticipant {
         return false;
     }
 
-    private void isCarBumpingIntoPedestrian(Pedestrian pedestrian) {
+    private void isCarBumpingIntoPedestrian(Pedestrian pedestrian) throws InterruptedException {
         if(line.isVertical()){
             if(Math.abs(pedestrian.getPosition().y - this.position.y) < 7 && Math.abs(pedestrian.getPosition().x -this.position.x) < 5){
                 setInTrafficAccident(true);
                 pedestrian.setIsInAccident();
+                if(!(road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                    new StatisticsSaver(new StatisticsElement(road.getName(),line.getTrafficMovement()));
             }
         }else{
             if(Math.abs(pedestrian.getPosition().y - this.position.y) < 5 && Math.abs(pedestrian.getPosition().x -this.position.x) < 7){
                 setInTrafficAccident(true);
                 pedestrian.setIsInAccident();
+                if(!(road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                    new StatisticsSaver(new StatisticsElement(road.getName(),line.getTrafficMovement()));
             }
         }
     }
@@ -355,8 +359,7 @@ class Car extends TrafficParticipant {
                             if(isBumpingIntoCar(car)) {
                                 setInTrafficAccident(true);
                                 car.setInTrafficAccident(true);
-
-                                if((road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
+                                if(!(road.getStart().x == 0 || road.getStart().y == 0 || road.getEnd().x == 1300 || road.getEnd().y == 800 || road.getName().equals("roadES")))
                                     new StatisticsSaver(new StatisticsElement(road.getName(),line.getTrafficMovement()));
                             }
                             return true;
@@ -685,12 +688,12 @@ class Car extends TrafficParticipant {
     }
 
     private void setRoadAndLine(Road road, Line line) throws Exception {
-        if (!road.getName().equals("roadES")) {
+        if (!this.road.getName().equals("roadES")) {
             int averageQuantityOfCars = countAverageQuantityOfCars();
             if (previousTurningPoint != null) {
                 if (route.size() > 0) {
-                    StatisticsElement statisticsElement = new StatisticsElement(road.getName(),
-                            line.getTrafficMovement(), Controller.getCycleCounter() - cycleCount, waitingTime,
+                    StatisticsElement statisticsElement = new StatisticsElement(this.road.getName(),
+                            this.line.getTrafficMovement(), Controller.getCycleCounter() - cycleCount, waitingTime,
                             waitingTimeOnCollision, averageQuantityOfCars, countDistance());
                     StatisticsSaver statisticsSaver = new StatisticsSaver(statisticsElement);
                 }
@@ -748,6 +751,8 @@ class Car extends TrafficParticipant {
                 turningPoint = new Point(line.getEnd().x, line.getNextCrossroad().getPosition().y);
             }
         } else {
+            if(turningPoint != null)
+                previousTurningPoint = new Point(turningPoint.x, turningPoint.y);
             if (nextLine.isVertical()) {
                 turningPoint = new Point(nextLine.getEnd().x, line.getEnd().y);
             } else {

@@ -464,7 +464,7 @@ class Car extends TrafficParticipant {
     private void tryRemovingCarToGoFirst() {
         if (carToGoFirst != null) {
             try {
-                if (!carToGoFirst.isChangingLine || isCarInFrontInRange(carToGoFirst))
+                if (!carToGoFirst.isChangingLine || !isCarInFrontInRange(carToGoFirst))
                     carToGoFirst = null;
             } catch (Exception e) {
                 e.printStackTrace();

@@ -67,11 +67,6 @@ public class Controller implements Initializable {
         logs.setText("Welcome to our simulator!");
         tLightsLength.setText(Initialize.getLightsLength() / 1000 + "");
         bStop.setDisable(true);
-        try {
-            generateExitSpawnPoints();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         cars = new ArrayList<>();
         carsOnRoad = new ArrayList<>();
         pedestrians = new ArrayList<>();
@@ -197,8 +192,13 @@ public class Controller implements Initializable {
     }
 
     public void startSimulation() {
-        logs.appendText("\n\n" + "Starting simulation..." + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+        logs.appendText("\n\n" + "Starting simulation... " + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
         Initialize.setLightsLength(Integer.parseInt(tLightsLength.getText()) * 1000);
+        try {
+            generateExitSpawnPoints();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
         bStart.setDisable(true);
         bStop.setDisable(false);
         setIsSafeMode(cSafeMode.isSelected());
@@ -217,7 +217,7 @@ public class Controller implements Initializable {
             addPedestriansToMap();
             addStreetLightsToMap();
             Initialize.getStreetLights().forEach(StreetLights::start);
-            logs.appendText("\nDone!");
+            logs.appendText("\nDone!\n");
             runSimulation();
         } catch (Exception e) {
             e.printStackTrace();
@@ -269,7 +269,8 @@ public class Controller implements Initializable {
     }
 
     public void stopSimulation() throws Exception {
-        logs.appendText("\nStopping simulation...\nClearing map...");
+        logs.appendText("\nStopping simulation... "
+                + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()) + "\nClearing map...");
         StatisticsSaver statisticsSaver = new StatisticsSaver();
         bStop.setDisable(true);
         bStart.setDisable(false);
@@ -291,7 +292,7 @@ public class Controller implements Initializable {
         for (StreetLights streetLights : Initialize.getStreetLights()) {
             streetLights.setRunningFalse();
         }
-        logs.appendText("\nDone!" + new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime()));
+        logs.appendText("\nDone!");
         updateStatistics();
     }
 
@@ -313,10 +314,10 @@ public class Controller implements Initializable {
             }
             List<Car> carsToRemove = new ArrayList<>();
             synchronized (this) {
-                if(carsOnRoad.size() < 50)
+                if(carsOnRoad.size() < 50) {
                     for (Car car : cars) {
                         if (car.canEnterLine(car.getLine())) {
-                            if(carsOnRoad.size() < 50) {
+                            if (carsOnRoad.size() < 50) {
                                 car.getLine().addCar(car);
                                 carsOnRoad.add(car);
                                 carsToRemove.add(car);
@@ -325,47 +326,28 @@ public class Controller implements Initializable {
                             }
                         }
                     }
+                }
             }
             carsToRemove.forEach(car -> cars.remove(car));
-//            if(isAccident){
-//                carsOnRoad.forEach(car -> {
-//                    for (int i = 0; i < 3; i++ ) {
-//                        if (car.getRoute().size() > i) {
-//                            RouteElement routeElement = car.getRoute().get(i);
-//                            if (routeElement.getRoad().getLines().get(0).isClosed()) {
-//                                if (routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection())) {
-//                                    try {
-//                                        car.changeRoute();
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }
-//                            if (routeElement.getRoad().getLines().get(1).isClosed()) {
-//                                if (routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection())) {
-//                                    try {
-//                                        car.changeRoute();
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                });
-//                isAccident = false;
-//            }
             carsOnRoad.forEach(Car::correctSpeed);
             carsOnRoad.forEach(car -> car.setLettingCarOnCrossroad(false));
-            carsOnRoad.forEach(Car::move);
-            carsOnRoad.stream().filter(Car::isInTrafficAccident).forEach(car -> logs.appendText(car.getName() + " is in accident\n"));
-            pedestrians.forEach(Pedestrian::walk);
-            content.getChildren().removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached)
-                    .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
-            carsOnRoad.stream().filter(Car::isEndReached).forEach(car -> car.getLine().removeCar(car));
+            carsOnRoad.forEach(car -> {
+                car.move();
+                if(car.isInAccident()) {
+                    logs.appendText(car.getName() + " is in accident\n");
+                    car.setInAccident(false);
+                }
+                if(car.isEndReached()) {
+                    content.getChildren().remove(car.getTrafficParticipantImageView());
+                }
+            });
+            pedestrians.forEach(pedestrian -> {
+                pedestrian.walk();
+                if(pedestrian.isEndReached()) {
+                    content.getChildren().remove(pedestrian.getTrafficParticipantImageView());
+                }
+            });
             carsOnRoad.removeAll(carsOnRoad.stream().filter(TrafficParticipant::isEndReached).collect(Collectors.toList()));
-            content.getChildren().removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
-                    .map(TrafficParticipant::getTrafficParticipantImageView).collect(Collectors.toList()));
             pedestrians.removeAll(pedestrians.stream().filter(TrafficParticipant::isEndReached)
                     .collect(Collectors.toList()));
             carsOnRoad.forEach(Car::setImagePosition);
@@ -406,3 +388,33 @@ public class Controller implements Initializable {
         Controller.isAccident = isAccident;
     }
 }
+/*TRASH
+//            if(isAccident){
+//                carsOnRoad.forEach(car -> {
+//                    for (int i = 0; i < 3; i++ ) {
+//                        if (car.getRoute().size() > i) {
+//                            RouteElement routeElement = car.getRoute().get(i);
+//                            if (routeElement.getRoad().getLines().get(0).isClosed()) {
+//                                if (routeElement.getRoad().getLines().get(0).getTrafficMovement().equals(routeElement.getDirection())) {
+//                                    try {
+//                                        car.changeRoute();
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                            if (routeElement.getRoad().getLines().get(1).isClosed()) {
+//                                if (routeElement.getRoad().getLines().get(1).getTrafficMovement().equals(routeElement.getDirection())) {
+//                                    try {
+//                                        car.changeRoute();
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                });
+//                isAccident = false;
+//            }
+ */

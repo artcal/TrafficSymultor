@@ -589,8 +589,8 @@ class Initialize {
         crossroad23.setExits(new Line[] {lineH15, lineH18, lineV15, lineV16});
         crossroad23.addHowToGo(lineH16, new Line[] {lineH18, lineV15});
         crossroad23.addHowToGo(lineH17, new Line[] {lineH15, lineV16});
-        crossroad23.addHowToGo(lineV17, new Line[] {lineH15, lineH18});
-        crossroad23.addHowToGo(lineV18, new Line[] {lineH15, lineH18});
+        crossroad23.addHowToGo(lineV17, new Line[] {lineH15});
+        crossroad23.addHowToGo(lineV18, new Line[] {lineH18});
 
         crossroad24.setEntrances(new Line[] {lineH18, lineV20, lineES2});
         crossroad24.setExits(new Line[] {lineH17, lineV19, lineES1});

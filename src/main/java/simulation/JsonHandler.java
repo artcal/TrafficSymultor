@@ -24,6 +24,7 @@ public class JsonHandler {
         try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(jsonObject.toString());
             fileWriter.flush();
+            fileWriter.close();
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,7 +34,6 @@ public class JsonHandler {
 
     private void createJsonObject() {
         if(file.exists()) {
-
             StringBuilder stringBuilder = new StringBuilder();
             try {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
@@ -41,6 +41,7 @@ public class JsonHandler {
                 while ((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line);
                 }
+                bufferedReader.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

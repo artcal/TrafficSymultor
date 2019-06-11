@@ -22,6 +22,7 @@ class Car extends TrafficParticipant {
     private Point turningPoint;
     private Crossroad crossroad;
     private boolean isChangingLine = false, isOnCrossroad, isLettingCarOnCrossroad = false, isInTrafficAccident = false;
+    private boolean isInAccident = false;
     private Car carToGoFirst;
     private int cycleCount;
     private List<Integer> carsOnRoad = new ArrayList<>();
@@ -836,22 +837,27 @@ class Car extends TrafficParticipant {
         isLettingCarOnCrossroad = lettingCarOnCrossroad;
     }
 
-    public boolean isInTrafficAccident() {
-        return isInTrafficAccident;
+    public boolean isInAccident() {
+        return isInAccident;
     }
 
     public void setInTrafficAccident(boolean inTrafficAccident) {
         isInTrafficAccident = inTrafficAccident;
+        isInAccident = inTrafficAccident;
         speed = 0;
         maxSpeed = 0;
         trafficAccidentHandler();
     }
 
+    void setInAccident(boolean isInAccident){
+        this.isInAccident = isInAccident;
+    }
+
     void setEndReached(boolean isEndReached){
         this.isEndReached = isEndReached;
         if(crossroad != null)
-            crossroad.getCars().remove(this);
-        line.getCars().remove(this);
+            crossroad.removeCar(this);
+        line.removeCar(this);
 
     }
 }

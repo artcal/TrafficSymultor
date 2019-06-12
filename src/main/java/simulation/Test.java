@@ -46,7 +46,7 @@ public class Test {
 
     String cos(){
         try{
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("unsafeModeStatistics.json")));
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("safeModeStatistics.json")));
             return bufferedReader.readLine();
         }catch (Exception e){
             return "";

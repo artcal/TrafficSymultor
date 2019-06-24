@@ -97,6 +97,11 @@ public class Controller implements Initializable {
             }
         }
         logs.textProperty().addListener((observableValue, s, t1) -> logs.setScrollTop(Double.MAX_VALUE));
+        try {
+            generateExitSpawnPoints();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         JsonHandler statisticsToJson = new JsonHandler();
     }
 
